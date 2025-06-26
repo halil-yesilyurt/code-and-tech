@@ -10,11 +10,13 @@ A performant, secure, and free blog where content is managed in WordPress (hoste
 ## 1. Core Features
 
 ### WordPress CMS (Backend)
+
 - Authors manage content via WordPress admin panel (`/wp-admin`) on a subdomain (e.g., `cms.yourdomain.com`).
 - Posts and pages are stored in WordPress's MySQL database (InfinityFree).
 - REST API enabled for content delivery (`/wp-json/wp/v2/`).
 
 ### Next.js Frontend
+
 - Deployed on Vercel (free tier).
 - Fetches posts and pages from WordPress REST API.
 - Uses Static Generation (SSG) with Incremental Static Regeneration (ISR) for near-real-time updates.
@@ -22,6 +24,7 @@ A performant, secure, and free blog where content is managed in WordPress (hoste
 - Responsive, modern UI.
 
 ### Deployment
+
 - **Frontend:** Vercel (with custom domain or subdomain, e.g., `blog.yourdomain.com`).
 - **Backend:** InfinityFree (WordPress on subdomain, e.g., `cms.yourdomain.com`).
 - **Domain:** Custom domain with DNS configured for both frontend and backend.
@@ -31,6 +34,7 @@ A performant, secure, and free blog where content is managed in WordPress (hoste
 ## 2. Security Requirements
 
 ### WordPress Hardening
+
 - Install and configure:
   - JWT Authentication for WP REST API
   - WPS Hide Login (custom login path)
@@ -43,6 +47,7 @@ A performant, secure, and free blog where content is managed in WordPress (hoste
 - Keep WordPress and plugins up to date.
 
 ### Frontend Security
+
 - Use environment variables for API URLs and secrets.
 - Avoid client-side API calls for sensitive data (use SSG/ISR or SSR).
 - Never expose JWT secrets in the frontend.
@@ -73,14 +78,14 @@ sequenceDiagram
 
 ## 5. Risks & Mitigations
 
-| Risk                        | Mitigation                                      |
-|-----------------------------|-------------------------------------------------|
-| Exposed WordPress API       | JWT Auth, rate limiting, hide login URL         |
-| Brute-force attacks         | WPS Hide Login, strong passwords, Wordfence     |
-| Outdated plugins            | Enable auto-updates, use Wordfence              |
-| Frontend API abuse          | Use SSG/ISR, avoid client-side fetching         |
-| CORS/API errors             | Configure CORS in JWT plugin, test endpoints    |
-| Free hosting limitations    | Monitor uptime, be ready to migrate if needed   |
+| Risk                     | Mitigation                                    |
+| ------------------------ | --------------------------------------------- |
+| Exposed WordPress API    | JWT Auth, rate limiting, hide login URL       |
+| Brute-force attacks      | WPS Hide Login, strong passwords, Wordfence   |
+| Outdated plugins         | Enable auto-updates, use Wordfence            |
+| Frontend API abuse       | Use SSG/ISR, avoid client-side fetching       |
+| CORS/API errors          | Configure CORS in JWT plugin, test endpoints  |
+| Free hosting limitations | Monitor uptime, be ready to migrate if needed |
 
 ---
 
@@ -95,6 +100,7 @@ sequenceDiagram
 ## 7. Technical Requirements
 
 ### WordPress Backend
+
 - Hosted on InfinityFree (or similar free PHP host)
 - Plugins:
   - JWT Authentication for WP REST API
@@ -104,6 +110,7 @@ sequenceDiagram
 - Admin panel on subdomain (e.g., `cms.yourdomain.com`)
 
 ### Next.js Frontend
+
 - Use `create-next-app` with TypeScript
 - Fetch posts/pages via WordPress REST API (`/wp-json/wp/v2/posts?_embed`)
 - Implement ISR (`revalidate: 60`)
@@ -111,6 +118,7 @@ sequenceDiagram
 - Responsive, modern UI
 
 ### Deployment
+
 - Deploy frontend to Vercel (connect to GitHub repo)
 - Set up environment variables in Vercel dashboard
 - (Optional) Set up deploy hook (webhook) in Vercel and configure WordPress to trigger it on content updates
@@ -154,6 +162,7 @@ sequenceDiagram
 ---
 
 ## 11. Notes
+
 - Prioritize free-tier solutions.
 - No client-side API calls for sensitive data (use SSG/ISR).
 - Document all security steps for the user.
@@ -162,3 +171,56 @@ sequenceDiagram
 ---
 
 Would you like to add screenshots, diagrams, or video references for any step? Or focus on automating the WordPress setup further?
+
+🏠 Pages
+Page Purpose
+/ (Home) Featured/latest blog posts, search, categories
+/blog All blog posts (with filter/sort by category, tag)
+/about Info about you, your experience, your goals
+/categories List of post categories with post counts
+/tags (optional) More specific filtering
+/contact (optional) Email form, social links, GitHub, etc.
+/projects (optional) Highlight personal dev projects (great portfolio bonus!)
+/interviews Q&A with tech leaders (video + transcript)
+
+🏷 Suggested Categories
+Category Description
+Frontend JavaScript, CSS, HTML, React, etc.
+Backend Node.js, Express, APIs, databases
+Dev Tools Git, VS Code, CLI tools, browser extensions
+Performance Optimizing speed, SEO, Core Web Vitals
+AI & Code Copilot, ChatGPT, automation with AI
+Tech Reviews Reviews of tools, platforms, libraries
+Projects Your personal builds, lessons learned
+Tutorials Step-by-step how-tos
+Firebase Backend-as-a-service tutorials
+Linux / DevOps (if interested) Commands, setups, workflow tools
+
+📝 Example Blog Post Titles
+Topic Type Sample Titles
+Frontend “How I Built a Responsive Grid in Tailwind”
+“Fixing Z-index Issues with Real-World Examples”
+Backend “Build a Simple API with Express and MongoDB”
+Dev Tools “10 VS Code Extensions I Use Daily”
+“Git Rebase vs Merge: Visual Guide”
+AI & Code “How I Use ChatGPT to Write Better Commit Messages”
+“Letting GitHub Copilot Write My Unit Tests”
+Project Log “Building CodeAndTech — My Blog from Scratch with Next.js”
+Tutorials “Add Dark Mode to Your Site with Tailwind & Next.js”
+Performance “Optimize Image Loading with next/image”
+Firebase “Set Up Auth and Firestore in 10 Minutes”
+
+📌 SEO + UX Enhancements
+Featured post component on homepage
+
+Estimated reading time
+
+Table of contents for long articles
+
+Code syntax highlighting (with copy button)
+
+Light/dark mode
+
+Search bar (Fuse.js or Algolia)
+
+Newsletter form (optional, later)

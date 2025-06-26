@@ -406,3 +406,59 @@ export async function getPageBySlug(slug: string) {
   const pages = await res.json();
   return pages.length > 0 ? pages[0] : null;
 }
+
+export async function getTags(): Promise<WordPressTag[]> {
+  if (USE_SAMPLE_DATA) {
+    return [
+      { id: 1, count: 10, description: '', link: '', name: 'Technology', slug: 'technology', taxonomy: 'post_tag', meta: [] },
+      { id: 2, count: 8, description: '', link: '', name: 'Productivity', slug: 'productivity', taxonomy: 'post_tag', meta: [] },
+      { id: 3, count: 5, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'post_tag', meta: [] },
+      { id: 4, count: 4, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'post_tag', meta: [] },
+      { id: 5, count: 3, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'post_tag', meta: [] },
+      { id: 6, count: 2, description: '', link: '', name: 'Reviews', slug: 'reviews', taxonomy: 'post_tag', meta: [] },
+    ];
+  }
+  try {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/tags?per_page=20`, {
+      headers: { 'Content-Type': 'application/json' },
+      next: { revalidate: 60 },
+    });
+    if (!response.ok) {
+      console.warn('WordPress API error fetching tags, falling back to sample data:', response.status);
+      return [];
+    }
+    const tags: WordPressTag[] = await response.json();
+    return tags;
+  } catch (error) {
+    console.error('Error fetching tags from WordPress:', error);
+    return [];
+  }
+}
+
+export async function getCategories(): Promise<WordPressCategory[]> {
+  if (USE_SAMPLE_DATA) {
+    return [
+      { id: 1, count: 10, description: '', link: '', name: 'Frontend', slug: 'frontend', taxonomy: 'category', meta: [] },
+      { id: 2, count: 8, description: '', link: '', name: 'Backend', slug: 'backend', taxonomy: 'category', meta: [] },
+      { id: 3, count: 5, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'category', meta: [] },
+      { id: 4, count: 4, description: '', link: '', name: 'Performance', slug: 'performance', taxonomy: 'category', meta: [] },
+      { id: 5, count: 3, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'category', meta: [] },
+      { id: 6, count: 2, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'category', meta: [] },
+    ];
+  }
+  try {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/categories?per_page=20`, {
+      headers: { 'Content-Type': 'application/json' },
+      next: { revalidate: 60 },
+    });
+    if (!response.ok) {
+      console.warn('WordPress API error fetching categories, falling back to sample data:', response.status);
+      return [];
+    }
+    const categories: WordPressCategory[] = await response.json();
+    return categories;
+  } catch (error) {
+    console.error('Error fetching categories from WordPress:', error);
+    return [];
+  }
+}
