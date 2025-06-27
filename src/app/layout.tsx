@@ -1,8 +1,19 @@
 import './globals.css';
 import { Montserrat, Inter } from 'next/font/google';
+import Layout from './components/Layout';
 
-const montserrat = Montserrat({ subsets: ['latin'], variable: '--font-montserrat', display: 'swap' });
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
+const montserrat = Montserrat({ 
+  subsets: ['latin'], 
+  variable: '--font-montserrat', 
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900']
+});
+const inter = Inter({ 
+  subsets: ['latin'], 
+  variable: '--font-inter', 
+  display: 'swap',
+  weight: ['400', '500', '600', '700']
+});
 
 export const metadata = {
   title: 'Code and Tech Blog',
@@ -12,7 +23,9 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${montserrat.variable} ${inter.variable}`}> 
-      <body className="font-inter bg-gray-100 min-h-screen">{children}</body>
+      <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
+        <Layout>{children}</Layout>
+      </body>
     </html>
   );
 }
