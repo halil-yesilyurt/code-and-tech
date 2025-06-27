@@ -1,13 +1,14 @@
 import { getPostBySlug, getPageBySlug } from '@/lib/wordpress';
 import { notFound } from 'next/navigation';
 
-export default async function DynamicPage({ params }: { params: { slug: string } }) {
+export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   // Try to fetch a post first
-  let content = await getPostBySlug(params.slug);
+  let content = await getPostBySlug(slug);
   let type = 'post';
   if (!content) {
     // If not found, try to fetch a page
-    content = await getPageBySlug(params.slug);
+    content = await getPageBySlug(slug);
     type = 'page';
   }
   if (!content) {
