@@ -67,15 +67,15 @@ export default function Footer() {
             © {new Date().getFullYear()} Code & Tech. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200">
+            <Link href="/privacy-policy" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200">
               Privacy Policy
-            </a>
-            <a href="#" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200">
+            </Link>
+            <Link href="/terms" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200">
               Terms of Service
-            </a>
-            <a href="#" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200">
+            </Link>
+            <Link href="/cookie-policy" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200">
               Cookie Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>
