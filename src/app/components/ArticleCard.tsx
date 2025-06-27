@@ -4,37 +4,95 @@ import { getAuthorInfo, formatDate, generateExcerpt, getFeaturedImageUrl } from 
 export default function ArticleCard({ post, linkBase = '/' }: { post: any, linkBase?: string }) {
   const author = getAuthorInfo(post);
   const excerpt = post.excerpt?.rendered
-    ? generateExcerpt(post.excerpt.rendered, 120)
-    : generateExcerpt(post.content.rendered, 120);
+    ? generateExcerpt(post.excerpt.rendered, 150)
+    : generateExcerpt(post.content.rendered, 150);
   const thumbnail = getFeaturedImageUrl(post, 'medium');
 
   return (
-    <article className="flex items-start gap-4 bg-white rounded-lg shadow mb-6 p-4 hover:shadow-lg transition-shadow duration-300">
-      <div className="flex-1">
-        <div className="flex items-center text-sm text-gray-500 mb-1">
-          {author && <span>{author.name}</span>}
-          <span className="mx-2">•</span>
-          <time dateTime={post.date}>{formatDate(post.date)}</time>
-        </div>
-        <h2 className="text-lg font-bold text-gray-900 mb-1">
-          <Link href={`${linkBase}${post.slug}`} className="hover:text-blue-600 transition-colors duration-200">
-            {post.title.rendered}
-          </Link>
-        </h2>
-        <p className="text-gray-600 mb-2">{excerpt}</p>
-        <div className="flex flex-wrap gap-2 mb-1">
-          {post.tags && post.tags.length > 0 && post._embedded?.['wp:term']?.[1]?.map((tag: any) => (
-            <span key={tag.id} className="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded-full">
-              {tag.name}
-            </span>
-          ))}
+    <article className="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden card-hover">
+      <div className="flex flex-col lg:flex-row">
+        {/* Image Section */}
+        {thumbnail && (
+          <div className="lg:w-1/3 h-48 lg:h-auto overflow-hidden">
+            <img 
+              src={thumbnail} 
+              alt={post.title.rendered} 
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+          </div>
+        )}
+        
+        {/* Content Section */}
+        <div className="flex-1 p-6 lg:p-8">
+          {/* Meta Information */}
+          <div className="flex items-center text-sm text-slate-500 mb-3">
+            {author && (
+              <>
+                <div className="flex items-center">
+                  <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-xs font-semibold mr-2">
+                    {author?.name ? author.name.charAt(0).toUpperCase() : "?"}
+                  </div>
+                  <span className="font-medium text-slate-700">{author?.name || "Unknown"}</span>
+                </div>
+                <span className="mx-3">•</span>
+              </>
+            )}
+            <time dateTime={post.date} className="flex items-center">
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              {formatDate(post.date)}
+            </time>
+          </div>
+
+          {/* Title */}
+          <h2 className="text-xl lg:text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-200">
+            <Link href={`${linkBase}${post.slug}`} className="hover:no-underline">
+              {post.title.rendered}
+            </Link>
+          </h2>
+
+          {/* Excerpt */}
+          <p className="text-slate-600 leading-relaxed mb-4 line-clamp-3">
+            {excerpt}
+          </p>
+
+          {/* Tags */}
+          {post.tags && post.tags.length > 0 && post._embedded?.['wp:term']?.[1] && (
+            <div className="flex flex-wrap gap-2 mb-4">
+              {post._embedded['wp:term'][1].slice(0, 3).map((tag: any) => (
+                <span 
+                  key={tag.id} 
+                  className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200"
+                >
+                  #{tag.name}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Read More Button */}
+          <div className="flex items-center justify-between">
+            <Link 
+              href={`${linkBase}${post.slug}`}
+              className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors duration-200 group-hover:translate-x-1"
+            >
+              Read Article
+              <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+            
+            {/* Reading Time Estimate */}
+            <div className="flex items-center text-xs text-slate-500">
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              {Math.ceil(excerpt.length / 200)} min read
+            </div>
+          </div>
         </div>
       </div>
-      {thumbnail && (
-        <div className="w-24 h-24 flex-shrink-0 rounded-md overflow-hidden bg-gray-100">
-          <img src={thumbnail} alt={post.title.rendered} className="object-cover w-full h-full" />
-        </div>
-      )}
     </article>
   );
 } 
