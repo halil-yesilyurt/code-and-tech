@@ -1,6 +1,55 @@
+import React from 'react';
 import Link from 'next/link';
 
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  parent: number;
+  children?: Category[];
+}
+
+// Helper to build category tree
+function buildCategoryTree(categories: Category[], parent = 0): Category[] {
+  return categories
+    .filter(cat => cat.parent === parent)
+    .map(cat => ({
+      ...cat,
+      children: buildCategoryTree(categories, cat.id),
+    }));
+}
+
+// Recursive render function
+function renderCategoriesTree(tree: Category[]): React.ReactNode {
+  return (
+    <ul className="ml-0">
+      {tree.map(cat => (
+        <li key={cat.id} className="ml-0">
+          <Link 
+            href={`/categories/${cat.slug}`} 
+            className="flex items-center justify-between p-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 group"
+          >
+            <span>{cat.name}</span>
+            <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+          {cat.children && cat.children.length > 0 && (
+            <div className="ml-4 border-l border-slate-200 pl-2">
+              {renderCategoriesTree(cat.children)}
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function Sidebar({ popularPosts, tags, categories }: { popularPosts: any[]; tags: any[]; categories: any[] }) {
+  console.log('Sidebar categories:', categories);
+  // Shuffle and take 10 random categories (flat)
+  const shuffled = [...categories].sort(() => 0.5 - Math.random());
+  const randomCategories = shuffled.slice(0, 10);
   return (
     <aside className="space-y-6">
       {/* Popular Posts */}
@@ -71,10 +120,10 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           <h3 className="text-lg font-bold text-slate-900">Categories</h3>
         </div>
         <div className="space-y-2">
-          {categories.map(category => (
-            <Link 
-              key={category.id} 
-              href={`/categories/${category.slug}`} 
+          {randomCategories.map(category => (
+            <Link
+              key={category.id}
+              href={`/categories/${category.slug}`}
               className="flex items-center justify-between p-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 group"
             >
               <span>{category.name}</span>

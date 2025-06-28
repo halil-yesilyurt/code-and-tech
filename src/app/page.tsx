@@ -8,6 +8,7 @@ export default async function Home() {
   const posts = await getPosts(1, 10);
   const tags = await getTags();
   const categories = await getCategories();
+  console.log('Page categories:', categories);
   const popularPosts = posts.slice(0, 3); // Latest 3 as 'Popular'
   const recommendedTags = tags.slice(0, 6);
   const sidebarCategories = categories.slice(0, 6);

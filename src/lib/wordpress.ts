@@ -436,6 +436,7 @@ export async function getTags(): Promise<WordPressTag[]> {
 }
 
 export async function getCategories(): Promise<WordPressCategory[]> {
+  console.log('WORDPRESS_API_URL:', WORDPRESS_API_URL, 'USE_SAMPLE_DATA:', USE_SAMPLE_DATA);
   if (USE_SAMPLE_DATA) {
     return [
       { id: 1, count: 10, description: '', link: '', name: 'Frontend', slug: 'frontend', taxonomy: 'category', meta: [] },
@@ -447,15 +448,16 @@ export async function getCategories(): Promise<WordPressCategory[]> {
     ];
   }
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/categories?per_page=20`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/categories?per_page=100`, {
       headers: { 'Content-Type': 'application/json' },
       next: { revalidate: 60 },
     });
     if (!response.ok) {
-      console.warn('WordPress API error fetching categories, falling back to sample data:', response.status);
+      console.warn('WordPress API error fetching categories:', response.status, await response.text());
       return [];
     }
     const categories: WordPressCategory[] = await response.json();
+    console.log('Fetched categories:', categories);
     return categories;
   } catch (error) {
     console.error('Error fetching categories from WordPress:', error);
