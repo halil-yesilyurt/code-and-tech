@@ -12,8 +12,10 @@ A modern, fast blog built with Next.js 15, TypeScript, and Tailwind CSS, powered
 - **🎨 Modern UI**: Clean, professional design with smooth animations
 - **📊 Analytics Ready**: Easy integration with analytics tools
 - **🔒 Secure**: JWT authentication and security best practices
+- **📧 Contact Form**: Modern contact form with email integration
+- **🛡️ Rate Limiting**: Built-in spam protection for contact forms
 
-## 🏗️ Architecture
+## 🚀 Architecture
 
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
@@ -207,6 +209,38 @@ See `wordpress-setup-guide.md` for detailed instructions.
 - **Core Web Vitals**: Performance metrics
 - **Lighthouse**: SEO and performance
 - **Vercel Analytics**: Real user metrics
+
+## 📧 Contact Form
+
+The blog includes a modern contact form with email integration and spam protection.
+
+### Features
+- **Modern Design**: Beautiful, responsive form with Tailwind CSS
+- **Email Integration**: Automatic email notifications using Resend
+- **Rate Limiting**: Built-in spam protection (5 requests per minute)
+- **Form Validation**: Client and server-side validation
+- **Auto-reply**: Confirmation emails sent to users
+
+### Setup
+
+1. **Install Resend:**
+   ```bash
+   npm install resend
+   ```
+
+2. **Configure Environment Variables:**
+   ```env
+   RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   CONTACT_EMAIL=your-email@example.com
+   ```
+
+3. **Follow the Setup Guide:**
+   See `email-setup-guide.md` for detailed instructions.
+
+### Customization
+- Update contact information in `/src/app/contact/page.tsx`
+- Modify email templates in `/src/app/api/contact/route.ts`
+- Adjust rate limiting in `/src/lib/rate-limit.ts`
 
 ## 🐛 Troubleshooting
 
