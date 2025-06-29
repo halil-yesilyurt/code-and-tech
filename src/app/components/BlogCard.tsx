@@ -50,7 +50,7 @@ export default function BlogCard({ post }: { post: any }) {
 
           {/* Title */}
           <h2 className="text-xl lg:text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-200">
-            <Link href={`/posts/${slug}`} className="hover:no-underline">
+            <Link href={`/blog/${slug}`} className="hover:no-underline">
               {decodedTitle}
             </Link>
           </h2>
@@ -72,7 +72,7 @@ export default function BlogCard({ post }: { post: any }) {
             )}
             
             <Link 
-              href={`/posts/${slug}`}
+              href={`/blog/${slug}`}
               className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors duration-200 group-hover:translate-x-1"
             >
               Read Article

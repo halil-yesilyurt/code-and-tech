@@ -105,7 +105,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     const image = getFeaturedImageUrl(p, 'medium');
                     return (
                       <div key={p.id} className="flex flex-col items-center group">
-                        <Link href={`/posts/${p.slug}`} className="block w-full h-40 rounded-lg overflow-hidden bg-slate-100 mb-3">
+                        <Link href={`/blog/${p.slug}`} className="block w-full h-40 rounded-lg overflow-hidden bg-slate-100 mb-3">
                           {image ? (
                             <img src={image} alt={p.title.rendered} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                           ) : (
@@ -116,7 +116,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                             </div>
                           )}
                         </Link>
-                        <Link href={`/posts/${p.slug}`} className="block text-center font-montserrat text-sm font-semibold text-slate-800 mt-2 group-hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
+                        <Link href={`/blog/${p.slug}`} className="block text-center font-montserrat text-sm font-semibold text-slate-800 mt-2 group-hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
                           {p.title.rendered}
                         </Link>
                       </div>

@@ -56,6 +56,11 @@ body {
   color: hsl(var(--foreground));
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   line-height: 1.6;
+  user-select: auto;
+}
+
+html, body {
+  user-select: auto;
 }
 
 .font-montserrat {
