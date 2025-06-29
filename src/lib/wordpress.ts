@@ -556,3 +556,67 @@ export function decodeHtmlEntities(str: string): string {
   }
   return decoded;
 }
+
+/**
+ * Search posts by query string
+ * Falls back to sample data if WordPress is not configured
+ */
+export async function searchPosts(query: string, page: number = 1, perPage: number = 10): Promise<WordPressPost[]> {
+  if (USE_SAMPLE_DATA) {
+    // Simple search in sample data (title, excerpt, content)
+    const q = query.toLowerCase();
+    return getSamplePosts().filter(post =>
+      post.title.rendered.toLowerCase().includes(q) ||
+      post.excerpt.rendered.toLowerCase().includes(q) ||
+      post.content.rendered.toLowerCase().includes(q)
+    ).map(post => ({
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    }));
+  }
+
+  try {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?_embed&search=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}&status=publish`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 },
+    });
+
+    if (!response.ok) {
+      console.warn('WordPress API error, falling back to sample data:', response.status);
+      return getSamplePosts().filter(post =>
+        post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
+        post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
+        post.content.rendered.toLowerCase().includes(query.toLowerCase())
+      ).map(post => ({
+        ...post,
+        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+      }));
+    }
+
+    const posts: WordPressPost[] = await response.json();
+    return posts.map(post => ({
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    }));
+  } catch (error) {
+    console.error('Error searching posts from WordPress:', error);
+    return getSamplePosts().filter(post =>
+      post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
+      post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
+      post.content.rendered.toLowerCase().includes(query.toLowerCase())
+    ).map(post => ({
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    }));
+  }
+}

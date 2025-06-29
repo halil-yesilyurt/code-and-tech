@@ -1,13 +1,16 @@
 "use client";
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function SearchBar() {
   const [query, setQuery] = useState('');
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle search functionality here
-    console.log('Searching for:', query);
+    if (query.trim()) {
+      router.push(`/search?query=${encodeURIComponent(query)}`);
+    }
   };
 
   return (
