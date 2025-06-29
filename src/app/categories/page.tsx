@@ -50,7 +50,7 @@ export default async function CategoriesPage() {
   const tags = await getTags();
   const posts = await getPosts(1, 10);
   const popularPosts = posts.slice(0, 3);
-  categories.sort((a, b) => a.name.localeCompare(b.name));
+  const sortedCategories = categories.slice().sort((a, b) => a.name.localeCompare(b.name));
   const tree = buildCategoryTree(categories);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

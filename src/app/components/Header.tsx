@@ -28,7 +28,18 @@ export default function Header() {
     handleScroll();
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // Listen for open-login-modal event
+    const openLoginModal = () => {
+      setModalType('login');
+      setShowModal(true);
+    };
+    window.addEventListener('open-login-modal', openLoginModal);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('open-login-modal', openLoginModal);
+    };
   }, []);
 
   const handleLogout = () => {

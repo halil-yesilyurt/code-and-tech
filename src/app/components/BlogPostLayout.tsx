@@ -61,14 +61,14 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     </svg>
                     {post.date}
                   </time>
-                  {author && (
+                  {/* {author && (
                     <div className="flex items-center">
                       <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                       </svg>
                       {author.name}
                     </div>
-                  )}
+                  )} */}
                   <div className="flex items-center">
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -126,8 +126,8 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                   <h4 className="font-geist text-lg font-semibold text-slate-900 mb-6 tracking-widest uppercase">You may also like</h4>
                   <ul className="space-y-3">
                     {posts.filter((p: WordPressPost) => p.slug !== post.slug).slice(0, 3).map((p: WordPressPost) => (
-                      <li key={p.id} className="flex items-start">
-                        <span className="text-blue-900 font-bold mr-2 mt-0.5">&bull;</span>
+                      <li key={p.id} className="flex items-center">
+                        <span className="text-blue-900 font-bold mr-2">&bull;</span>
                         <Link href={`/blog/${p.slug}`} className="block font-montserrat text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
                           {p.title.rendered}
                         </Link>
@@ -136,20 +136,20 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                   </ul>
                 </div>
               )}
-              {/* Tags Section */}
-              {post.tags?.length > 0 && (
+              {/* Categories Section */}
+              {post.categories?.length > 0 && (
                 <div className="mt-12 pt-8 border-t border-slate-200">
-                  <h4 className="font-geist text-lg font-semibold text-slate-900 mb-4 tracking-widest uppercase">Tags</h4>
+                  <h4 className="font-geist text-lg font-semibold text-slate-900 mb-4 tracking-widest uppercase">Categories</h4>
                   <div className="flex flex-wrap gap-2">
-                    {post.tags.map(tagId => {
-                      const tag = tags.find((t: WordPressTag) => t.id === tagId);
-                      return tag ? (
+                    {post.categories.map(catId => {
+                      const cat = categories.find((c: WordPressCategory) => c.id === catId);
+                      return cat ? (
                         <Link
-                          key={tag.id}
-                          href={`/tag/${tag.slug}`}
+                          key={cat.id}
+                          href={`/category/${cat.slug}`}
                           className="inline-block px-4 py-1 border border-slate-300 rounded-full text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 transition"
                         >
-                          {tag.name}
+                          {cat.name}
                         </Link>
                       ) : null;
                     })}
@@ -160,7 +160,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
               <div className="mt-12 pt-8 border-t border-slate-200">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <Link
-                    href="/posts"
+                    href="/blog"
                     className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200 group"
                   >
                     <svg className="mr-2 w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -23,10 +23,12 @@ export default function SearchBar() {
         </div>
         <input
           type="text"
+          id="search-input"
+          name="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search articles, tutorials, and insights..."
-          className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-slate-300 rounded-xl sm:rounded-r-none shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 placeholder-slate-500 transition-all duration-200 text-base sm:text-lg truncate"
+          className="w-full pl-10 pr-4 py-2 sm:py-3 bg-white border border-slate-300 rounded-xl sm:rounded-r-none sm:rounded-r-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-slate-900 placeholder-slate-500 transition-all duration-200 text-base sm:text-lg truncate"
           style={{ minWidth: 0 }}
         />
         <button 

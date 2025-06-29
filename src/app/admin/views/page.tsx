@@ -12,7 +12,7 @@ export default async function ViewsAdminPage() {
     slug: post.slug,
     views: viewCounts[post.id] || 0,
     date: post.date
-  })).sort((a, b) => b.views - a.views);
+  })).slice().sort((a, b) => b.views - a.views);
 
   const totalViews = Object.values(viewCounts).reduce((sum, count) => sum + (typeof count === 'number' ? count : 0), 0);
 
