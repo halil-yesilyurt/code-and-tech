@@ -1,5 +1,6 @@
 import './globals.css';
 import { Montserrat, Inter } from 'next/font/google';
+import { GeistSans } from 'geist/font/sans';
 import Layout from './components/Layout';
 
 const montserrat = Montserrat({ 
@@ -22,7 +23,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${inter.variable}`}> 
+    <html lang="en" className={`${montserrat.variable} ${inter.variable} ${GeistSans.variable}`}> 
       <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
         <Layout>{children}</Layout>
       </body>
