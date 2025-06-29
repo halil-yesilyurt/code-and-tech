@@ -73,7 +73,8 @@ export default function BlogPostList({ posts }: { posts: any[] }) {
         <div className="flex justify-center mt-8">
           <button
             onClick={handleShowMore}
-            className="px-6 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            className="px-6 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 cursor-pointer"
+            type="button"
           >
             Show More
           </button>

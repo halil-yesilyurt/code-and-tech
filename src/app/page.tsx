@@ -3,10 +3,11 @@ import SearchBar from './components/SearchBar';
 import ArticleCard from './components/ArticleCard';
 import Link from 'next/link';
 import Sidebar from './components/Sidebar';
+import LatestArticlesList from './components/LatestArticlesList';
 
 export default async function Home() {
   // Fetch posts using WordPress API (falls back to sample data if not configured)
-  const posts = await getPosts(1, 10);
+  const posts = await getPosts(1, 20);
   const tags = await getTags();
   const categories = await getCategories();
   console.log('Page categories:', categories);
@@ -19,15 +20,15 @@ export default async function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <main className="lg:col-span-3 space-y-8">
             {/* Hero Section */}
-            <section className="text-center py-16 lg:py-24">
-              <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <section className="text-center py-10 sm:py-16 lg:py-24">
+              <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-8">
                 <div className="mb-8">
-                  <h1 className="text-4xl lg:text-6xl font-bold font-montserrat mb-6">
-                    <span className="bg-gradient-to-r from-slate-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
+                  <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold font-montserrat mb-4 sm:mb-6 break-words">
+                    <span className="bg-gradient-to-r from-slate-900 via-blue-800 to-purple-800 bg-clip-text text-transparent break-words">
                       Code & Tech
                     </span>
                   </h1>
-                  <p className="text-xl lg:text-2xl text-slate-600 mb-8 leading-relaxed">
+                  <p className="text-lg sm:text-xl lg:text-2xl text-slate-600 mb-6 sm:mb-8 leading-relaxed break-words">
                     Discover the latest insights in technology, development, and innovation
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -55,12 +56,7 @@ export default async function Home() {
                     </svg>
                   </Link>
                 </div>
-                
-                <div className="grid gap-8">
-                  {posts.map(post => (
-                    <ArticleCard key={post.id} post={post} linkBase="/" />
-                  ))}
-                </div>
+                <LatestArticlesList posts={posts} />
               </section>
             )}
 

@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import LoginModal from './LoginModal';
+import ReactDOM from 'react-dom';
 
 const WP_API = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || process.env.WORDPRESS_API_URL;
 
@@ -10,6 +11,7 @@ export default function Header() {
   const [modalType, setModalType] = useState<'login' | 'signup'>('login');
   const [user, setUser] = useState<any>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const token = typeof window !== 'undefined' ? localStorage.getItem('jwtToken') : null;
@@ -38,6 +40,83 @@ export default function Header() {
   const isAdmin = user && (user.data?.roles?.includes('administrator') || user.user_email === 'admin' || user.roles?.includes('administrator'));
   const adminUrl = WP_API ? `${WP_API.replace(/\/$/, '')}/wp-admin` : '/wp-admin';
 
+  // Portal for mobile menu
+  const mobileMenuPortal = typeof window !== 'undefined' && mobileMenuOpen
+    ? ReactDOM.createPortal(
+        <>
+          <div className="fixed inset-0 bg-black/40 z-[100] transition-opacity duration-300" onClick={() => setMobileMenuOpen(false)} />
+          <nav className="fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-2xl z-[110] flex flex-col animate-fade-slide-in transform transition-transform duration-300">
+            <button
+              className="self-end m-4 p-2 rounded-full hover:bg-slate-100 transition cursor-pointer"
+              aria-label="Close menu"
+              onClick={() => setMobileMenuOpen(false)}
+              type="button"
+            >
+              <svg className="w-7 h-7 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="flex flex-col py-4 px-6 space-y-2 flex-1 justify-center">
+              {[
+                { href: '/blog', label: 'Blog' },
+                { href: '/projects', label: 'Projects' },
+                { href: '/interviews', label: 'Interviews' },
+                { href: '/contact', label: 'Contact' }
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block px-4 py-3 rounded-lg text-lg font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring cursor-pointer"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <div className="flex flex-col space-y-2 mt-4">
+                {user ? (
+                  <>
+                    <a
+                      href={adminUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-base font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg focus-ring cursor-pointer"
+                    >
+                      Go to Admin
+                    </a>
+                    <button
+                      onClick={handleLogout}
+                      className="inline-flex items-center justify-center px-4 py-3 border border-slate-300 text-slate-700 text-base font-semibold rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 focus-ring cursor-pointer"
+                      type="button"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => { setModalType('login'); setShowModal(true); setMobileMenuOpen(false); }}
+                      className="inline-flex items-center justify-center px-4 py-3 text-slate-700 text-base font-semibold rounded-lg hover:bg-slate-100 transition-all duration-200 focus-ring cursor-pointer"
+                      type="button"
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => { setModalType('signup'); setShowModal(true); setMobileMenuOpen(false); }}
+                      className="inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-base font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg focus-ring cursor-pointer"
+                      type="button"
+                    >
+                      Get Started
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </nav>
+        </>,
+        document.body
+      )
+    : null;
+
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
       isScrolled 
@@ -47,19 +126,19 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
+          <Link href="/" className="flex items-center space-x-2 group min-w-0">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
               <span className="text-white font-bold text-lg font-montserrat">CT</span>
             </div>
-            <div>
-              <h1 className="text-xl lg:text-2xl font-bold font-montserrat bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent">
+            <div className="truncate">
+              <h1 className="text-xl lg:text-2xl font-bold font-montserrat bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent truncate">
                 Code & Tech
               </h1>
-              <p className="text-xs text-slate-500 font-medium">Modern Tech Blog</p>
+              <p className="text-xs text-slate-500 font-medium truncate">Modern Tech Blog</p>
             </div>
           </Link>
 
-          {/* Navigation */}
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {[
               { href: '/blog', label: 'Blog' },
@@ -70,22 +149,38 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring"
+                className="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring cursor-pointer"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          {/* Auth Buttons */}
-          <div className="flex items-center space-x-3">
+          {/* Mobile Hamburger */}
+          <button
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-slate-100 transition cursor-pointer z-[120]"
+            aria-label="Open menu"
+            onClick={() => setMobileMenuOpen(v => !v)}
+            type="button"
+          >
+            <svg className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {mobileMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
+              )}
+            </svg>
+          </button>
+
+          {/* Auth Buttons (desktop only, not rendered at all on mobile) */}
+          <div className="hidden md:flex items-center space-x-3">
             {user ? (
               <>
                 <a
                   href={adminUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg focus-ring"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg focus-ring cursor-pointer"
                 >
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -95,7 +190,8 @@ export default function Header() {
                 </a>
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center px-4 py-2 border border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 focus-ring"
+                  className="inline-flex items-center px-4 py-2 border border-slate-300 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 hover:border-slate-400 transition-all duration-200 focus-ring cursor-pointer"
+                  type="button"
                 >
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -107,13 +203,15 @@ export default function Header() {
               <>
                 <button
                   onClick={() => { setModalType('login'); setShowModal(true); }}
-                  className="hidden sm:inline-flex items-center px-4 py-2 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-100 transition-all duration-200 focus-ring"
+                  className="inline-flex items-center px-4 py-2 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-100 transition-all duration-200 focus-ring cursor-pointer"
+                  type="button"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => { setModalType('signup'); setShowModal(true); }}
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg focus-ring"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg focus-ring cursor-pointer"
+                  type="button"
                 >
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
@@ -125,6 +223,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+      {mobileMenuPortal}
       <LoginModal show={showModal} onClose={() => setShowModal(false)} onLoginSuccess={setUser} initialType={modalType} />
     </header>
   );
