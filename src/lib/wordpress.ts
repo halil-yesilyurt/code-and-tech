@@ -90,6 +90,7 @@ export interface WordPressCategory {
   slug: string;
   taxonomy: string;
   meta: Record<string, unknown>[];
+  parent: number;
 }
 
 export interface WordPressTag {
@@ -402,7 +403,12 @@ function getSamplePostBySlug(slug: string): WordPressPost | null {
 }
 
 export async function getPageBySlug(slug: string) {
-  const res = await fetch(`${process.env.WORDPRESS_API_URL}/wp-json/wp/v2/pages?slug=${slug}`);
+  const apiUrl = `https://code-and-tech.infinityfreeapp.com/wp-json/wp/v2/pages?slug=${slug}`;
+  const res = await fetch(apiUrl);
+  if (!res.ok) {
+    console.error('Failed to fetch page:', res.status, await res.text());
+    return null;
+  }
   const pages = await res.json();
   return pages.length > 0 ? pages[0] : null;
 }
@@ -439,12 +445,12 @@ export async function getCategories(): Promise<WordPressCategory[]> {
   console.log('WORDPRESS_API_URL:', WORDPRESS_API_URL, 'USE_SAMPLE_DATA:', USE_SAMPLE_DATA);
   if (USE_SAMPLE_DATA) {
     return [
-      { id: 1, count: 10, description: '', link: '', name: 'Frontend', slug: 'frontend', taxonomy: 'category', meta: [] },
-      { id: 2, count: 8, description: '', link: '', name: 'Backend', slug: 'backend', taxonomy: 'category', meta: [] },
-      { id: 3, count: 5, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'category', meta: [] },
-      { id: 4, count: 4, description: '', link: '', name: 'Performance', slug: 'performance', taxonomy: 'category', meta: [] },
-      { id: 5, count: 3, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'category', meta: [] },
-      { id: 6, count: 2, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'category', meta: [] },
+      { id: 1, count: 10, description: '', link: '', name: 'Frontend', slug: 'frontend', taxonomy: 'category', meta: [], parent: 0 },
+      { id: 2, count: 8, description: '', link: '', name: 'Backend', slug: 'backend', taxonomy: 'category', meta: [], parent: 0 },
+      { id: 3, count: 5, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'category', meta: [], parent: 0 },
+      { id: 4, count: 4, description: '', link: '', name: 'Performance', slug: 'performance', taxonomy: 'category', meta: [], parent: 0 },
+      { id: 5, count: 3, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'category', meta: [], parent: 0 },
+      { id: 6, count: 2, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'category', meta: [], parent: 0 },
     ];
   }
   try {
