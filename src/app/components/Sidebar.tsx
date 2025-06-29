@@ -45,10 +45,19 @@ function renderCategoriesTree(tree: Category[]): React.ReactNode {
   );
 }
 
+function shuffleArray(array: any[]) {
+  // Fisher-Yates shuffle
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 export default function Sidebar({ popularPosts, tags, categories }: { popularPosts: any[]; tags: any[]; categories: any[] }) {
   console.log('Sidebar categories:', categories);
   // Shuffle and take 10 random categories (flat)
-  const shuffled = [...categories].sort(() => 0.5 - Math.random());
+  const shuffled = shuffleArray([...categories]);
   const randomCategories = shuffled.slice(0, 10);
   return (
     <aside className="space-y-6">
@@ -119,18 +128,13 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           </svg>
           <h3 className="text-lg font-bold text-slate-900">Categories</h3>
         </div>
-        <div className="space-y-2">
-          {randomCategories.map(category => (
-            <Link
-              key={category.id}
-              href={`/categories/${category.slug}`}
-              className="flex items-center justify-between p-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 group"
-            >
-              <span>{category.name}</span>
-              <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
+        <div className="overflow-x-auto">
+          {randomCategories.map((category, idx) => (
+            <span key={category.id}>
+              <Link href={`/category/${category.slug}`} className="text-blue-600 hover:underline">
+                #{category.slug.replace(/-/g, '-')}
+              </Link>{idx < randomCategories.length - 1 ? ', ' : ''}
+            </span>
           ))}
         </div>
       </div>
