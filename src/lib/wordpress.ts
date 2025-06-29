@@ -117,7 +117,12 @@ const USE_SAMPLE_DATA = !WORDPRESS_API_URL;
 export async function getPosts(page: number = 1, perPage: number = 10): Promise<WordPressPost[]> {
   if (USE_SAMPLE_DATA) {
     // Return sample data for development
-    return getSamplePosts();
+    return getSamplePosts().map(post => ({
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    }));
   }
 
   try {
@@ -130,14 +135,29 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
 
     if (!response.ok) {
       console.warn('WordPress API error, falling back to sample data:', response.status);
-      return getSamplePosts();
+      return getSamplePosts().map(post => ({
+        ...post,
+        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+      }));
     }
 
     const posts: WordPressPost[] = await response.json();
-    return posts;
+    return posts.map(post => ({
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    }));
   } catch (error) {
     console.error('Error fetching posts from WordPress:', error);
-    return getSamplePosts();
+    return getSamplePosts().map(post => ({
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    }));
   }
 }
 
@@ -147,7 +167,13 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
  */
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
   if (USE_SAMPLE_DATA) {
-    return getSamplePostBySlug(slug);
+    const post = getSamplePostBySlug(slug);
+    return post ? {
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    } : null;
   }
 
   try {
@@ -160,14 +186,32 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
 
     if (!response.ok) {
       console.warn('WordPress API error, falling back to sample data:', response.status);
-      return getSamplePostBySlug(slug);
+      const post = getSamplePostBySlug(slug);
+      return post ? {
+        ...post,
+        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+      } : null;
     }
 
     const posts: WordPressPost[] = await response.json();
-    return posts.length > 0 ? posts[0] : null;
+    const post = posts.length > 0 ? posts[0] : null;
+    return post ? {
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    } : null;
   } catch (error) {
     console.error('Error fetching post by slug:', error);
-    return getSamplePostBySlug(slug);
+    const post = getSamplePostBySlug(slug);
+    return post ? {
+      ...post,
+      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+    } : null;
   }
 }
 
@@ -245,7 +289,7 @@ export function formatDate(dateString: string): string {
  * Strip HTML tags from content for excerpts
  */
 export function stripHtml(html: string): string {
-  return html.replace(/<[^>]*>/g, '').trim();
+  return decodeHtmlEntities(html.replace(/<[^>]*>/g, '').trim());
 }
 
 /**
@@ -422,7 +466,11 @@ export async function getTags(): Promise<WordPressTag[]> {
       { id: 4, count: 4, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'post_tag', meta: [] },
       { id: 5, count: 3, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'post_tag', meta: [] },
       { id: 6, count: 2, description: '', link: '', name: 'Reviews', slug: 'reviews', taxonomy: 'post_tag', meta: [] },
-    ];
+    ].map(tag => ({
+      ...tag,
+      name: decodeHtmlEntities(tag.name),
+      slug: decodeHtmlEntities(tag.slug),
+    }));
   }
   try {
     const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/tags?per_page=20`, {
@@ -434,7 +482,11 @@ export async function getTags(): Promise<WordPressTag[]> {
       return [];
     }
     const tags: WordPressTag[] = await response.json();
-    return tags;
+    return tags.map(tag => ({
+      ...tag,
+      name: decodeHtmlEntities(tag.name),
+      slug: decodeHtmlEntities(tag.slug),
+    }));
   } catch (error) {
     console.error('Error fetching tags from WordPress:', error);
     return [];
@@ -451,7 +503,11 @@ export async function getCategories(): Promise<WordPressCategory[]> {
       { id: 4, count: 4, description: '', link: '', name: 'Performance', slug: 'performance', taxonomy: 'category', meta: [], parent: 0 },
       { id: 5, count: 3, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'category', meta: [], parent: 0 },
       { id: 6, count: 2, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'category', meta: [], parent: 0 },
-    ];
+    ].map(cat => ({
+      ...cat,
+      name: decodeHtmlEntities(cat.name),
+      slug: decodeHtmlEntities(cat.slug),
+    }));
   }
   try {
     const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/categories?per_page=100`, {
@@ -464,7 +520,11 @@ export async function getCategories(): Promise<WordPressCategory[]> {
     }
     const categories: WordPressCategory[] = await response.json();
     console.log('Fetched categories:', categories);
-    return categories;
+    return categories.map(cat => ({
+      ...cat,
+      name: decodeHtmlEntities(cat.name),
+      slug: decodeHtmlEntities(cat.slug),
+    }));
   } catch (error) {
     console.error('Error fetching categories from WordPress:', error);
     return [];
@@ -473,8 +533,12 @@ export async function getCategories(): Promise<WordPressCategory[]> {
 
 export function decodeHtmlEntities(str: string): string {
   if (!str) return '';
-  return str
-    .replace(/&#([0-9]{1,6});/g, (match, dec) => String.fromCharCode(dec))
+  // Decode numeric (decimal and hex) entities
+  let decoded = str
+    .replace(/&#([0-9]{1,7});/g, (match, dec) => String.fromCharCode(dec))
+    .replace(/&#x([0-9a-fA-F]{1,6});/g, (match, hex) => String.fromCharCode(parseInt(hex, 16)));
+  // Decode common named entities
+  decoded = decoded
     .replace(/&quot;/g, '"')
     .replace(/&apos;/g, "'")
     .replace(/&amp;/g, '&')
@@ -485,4 +549,10 @@ export function decodeHtmlEntities(str: string): string {
     .replace(/&lsquo;/g, '‘')
     .replace(/&ldquo;/g, '“')
     .replace(/&rdquo;/g, '”');
+  // Fallback for any remaining named entities using DOMParser (browser only)
+  if (typeof window !== 'undefined' && decoded.match(/&[a-zA-Z]+;/)) {
+    const doc = new window.DOMParser().parseFromString(decoded, 'text/html');
+    decoded = doc.documentElement.textContent || decoded;
+  }
+  return decoded;
 }

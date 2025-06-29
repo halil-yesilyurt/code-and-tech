@@ -1,5 +1,5 @@
 import React from 'react';
-import { getCategories, getTags, getPosts, WordPressCategory } from '@/lib/wordpress';
+import { getCategories, getTags, getPosts, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
 import Link from 'next/link';
 import Sidebar from '../components/Sidebar';
 
@@ -30,7 +30,7 @@ function renderCategoryTree(
               href={`/category/${cat.slug}`}
               className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-200"
             >
-              #{cat.name}
+              #{decodeHtmlEntities(cat.name)}
             </Link>
           </div>
           {cat.children && cat.children.length > 0 && (

@@ -1,8 +1,13 @@
+'use client';
 import Link from 'next/link';
+import { decodeHtmlEntities } from '@/lib/wordpress';
 
 export default function BlogCard({ post }: { post: any }) {
   const { slug, title, excerpt, date, author, image } = post;
   
+  const decodedTitle = decodeHtmlEntities(title);
+  const decodedExcerpt = decodeHtmlEntities(excerpt);
+
   return (
     <article className="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden card-hover">
       <div className="flex flex-col lg:flex-row">
@@ -11,7 +16,7 @@ export default function BlogCard({ post }: { post: any }) {
           {image ? (
             <img 
               src={image} 
-              alt={title} 
+              alt={decodedTitle} 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
@@ -46,13 +51,13 @@ export default function BlogCard({ post }: { post: any }) {
           {/* Title */}
           <h2 className="text-xl lg:text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-200">
             <Link href={`/posts/${slug}`} className="hover:no-underline">
-              {title}
+              {decodedTitle}
             </Link>
           </h2>
 
           {/* Excerpt */}
           <p className="text-slate-600 leading-relaxed mb-4 line-clamp-3">
-            {excerpt}
+            {decodedExcerpt}
           </p>
 
           {/* Author and Read More */}

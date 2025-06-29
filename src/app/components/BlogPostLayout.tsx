@@ -1,6 +1,8 @@
+'use client';
 import Link from 'next/link';
 import Sidebar from './Sidebar';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
+import { useEffect } from 'react';
 
 interface BlogPostLayoutProps {
   post: WordPressPost;
@@ -15,6 +17,13 @@ interface BlogPostLayoutProps {
 
 export default function BlogPostLayout({ post, author, tags, posts, categories, sidebarTags, sidebarCategories, popularPosts }: BlogPostLayoutProps) {
   const featuredImageUrl = getFeaturedImageUrl(post, 'large');
+  const decodedTitle = decodeHtmlEntities(post.title.rendered);
+  const decodedContent = decodeHtmlEntities(post.content.rendered);
+
+  useEffect(() => {
+    console.log('CLIENT BlogPostLayout raw title:', post.title);
+    console.log('CLIENT BlogPostLayout raw content:', post.content);
+  }, [post]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -36,7 +45,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
             {/* Header */}
             <header className="mb-8">
               <h1 className="font-geist text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                {post.title.rendered}
+                {decodedTitle}
               </h1>
               <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600 mb-6">
                 <time dateTime={post.date} className="flex items-center">
@@ -63,7 +72,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
             </header>
             {/* Article Content */}
             <div className="font-montserrat prose prose-lg max-w-none prose-headings:font-geist prose-headings:font-bold prose-headings:text-slate-900 prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-h3:font-semibold prose-h4:text-lg prose-p:text-slate-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:text-blue-700 prose-strong:text-slate-900 prose-strong:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-slate-600 prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-slate-900 prose-pre:text-slate-100">
-              <div dangerouslySetInnerHTML={{ __html: decodeHtmlEntities(post.content.rendered) }} />
+              <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
             </div>
             {/* Author Info */}
             {author && (

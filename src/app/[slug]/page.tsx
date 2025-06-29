@@ -1,4 +1,4 @@
-import { getPostBySlug, getPageBySlug, getCategories, getPosts, getTags, getAuthorInfo } from '@/lib/wordpress';
+import { getPostBySlug, getPageBySlug, getCategories, getPosts, getTags, getAuthorInfo, decodeHtmlEntities } from '@/lib/wordpress';
 import { notFound } from 'next/navigation';
 import ArticleCard from '../components/ArticleCard';
 import Sidebar from '../components/Sidebar';
@@ -26,7 +26,7 @@ export default async function DynamicPage({ params }: { params: { slug: string }
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
             <header className="mb-8">
               <h1 className="font-geist text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                Category: {category.name}
+                Category: {decodeHtmlEntities(category.name)}
               </h1>
               <p className="font-montserrat text-slate-600">
                 {postsInCategory.length} post{postsInCategory.length !== 1 ? 's' : ''} in this category

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { decodeHtmlEntities } from '@/lib/wordpress';
 
 interface Category {
   id: number;
@@ -26,10 +27,10 @@ function renderCategoriesTree(tree: Category[]): React.ReactNode {
       {tree.map(cat => (
         <li key={cat.id} className="ml-0">
           <Link 
-            href={`/categories/${cat.slug}`} 
+            href={`/categories/${decodeHtmlEntities(cat.slug)}`} 
             className="flex items-center justify-between p-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 group"
           >
-            <span>{cat.name}</span>
+            <span>{decodeHtmlEntities(cat.name)}</span>
             <svg className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
@@ -110,8 +111,8 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
         <div className="overflow-x-auto">
           {randomCategories.map((category, idx) => (
             <span key={category.id}>
-              <Link href={`/category/${category.slug}`} className="text-blue-600 hover:underline">
-                #{category.slug.replace(/-/g, '-')}
+              <Link href={`/category/${decodeHtmlEntities(category.slug)}`} className="text-blue-600 hover:underline">
+                #{decodeHtmlEntities(category.name)}
               </Link>{idx < randomCategories.length - 1 ? ', ' : ''}
             </span>
           ))}
