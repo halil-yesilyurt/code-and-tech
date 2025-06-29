@@ -1,24 +1,21 @@
+import React from 'react';
 import Link from 'next/link';
 import { getPosts, formatDate, getAuthorInfo, generateExcerpt } from '@/lib/wordpress';
 import BlogCard from '../components/BlogCard';
+import Sidebar from '../components/Sidebar';
+import { getCategories, getTags } from '@/lib/wordpress';
 
 export default async function PostsPage() {
   // Fetch posts using WordPress API (falls back to sample data if not configured)
   const posts = await getPosts(1, 20);
+  const categories = await getCategories();
+  const tags = await getTags();
+  const popularPosts = posts.slice(0, 3);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Blog Posts
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Discover the latest insights and tutorials about modern web development, UI design, and component-driven architecture.
-          </p>
-        </div>
-
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <main className="lg:col-span-3 space-y-8">
+        <h1 className="text-3xl font-bold mb-8 text-slate-900">Blog</h1>
         {posts.length > 0 ? (
           <div className="space-y-8">
             {posts.map((post) => (
@@ -49,20 +46,12 @@ export default async function PostsPage() {
             </p>
           </div>
         )}
-
-        {/* Back to Home */}
-        <div className="text-center mt-12">
-          <Link
-            href="/"
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200"
-          >
-            <svg className="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Home
-          </Link>
+      </main>
+      <aside className="lg:col-span-1">
+        <div className="sticky top-8">
+          <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
         </div>
-      </div>
+      </aside>
     </div>
   );
 } 

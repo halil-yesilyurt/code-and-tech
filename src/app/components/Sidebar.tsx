@@ -115,6 +115,9 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
               </Link>{idx < randomCategories.length - 1 ? ', ' : ''}
             </span>
           ))}
+          <span className="ml-2">
+            <Link href="/categories" className="inline-block px-3 py-1 rounded bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition">All Categories</Link>
+          </span>
         </div>
       </div>
 
