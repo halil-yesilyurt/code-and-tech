@@ -470,3 +470,19 @@ export async function getCategories(): Promise<WordPressCategory[]> {
     return [];
   }
 }
+
+export function decodeHtmlEntities(str: string): string {
+  if (!str) return '';
+  return str
+    .replace(/&#([0-9]{1,6});/g, (match, dec) => String.fromCharCode(dec))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&rsquo;/g, '’')
+    .replace(/&lsquo;/g, '‘')
+    .replace(/&ldquo;/g, '“')
+    .replace(/&rdquo;/g, '”');
+}
