@@ -22,7 +22,7 @@ export default async function CategoryPage({ params }: { params: { slug: string 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <main className="lg:col-span-3">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+        <div className="bg-white rounded-2xl shadow-sm p-6 md:p-8">
           <header className="mb-8">
             <h1 className="font-geist text-3xl md:text-4xl font-bold text-slate-900 mb-4">
               Category: {decodeHtmlEntities(category.name)}

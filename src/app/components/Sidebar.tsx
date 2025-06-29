@@ -91,7 +91,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           {popularPosts.map((post, index) => (
             <Link 
               key={post.id} 
-              href={`/blog/${post.slug}`} 
+              href={`/${post.slug}`} 
               className="group block"
             >
               <div className="flex items-start space-x-3">
@@ -103,7 +103,6 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
                     {post.title.rendered}
                   </h4>
                   <div className="flex items-center justify-between mt-1">
-                    <p className="text-xs text-slate-500">Featured Article</p>
                     {post.views !== undefined && (
                       <div className="flex items-center text-xs text-slate-400">
                         <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,7 +146,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
             </span>
           ))}
           <span className="ml-2">
-            <Link href="/categories" className="inline-block px-3 py-1 rounded bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition">All Categories</Link>
+            <Link href="/categories" className="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200">All Categories</Link>
           </span>
         </div>
       </div>

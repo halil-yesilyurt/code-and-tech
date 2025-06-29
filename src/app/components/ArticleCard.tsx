@@ -50,12 +50,13 @@ export default function ArticleCard({ post, linkBase = '/' }: { post: any, linkB
           {post.categories && post._embedded?.['wp:term']?.[0] && (
             <div className="flex flex-wrap gap-2 mb-4">
               {post._embedded['wp:term'][0].slice(0, 3).map((cat: any) => (
-                <span 
+                <Link 
                   key={cat.id} 
+                  href={`/category/${cat.slug}`} 
                   className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200"
                 >
                   #{cat.name}
-                </span>
+                </Link>
               ))}
             </div>
           )}

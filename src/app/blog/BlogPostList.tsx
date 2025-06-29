@@ -59,10 +59,14 @@ export default function BlogPostList({ posts }: { posts: any[] }) {
                 {stripHtml(post.excerpt?.rendered || post.content?.rendered || '')}
               </p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {getCategoryNames(post).map((cat: string) => (
-                  <span key={cat} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                    #{cat}
-                  </span>
+                {post._embedded && post._embedded['wp:term'] && post._embedded['wp:term'][0] && post._embedded['wp:term'][0].map((cat: any) => (
+                  <Link 
+                    key={cat.id} 
+                    href={`/category/${cat.slug}`} 
+                    className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200"
+                  >
+                    #{cat.name}
+                  </Link>
                 ))}
               </div>
             </div>

@@ -32,6 +32,7 @@ export default function SearchBar() {
         <button 
           type="submit"
           className="mt-2 sm:mt-0 sm:absolute sm:inset-y-0 sm:right-0 px-4 py-2 sm:py-0 flex items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl sm:rounded-l-none sm:rounded-r-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm sm:text-base font-semibold cursor-pointer min-w-[90px]"
+          style={{ border: 'none' }}
         >
           Search
         </button>

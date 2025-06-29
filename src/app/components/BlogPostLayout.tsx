@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Sidebar from './Sidebar';
 import ViewTracker from './ViewTracker';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface BlogPostLayoutProps {
   post: WordPressPost;
@@ -20,10 +20,14 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
   const featuredImageUrl = getFeaturedImageUrl(post, 'large');
   const decodedTitle = decodeHtmlEntities(post.title.rendered);
   const decodedContent = decodeHtmlEntities(post.content.rendered);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     console.log('CLIENT BlogPostLayout raw title:', post.title);
     console.log('CLIENT BlogPostLayout raw content:', post.content);
+    if (typeof window !== 'undefined') {
+      setIsLoggedIn(!!localStorage.getItem('jwtToken'));
+    }
   }, [post]);
 
   return (
@@ -77,7 +81,24 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
               <div className="font-montserrat prose prose-lg max-w-none prose-headings:font-geist prose-headings:font-bold prose-headings:text-slate-900 prose-h1:text-4xl prose-h1:mb-6 prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-h4:text-xl prose-h4:mt-6 prose-h4:mb-2 prose-p:text-slate-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:text-blue-700 prose-strong:text-slate-900 prose-strong:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-slate-600 prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-slate-900 prose-pre:text-slate-100">
                 <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
               </div>
-              {/* Author Info */}
+              {/* Comment Section */}
+              <div className="mt-12 pt-8 border-t border-slate-200">
+                <h4 className="font-geist text-lg font-semibold text-slate-900 mb-4 tracking-widest uppercase">Comments</h4>
+                {isLoggedIn ? (
+                  <form className="mb-6">
+                    <textarea className="w-full border border-slate-300 rounded-lg p-3 mb-2" rows={4} placeholder="Write your comment..."></textarea>
+                    <button type="submit" className="px-6 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md">Post Comment</button>
+                  </form>
+                ) : (
+                  <div className="mb-6">
+                    <span className="text-slate-500 text-sm mr-2">You must be logged in to comment.</span>
+                    <button onClick={() => window.dispatchEvent(new CustomEvent('open-login-modal'))} className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md">Log In</button>
+                  </div>
+                )}
+                {/* Comments list placeholder */}
+                <div className="text-slate-500 text-sm">No comments yet. Be the first to comment!</div>
+              </div>
+              {/* Author Info
               {author && (
                 <div className="mt-12 pt-8 border-t border-slate-200">
                   <div className="flex items-center space-x-4 p-6 bg-slate-50 rounded-xl">
@@ -98,34 +119,21 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     </div>
                   </div>
                 </div>
-              )}
+              )} */}
               {/* You May Also Like */}
               {posts && posts.length > 1 && (
                 <div className="mt-16 pt-8 border-t border-slate-200">
                   <h4 className="font-geist text-lg font-semibold text-slate-900 mb-6 tracking-widest uppercase">You may also like</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {posts.filter((p: WordPressPost) => p.slug !== post.slug).sort(() => 0.5 - Math.random()).slice(0, 3).map((p: WordPressPost) => {
-                      const image = getFeaturedImageUrl(p, 'medium');
-                      return (
-                        <div key={p.id} className="flex flex-col items-center group">
-                          <Link href={`/blog/${p.slug}`} className="block w-full h-40 rounded-lg overflow-hidden bg-slate-100 mb-3">
-                            {image ? (
-                              <img src={image} alt={p.title.rendered} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <svg className="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                </svg>
-                              </div>
-                            )}
-                          </Link>
-                          <Link href={`/blog/${p.slug}`} className="block text-center font-montserrat text-sm font-semibold text-slate-800 mt-2 group-hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
-                            {p.title.rendered}
-                          </Link>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  <ul className="space-y-3">
+                    {posts.filter((p: WordPressPost) => p.slug !== post.slug).slice(0, 3).map((p: WordPressPost) => (
+                      <li key={p.id} className="flex items-start">
+                        <span className="text-blue-900 font-bold mr-2 mt-0.5">&bull;</span>
+                        <Link href={`/blog/${p.slug}`} className="block font-montserrat text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
+                          {p.title.rendered}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
               {/* Tags Section */}
@@ -136,9 +144,13 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     {post.tags.map(tagId => {
                       const tag = tags.find((t: WordPressTag) => t.id === tagId);
                       return tag ? (
-                        <span key={tag.id} className="inline-block px-4 py-1 border border-slate-300 rounded-full text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 transition">
+                        <Link
+                          key={tag.id}
+                          href={`/tag/${tag.slug}`}
+                          className="inline-block px-4 py-1 border border-slate-300 rounded-full text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 transition"
+                        >
                           {tag.name}
-                        </span>
+                        </Link>
                       ) : null;
                     })}
                   </div>
