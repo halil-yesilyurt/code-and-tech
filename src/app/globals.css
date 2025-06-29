@@ -189,3 +189,38 @@ html, body {
 .animate-fade-slide-in {
   animation: fade-slide-in 0.5s cubic-bezier(.4,0,.2,1) both;
 }
+
+/* Remove or override global heading reset */
+/* h1, h2, h3, h4, h5, h6 {
+  font-size: unset;
+  font-weight: unset;
+} */
+
+/* Strong heading styles for blog content */
+.prose h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  color: #0f172a;
+}
+.prose h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #0f172a;
+}
+.prose h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #0f172a;
+}
+.prose h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #0f172a;
+}
