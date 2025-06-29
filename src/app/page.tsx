@@ -89,10 +89,6 @@ export default async function Home() {
                   <div className="text-3xl font-bold text-purple-600 mb-2">{categories.length}</div>
                   <div className="text-slate-600">Categories</div>
                 </div>
-                <div>
-                  <div className="text-3xl font-bold text-green-600 mb-2">{tags.length}</div>
-                  <div className="text-slate-600">Topics Covered</div>
-                </div>
               </div>
             </section>
           </main>
