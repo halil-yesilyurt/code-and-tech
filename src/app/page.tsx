@@ -1,4 +1,4 @@
-import { getPosts, getTags, getCategories } from '@/lib/wordpress';
+import { getPosts, getTags, getCategories, getPopularPosts } from '@/lib/wordpress';
 import SearchBar from './components/SearchBar';
 import ArticleCard from './components/ArticleCard';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ export default async function Home() {
   const tags = await getTags();
   const categories = await getCategories();
   console.log('Page categories:', categories);
-  const popularPosts = posts.slice(0, 3); // Latest 3 as 'Popular'
+  const popularPosts = await getPopularPosts(3); // Get actual popular posts by views
   const recommendedTags = tags.slice(0, 6);
 
   return (

@@ -9,7 +9,9 @@ import {
   stripHtml,
   getPosts,
   getCategories,
-  getTags
+  getTags,
+  getPopularPosts,
+  trackPostView
 } from '@/lib/wordpress';
 import BlogPostLayout from '../../components/BlogPostLayout';
 
@@ -79,11 +81,14 @@ export default async function PostPage({ params }: PostPageProps) {
     notFound();
   }
 
+  // Track the post view
+  await trackPostView(post.id);
+
   const author = getAuthorInfo(post);
   const posts = await getPosts(1, 20);
   const categories = await getCategories();
   const tags = await getTags();
-  const popularPosts = posts.slice(0, 3);
+  const popularPosts = await getPopularPosts(3);
 
   return (
     <BlogPostLayout

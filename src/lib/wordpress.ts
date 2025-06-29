@@ -620,3 +620,56 @@ export async function searchPosts(query: string, page: number = 1, perPage: numb
     }));
   }
 }
+
+/**
+ * Get popular posts ordered by view count
+ * Falls back to recent posts if view tracking is not available
+ */
+export async function getPopularPosts(limit: number = 10): Promise<WordPressPost[]> {
+  try {
+    // Try to get popular posts from our view tracking API
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/posts/views`, {
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      if (data.popularPosts && data.popularPosts.length > 0) {
+        // Get full post data for the popular posts
+        const popularPostIds = data.popularPosts.map((p: any) => p.id);
+        const allPosts = await getPosts(1, 100);
+        const popularPosts = allPosts.filter(post => popularPostIds.includes(post.id));
+        
+        // Sort by the order from the API
+        return popularPosts.sort((a, b) => {
+          const aIndex = popularPostIds.indexOf(a.id);
+          const bIndex = popularPostIds.indexOf(b.id);
+          return aIndex - bIndex;
+        }).slice(0, limit);
+      }
+    }
+  } catch (error) {
+    console.warn('Failed to get popular posts from view tracking API:', error);
+  }
+  
+  // Fallback to recent posts
+  const posts = await getPosts(1, limit);
+  return posts;
+}
+
+/**
+ * Track a post view
+ */
+export async function trackPostView(postId: number): Promise<void> {
+  try {
+    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/posts/views`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ postId }),
+    });
+  } catch (error) {
+    console.warn('Failed to track post view:', error);
+  }
+}

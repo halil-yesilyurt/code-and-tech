@@ -1,7 +1,7 @@
 import React from 'react';
 import ProjectImage from '../components/ProjectImage';
 import Sidebar from '../components/Sidebar';
-import { getCategories, getTags, getPosts } from '@/lib/wordpress';
+import { getCategories, getTags, getPosts, getPopularPosts } from '@/lib/wordpress';
 
 async function getProjects() {
   const res = await fetch('https://halilyesilyurt.com/api/projects', { next: { revalidate: 3600 } });
@@ -21,7 +21,7 @@ export default async function ProjectsPage() {
   const categories = await getCategories();
   const tags = await getTags();
   const posts = await getPosts(1, 10);
-  const popularPosts = posts.slice(0, 3);
+  const popularPosts = await getPopularPosts(3);
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <main className="lg:col-span-3 space-y-8">

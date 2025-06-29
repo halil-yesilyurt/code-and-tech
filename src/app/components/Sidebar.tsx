@@ -10,6 +10,14 @@ interface Category {
   children?: Category[];
 }
 
+interface PopularPost {
+  id: number;
+  title: { rendered: string };
+  slug: string;
+  views?: number;
+  date: string;
+}
+
 // Helper to build category tree
 function buildCategoryTree(categories: Category[], parent = 0): Category[] {
   return categories
@@ -55,11 +63,22 @@ function shuffleArray(array: any[]) {
   return array;
 }
 
-export default function Sidebar({ popularPosts, tags, categories }: { popularPosts: any[]; tags: any[]; categories: any[] }) {
+// Format view count
+function formatViewCount(views: number): string {
+  if (views >= 1000000) {
+    return `${(views / 1000000).toFixed(1)}M`;
+  } else if (views >= 1000) {
+    return `${(views / 1000).toFixed(1)}K`;
+  }
+  return views.toString();
+}
+
+export default function Sidebar({ popularPosts, tags, categories }: { popularPosts: PopularPost[]; tags: any[]; categories: any[] }) {
   console.log('Sidebar categories:', categories);
   // Shuffle and take 10 random categories (flat)
   const shuffled = shuffleArray([...categories]);
   const randomCategories = shuffled.slice(0, 10);
+  
   return (
     <aside className="space-y-6">
       {/* Popular Posts */}
@@ -72,7 +91,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           {popularPosts.map((post, index) => (
             <Link 
               key={post.id} 
-              href={`/${post.slug}`} 
+              href={`/blog/${post.slug}`} 
               className="group block"
             >
               <div className="flex items-start space-x-3">
@@ -83,7 +102,18 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
                   <h4 className="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">
                     {post.title.rendered}
                   </h4>
-                  <p className="text-xs text-slate-500 mt-1">Featured Article</p>
+                  <div className="flex items-center justify-between mt-1">
+                    <p className="text-xs text-slate-500">Featured Article</p>
+                    {post.views !== undefined && (
+                      <div className="flex items-center text-xs text-slate-400">
+                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        {formatViewCount(post.views)}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </Link>
