@@ -1,297 +1,193 @@
-# CodeAndTech Blog - WordPress Headless CMS
+# Code & Tech
 
-A modern, fast blog built with Next.js 15, TypeScript, and Tailwind CSS, powered by WordPress as a headless CMS.
+A modern, high-performance tech blog built with Next.js and headless WordPress. Designed for developers and tech enthusiasts, it features a beautiful UI, blazing-fast performance, and a fully decoupled content management experience.
 
-## 🚀 Features
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/yourusername/yourrepo/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Vercel](https://vercelbadge.vercel.app/api/halil-yesilyurt/code-and-tech)](https://vercel.com/halil-yesilyurt/code-and-tech)
 
-- **⚡ Lightning Fast**: Built with Next.js 15 and optimized for performance
-- **📱 Responsive Design**: Beautiful, mobile-first design with Tailwind CSS
-- **🔧 TypeScript**: Full type safety and better developer experience
-- **📝 WordPress CMS**: Easy content management with WordPress backend
-- **🔍 SEO Optimized**: Built-in SEO features and metadata
-- **🎨 Modern UI**: Clean, professional design with smooth animations
-- **📊 Analytics Ready**: Easy integration with analytics tools
-- **🔒 Secure**: JWT authentication and security best practices
-- **📧 Contact Form**: Modern contact form with email integration
-- **🛡️ Rate Limiting**: Built-in spam protection for contact forms
+---
 
-## 🚀 Architecture
+## 🚀 Live Demo
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Next.js       │    │   WordPress     │    │   Vercel        │
-│   Frontend      │◄──►│   Headless CMS  │    │   Deployment    │
-│                 │    │                 │    │                 │
-│ • React 18      │    │ • REST API      │    │ • Edge Network  │
-│ • TypeScript    │    │ • JWT Auth      │    │ • Auto Deploy   │
-│ • Tailwind CSS  │    │ • Content Mgmt  │    │ • Analytics     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+[View the Live Site](https://your-demo-link.com)
 
-## 📋 Prerequisites
+---
 
-- Node.js 18+ 
-- npm or yarn
-- WordPress hosting (InfinityFree recommended for free tier)
-- Git
+## 🖼️ Screenshot
 
-## 🛠️ Installation
+![Code & Tech Blog Screenshot](./public/screenshot.png)
 
-1. **Clone the repository:**
+---
+
+## 📖 Description
+
+**Code & Tech** is a modern, high-performance tech blog that leverages a headless WordPress backend and a Next.js frontend. It is designed to provide a seamless, fast, and SEO-optimized reading experience for tech enthusiasts, developers, and content creators. The project decouples content management from presentation, allowing editors to use the familiar WordPress dashboard while delivering a blazing-fast, modern frontend.
+
+---
+
+## ✨ Key Features
+
+- **Headless Architecture:** Decoupled WordPress backend and Next.js frontend for flexibility and performance.
+- **Static Site Generation (SSG) & Server-Side Rendering (SSR):** Combines SSG for most pages and SSR for dynamic content, ensuring fast load times and great SEO.
+- **SEO Optimized:** Automatic meta tags, Open Graph, Twitter cards, sitemaps, and structured data for maximum discoverability.
+- **Responsive Design:** Fully mobile-friendly and accessible, with a modern UI built using Tailwind CSS.
+- **WordPress Backend:** Content managed via the WordPress dashboard, supporting posts, categories, tags, and custom fields.
+- **Advanced Search:** Full-text search for articles, tutorials, and insights.
+- **Category & Tag Filtering:** Easily browse posts by category or tag, with deep linking.
+- **Author Pages:** Dedicated author profiles with bio and post listings.
+- **Contact Form:** Modern, validated contact form with email integration and spam protection.
+- **View Tracking:** Tracks post popularity and displays trending articles.
+- **Rate Limiting:** Built-in API rate limiting for spam protection.
+- **Newsletter Signup:** Integrated newsletter form for audience growth.
+- **Modern UI/UX:** Animations, gradients, and a clean, professional look.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework:** Next.js 13+ (App Router), React 18
+- **Styling:** Tailwind CSS, custom CSS modules
+- **Data Fetching:** Native `fetch` API, ISR/SSR, SWR (optional)
+- **State Management:** React hooks, local state
+- **Forms & Validation:** React, custom validation, server-side validation
+- **Deployment:** Vercel 
+
+### Backend
+- **CMS:** Headless WordPress
+- **API:** WordPress REST API (WPGraphQL optional)
+- **Plugins:**
+  - WPGraphQL (optional, for GraphQL support)
+  - Advanced Custom Fields (ACF)
+  - Custom Post Type UI (optional)
+  - JWT Authentication for WP REST API (for login)
+
+---
+
+## 📦 Prerequisites
+
+- **Node.js** v18.x or higher
+- **npm**, **yarn**, or **pnpm**
+- **WordPress** (local or remote instance)
+- **Required WordPress Plugins** (see above)
+
+---
+
+## ⚡ Installation & Setup
+
+### 1. Backend (WordPress) Setup
+
+1. Ensure your WordPress site is running (locally or remotely).
+2. Install and activate the required plugins:
+   - WPGraphQL (optional)
+   - Advanced Custom Fields (ACF)
+   - Custom Post Type UI (optional)
+   - JWT Authentication for WP REST API
+3. Set Permalinks to "Post name" in WordPress settings for clean URLs.
+4. Configure ACF fields and custom post types as needed.
+
+### 2. Frontend Setup
+
+1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
-   cd blog
+   git clone https://github.com/halil-yesilyurt/code-and-tech
+   cd code-and-tech
    ```
-
-2. **Install dependencies:**
+2. Install dependencies:
    ```bash
    npm install
+   # or
+   yarn install
+   # or
+   pnpm install
    ```
-
-3. **Set up WordPress:**
-   - Follow the guide in `wordpress-setup-guide.md`
-   - Install WordPress on InfinityFree or your preferred hosting
-   - Configure essential plugins (JWT Auth, Security, etc.)
-
-4. **Configure environment variables:**
+3. Copy the example environment file and configure it:
    ```bash
-   # Copy the example and update with your WordPress URL
    cp .env.example .env.local
-   ```
-   
-   Update `.env.local` with your WordPress configuration:
-   ```env
-   WORDPRESS_API_URL=https://yourblog.infinityfreeapp.com
-   NEXT_PUBLIC_WORDPRESS_API_URL=https://yourblog.infinityfreeapp.com
-   WORDPRESS_JWT_SECRET=your-super-secret-jwt-key-here
+   # Edit .env.local with your WordPress API endpoint and other secrets
    ```
 
-5. **Run the development server:**
-   ```bash
-   npm run dev
-   ```
+---
 
-6. **Open your browser:**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+## 🔑 Environment Variables
 
-## 📁 Project Structure
+Create a `.env.local` file in the root directory. Example:
 
-```
-blog/
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── globals.css         # Global styles
-│   │   ├── layout.tsx          # Root layout
-│   │   ├── page.tsx            # Homepage
-│   │   └── posts/              # Blog posts
-│   │       ├── page.tsx        # Posts listing
-│   │       └── [slug]/         # Individual posts
-│   │           └── page.tsx
-│   └── lib/
-│       └── wordpress.ts        # WordPress API utilities
-├── public/                     # Static assets
-├── wordpress-setup-guide.md    # WordPress setup instructions
-├── env-config.md              # Environment configuration
-└── package.json
+```env
+# WordPress REST API Endpoint
+NEXT_PUBLIC_WORDPRESS_API_URL="https://your-wordpress-site.com/wp-json"
+
+# JWT Auth (if using login)
+NEXT_PUBLIC_JWT_AUTH_URL="https://your-wordpress-site.com/wp-json/jwt-auth/v1/token"
+
+# Resend API Key (for contact form)
+RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+CONTACT_EMAIL="your-email@example.com"
 ```
 
-## 🔧 WordPress Setup
+- `NEXT_PUBLIC_WORDPRESS_API_URL`: The base URL for your WordPress REST API.
+- `NEXT_PUBLIC_JWT_AUTH_URL`: The endpoint for JWT authentication (if login is enabled).
+- `RESEND_API_KEY`: API key for Resend email service (contact form).
+- `CONTACT_EMAIL`: Email address to receive contact form submissions.
 
-### 1. Hosting Setup
-- **InfinityFree** (Recommended for free tier)
-- **000WebHost** (Alternative free option)
-- **Paid hosting** (For production use)
+---
 
-### 2. Essential Plugins
-- **JWT Authentication for WP REST API**
-- **WPS Hide Login** (Security)
-- **Wordfence Security** (Security)
-- **Yoast SEO** (SEO optimization)
+## 🏃 Running the Application
 
-### 3. Configuration
-- Set permalinks to "Post name"
-- Configure JWT authentication
-- Set up security measures
-- Create sample content
+- **Development:**
+  ```bash
+  npm run dev
+  # Starts the dev server at http://localhost:3000
+  ```
+- **Build:**
+  ```bash
+  npm run build
+  # Builds the production app
+  ```
+- **Start:**
+  ```bash
+  npm run start
+  # Starts the production server
+  ```
 
-See `wordpress-setup-guide.md` for detailed instructions.
+---
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
+- **Vercel:**
+  - Push your repo to GitHub.
+  - Import into Vercel and set environment variables in the dashboard.
+  - Deploy!
 
-1. **Push to GitHub:**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
+Deployment is designed and tested for Vercel. For other platforms, custom configuration may be required.
 
-2. **Deploy on Vercel:**
-   - Connect your GitHub repository
-   - Add environment variables in Vercel dashboard
-   - Deploy automatically
-
-3. **Configure environment variables in Vercel:**
-   ```
-   WORDPRESS_API_URL=https://yourblog.infinityfreeapp.com
-   WORDPRESS_JWT_SECRET=your-super-secret-jwt-key-here
-   ```
-
-### Other Platforms
-- **Netlify**: Similar to Vercel
-- **Railway**: Good for full-stack apps
-- **DigitalOcean App Platform**: Scalable option
-
-## 📝 Content Management
-
-### Creating Posts
-1. Log into your WordPress admin panel
-2. Go to Posts → Add New
-3. Write your content with the WordPress editor
-4. Add featured images, categories, and tags
-5. Publish or schedule the post
-
-### Managing Content
-- **Categories**: Organize posts by topic
-- **Tags**: Add keywords for better SEO
-- **Featured Images**: Add visual appeal
-- **Excerpts**: Control post previews
-
-## 🔍 SEO Features
-
-- **Meta tags**: Automatic generation from WordPress
-- **Open Graph**: Social media sharing
-- **Twitter Cards**: Twitter sharing
-- **Structured data**: Rich snippets
-- **Sitemap**: Automatic generation
-- **RSS feeds**: WordPress built-in
-
-## 🎨 Customization
-
-### Styling
-- **Tailwind CSS**: Utility-first CSS framework
-- **Custom components**: Easy to modify
-- **Responsive design**: Mobile-first approach
-- **Dark mode**: Ready to implement
-
-### Adding Features
-- **Comments**: WordPress comments system
-- **Search**: Full-text search
-- **Newsletter**: Email integration
-- **Analytics**: Google Analytics, Plausible, etc.
-
-## 🔒 Security
-
-### WordPress Security
-- JWT authentication
-- Hidden login URL
-- Security plugins
-- Regular updates
-- Strong passwords
-
-### Next.js Security
-- Environment variables
-- Input validation
-- XSS protection
-- CSRF protection
-
-## 📊 Performance
-
-### Optimizations
-- **Static Generation**: Pre-rendered pages
-- **Image Optimization**: Next.js Image component
-- **Code Splitting**: Automatic optimization
-- **Caching**: ISR and CDN caching
-- **Bundle Analysis**: Built-in tools
-
-### Monitoring
-- **Core Web Vitals**: Performance metrics
-- **Lighthouse**: SEO and performance
-- **Vercel Analytics**: Real user metrics
-
-## 📧 Contact Form
-
-The blog includes a modern contact form with email integration and spam protection.
-
-### Features
-- **Modern Design**: Beautiful, responsive form with Tailwind CSS
-- **Email Integration**: Automatic email notifications using Resend
-- **Rate Limiting**: Built-in spam protection (5 requests per minute)
-- **Form Validation**: Client and server-side validation
-- **Auto-reply**: Confirmation emails sent to users
-
-### Setup
-
-1. **Install Resend:**
-   ```bash
-   npm install resend
-   ```
-
-2. **Configure Environment Variables:**
-   ```env
-   RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   CONTACT_EMAIL=your-email@example.com
-   ```
-
-3. **Follow the Setup Guide:**
-   See `email-setup-guide.md` for detailed instructions.
-
-### Customization
-- Update contact information in `/src/app/contact/page.tsx`
-- Modify email templates in `/src/app/api/contact/route.ts`
-- Adjust rate limiting in `/src/lib/rate-limit.ts`
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **WordPress API not accessible:**
-   - Check if REST API is enabled
-   - Verify WordPress URL is correct
-   - Check for CORS issues
-
-2. **Images not loading:**
-   - Verify media URLs in WordPress
-   - Check image permissions
-   - Test direct image access
-
-3. **Build errors:**
-   - Check TypeScript errors
-   - Verify environment variables
-   - Clear Next.js cache
-
-### Debug Mode
-Enable debug mode in WordPress:
-```php
-define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);
-```
+---
 
 ## 🤝 Contributing
 
+Contributions are welcome! To contribute:
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Make your changes and commit (`git commit -m 'Add feature'`)
+4. Push to your fork (`git push origin feature/your-feature`)
+5. Open a Pull Request on GitHub
+
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
 
 ## 🙏 Acknowledgments
 
-- **Next.js Team**: Amazing React framework
-- **WordPress Community**: Robust CMS platform
-- **Tailwind CSS**: Utility-first CSS framework
-- **Vercel**: Excellent hosting platform
-
-## 📞 Support
-
-- **Issues**: Create GitHub issues
-- **Documentation**: Check the guides in this repo
-- **Community**: WordPress and Next.js communities
+- **Next.js Team** for the React framework
+- **WordPress Community** for the CMS
+- **Tailwind CSS** for the styling framework
+- **Vercel** for hosting
+- All open-source contributors
 
 ---
 
