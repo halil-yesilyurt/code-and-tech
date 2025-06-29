@@ -36,7 +36,7 @@ export default async function DynamicPage({ params }: { params: { slug: string }
             {postsInCategory.length > 0 ? (
               <div className="space-y-8">
                 {postsInCategory.map((post: any) => (
-                  <ArticleCard key={post.id} post={post} linkBase="/blog/" />
+                  <ArticleCard key={post.id} post={post} linkBase="/" />
                 ))}
               </div>
             ) : (

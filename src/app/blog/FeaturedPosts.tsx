@@ -26,7 +26,7 @@ export default function FeaturedPosts({ posts }: { posts: any[] }) {
             </time>
           </div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            <Link href={`/blog/${post.slug}`} className="hover:underline">
+            <Link href={`/${post.slug}`} className="hover:underline">
               {decodeHtmlEntities(post.title.rendered)}
             </Link>
           </h2>
@@ -34,11 +34,26 @@ export default function FeaturedPosts({ posts }: { posts: any[] }) {
             {stripHtml(post.excerpt?.rendered || post.content?.rendered || '')}
           </p>
           <div className="flex flex-wrap gap-2 mb-4">
-            {getCategoryNames(post).map((cat: string) => (
-              <span key={cat} className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                #{cat}
-              </span>
+            {post._embedded && post._embedded['wp:term'] && post._embedded['wp:term'][0] && post._embedded['wp:term'][0].map((cat: any) => (
+              <Link 
+                key={cat.id} 
+                href={`/category/${cat.slug}`} 
+                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200"
+              >
+                #{cat.name}
+              </Link>
             ))}
+          </div>
+          <div className="mt-4">
+            <Link 
+              href={`/${post.slug}`}
+              className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors duration-200 group"
+            >
+              Read Article
+              <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
         </article>
       ))}

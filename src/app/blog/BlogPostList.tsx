@@ -51,7 +51,7 @@ export default function BlogPostList({ posts }: { posts: any[] }) {
                 </time>
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors duration-200">
-                <Link href={`/blog/${post.slug}`} className="hover:underline">
+                <Link href={`/${post.slug}`} className="hover:underline">
                   {decodeHtmlEntities(post.title.rendered)}
                 </Link>
               </h3>
@@ -68,6 +68,17 @@ export default function BlogPostList({ posts }: { posts: any[] }) {
                     #{cat.name}
                   </Link>
                 ))}
+              </div>
+              <div className="mt-2">
+                <Link 
+                  href={`/${post.slug}`}
+                  className="inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors duration-200 group"
+                >
+                  Read Article
+                  <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
               </div>
             </div>
           </article>
