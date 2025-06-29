@@ -65,7 +65,6 @@ export default function Header() {
               { href: '/blog', label: 'Blog' },
               { href: '/projects', label: 'Projects' },
               { href: '/interviews', label: 'Interviews' },
-              { href: '/about', label: 'About' },
               { href: '/contact', label: 'Contact' }
             ].map((item) => (
               <Link

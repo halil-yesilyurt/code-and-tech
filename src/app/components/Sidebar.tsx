@@ -112,7 +112,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           {randomCategories.map((category, idx) => (
             <span key={category.id}>
               <Link href={`/category/${decodeHtmlEntities(category.slug)}`} className="text-blue-600 hover:underline">
-                #{decodeHtmlEntities(category.name)}
+                #{decodeHtmlEntities(category.slug)}
               </Link>{idx < randomCategories.length - 1 ? ', ' : ''}
             </span>
           ))}
