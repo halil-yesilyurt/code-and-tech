@@ -75,7 +75,6 @@ function formatViewCount(views: number): string {
 }
 
 export default function Sidebar({ popularPosts, tags, categories }: { popularPosts: PopularPost[]; tags: any[]; categories: any[] }) {
-  console.log('Sidebar categories:', categories);
   // Client-side shuffle to avoid hydration errors
   const [shuffled, setShuffled] = useState(categories);
   useEffect(() => {

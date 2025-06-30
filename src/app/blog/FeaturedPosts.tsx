@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { decodeHtmlEntities, stripHtml } from '@/lib/wordpress';
-import Image from 'next/image';
 
 type Post = {
   id: number;

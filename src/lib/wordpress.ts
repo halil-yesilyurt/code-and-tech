@@ -119,7 +119,7 @@ const USE_SAMPLE_DATA = !WORDPRESS_API_URL;
 export async function getPosts(page: number = 1, perPage: number = 10): Promise<WordPressPost[]> {
   if (USE_SAMPLE_DATA) {
     // Return sample data for development
-    return getSamplePosts().map(post => ({
+    return getSamplePosts().map((post) => ({
       ...post,
       title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
       excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
@@ -137,7 +137,7 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
 
     if (!response.ok) {
       console.warn('WordPress API error, falling back to sample data:', response.status);
-      return getSamplePosts().map(post => ({
+      return getSamplePosts().map((post) => ({
         ...post,
         title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
         excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
@@ -146,7 +146,7 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
     }
 
     const posts: WordPressPost[] = await response.json();
-    return posts.map(post => ({
+    return posts.map((post) => ({
       ...post,
       title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
       excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
@@ -154,7 +154,7 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
     }));
   } catch (error) {
     console.error('Error fetching posts from WordPress:', error);
-    return getSamplePosts().map(post => ({
+    return getSamplePosts().map((post) => ({
       ...post,
       title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
       excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
@@ -170,12 +170,14 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
   if (USE_SAMPLE_DATA) {
     const post = getSamplePostBySlug(slug);
-    return post ? {
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    } : null;
+    return post
+      ? {
+          ...post,
+          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+        }
+      : null;
   }
 
   try {
@@ -189,31 +191,37 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
     if (!response.ok) {
       console.warn('WordPress API error, falling back to sample data:', response.status);
       const post = getSamplePostBySlug(slug);
-      return post ? {
-        ...post,
-        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-      } : null;
+      return post
+        ? {
+            ...post,
+            title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+            excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+            content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+          }
+        : null;
     }
 
     const posts: WordPressPost[] = await response.json();
     const post = posts.length > 0 ? posts[0] : null;
-    return post ? {
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    } : null;
+    return post
+      ? {
+          ...post,
+          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+        }
+      : null;
   } catch (error) {
     console.error('Error fetching post by slug:', error);
     const post = getSamplePostBySlug(slug);
-    return post ? {
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    } : null;
+    return post
+      ? {
+          ...post,
+          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+        }
+      : null;
   }
 }
 
@@ -468,7 +476,7 @@ export async function getTags(): Promise<WordPressTag[]> {
       { id: 4, count: 4, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'post_tag', meta: [] },
       { id: 5, count: 3, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'post_tag', meta: [] },
       { id: 6, count: 2, description: '', link: '', name: 'Reviews', slug: 'reviews', taxonomy: 'post_tag', meta: [] },
-    ].map(tag => ({
+    ].map((tag) => ({
       ...tag,
       name: decodeHtmlEntities(tag.name),
       slug: decodeHtmlEntities(tag.slug),
@@ -484,7 +492,7 @@ export async function getTags(): Promise<WordPressTag[]> {
       return [];
     }
     const tags: WordPressTag[] = await response.json();
-    return tags.map(tag => ({
+    return tags.map((tag) => ({
       ...tag,
       name: decodeHtmlEntities(tag.name),
       slug: decodeHtmlEntities(tag.slug),
@@ -496,7 +504,7 @@ export async function getTags(): Promise<WordPressTag[]> {
 }
 
 export async function getCategories(): Promise<WordPressCategory[]> {
-  console.log('WORDPRESS_API_URL:', WORDPRESS_API_URL, 'USE_SAMPLE_DATA:', USE_SAMPLE_DATA);
+  // console.log('WORDPRESS_API_URL:', WORDPRESS_API_URL, 'USE_SAMPLE_DATA:', USE_SAMPLE_DATA);
   if (USE_SAMPLE_DATA) {
     return [
       { id: 1, count: 10, description: '', link: '', name: 'Frontend', slug: 'frontend', taxonomy: 'category', meta: [], parent: 0 },
@@ -505,7 +513,7 @@ export async function getCategories(): Promise<WordPressCategory[]> {
       { id: 4, count: 4, description: '', link: '', name: 'Performance', slug: 'performance', taxonomy: 'category', meta: [], parent: 0 },
       { id: 5, count: 3, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'category', meta: [], parent: 0 },
       { id: 6, count: 2, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'category', meta: [], parent: 0 },
-    ].map(cat => ({
+    ].map((cat) => ({
       ...cat,
       name: decodeHtmlEntities(cat.name),
       slug: decodeHtmlEntities(cat.slug),
@@ -521,8 +529,8 @@ export async function getCategories(): Promise<WordPressCategory[]> {
       return [];
     }
     const categories: WordPressCategory[] = await response.json();
-    console.log('Fetched categories:', categories);
-    return categories.map(cat => ({
+    // console.log('Fetched categories:', categories);
+    return categories.map((cat) => ({
       ...cat,
       name: decodeHtmlEntities(cat.name),
       slug: decodeHtmlEntities(cat.slug),
@@ -545,42 +553,51 @@ export async function searchPosts(query: string, page: number = 1, perPage: numb
   if (USE_SAMPLE_DATA) {
     // Simple search in sample data (title, excerpt, content)
     const q = query.toLowerCase();
-    return getSamplePosts().filter(post =>
-      post.title.rendered.toLowerCase().includes(q) ||
-      post.excerpt.rendered.toLowerCase().includes(q) ||
-      post.content.rendered.toLowerCase().includes(q)
-    ).map(post => ({
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    }));
-  }
-
-  try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?_embed&search=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}&status=publish`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 },
-    });
-
-    if (!response.ok) {
-      console.warn('WordPress API error, falling back to sample data:', response.status);
-      return getSamplePosts().filter(post =>
-        post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
-        post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
-        post.content.rendered.toLowerCase().includes(query.toLowerCase())
-      ).map(post => ({
+    return getSamplePosts()
+      .filter(
+        (post) =>
+          post.title.rendered.toLowerCase().includes(q) ||
+          post.excerpt.rendered.toLowerCase().includes(q) ||
+          post.content.rendered.toLowerCase().includes(q)
+      )
+      .map((post) => ({
         ...post,
         title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
         excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
         content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
       }));
+  }
+
+  try {
+    const response = await fetch(
+      `${WORDPRESS_API_URL}/wp-json/wp/v2/posts?_embed&search=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}&status=publish`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        next: { revalidate: 60 },
+      }
+    );
+
+    if (!response.ok) {
+      console.warn('WordPress API error, falling back to sample data:', response.status);
+      return getSamplePosts()
+        .filter(
+          (post) =>
+            post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
+            post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
+            post.content.rendered.toLowerCase().includes(query.toLowerCase())
+        )
+        .map((post) => ({
+          ...post,
+          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+        }));
     }
 
     const posts: WordPressPost[] = await response.json();
-    return posts.map(post => ({
+    return posts.map((post) => ({
       ...post,
       title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
       excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
@@ -588,16 +605,19 @@ export async function searchPosts(query: string, page: number = 1, perPage: numb
     }));
   } catch (error) {
     console.error('Error searching posts from WordPress:', error);
-    return getSamplePosts().filter(post =>
-      post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
-      post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
-      post.content.rendered.toLowerCase().includes(query.toLowerCase())
-    ).map(post => ({
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    }));
+    return getSamplePosts()
+      .filter(
+        (post) =>
+          post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
+          post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
+          post.content.rendered.toLowerCase().includes(query.toLowerCase())
+      )
+      .map((post) => ({
+        ...post,
+        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
+        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
+        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
+      }));
   }
 }
 
@@ -611,27 +631,29 @@ export async function getPopularPosts(limit: number = 10): Promise<WordPressPost
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/posts/views`, {
       next: { revalidate: 300 }, // Cache for 5 minutes
     });
-    
+
     if (response.ok) {
       const data = await response.json();
       if (data.popularPosts && data.popularPosts.length > 0) {
         // Get full post data for the popular posts
-        const popularPostIds = data.popularPosts.map((p: any) => p.id);
+        const popularPostIds = data.popularPosts.map((p: unknown) => (p as { id: number }).id);
         const allPosts = await getPosts(1, 100);
-        const popularPosts = allPosts.filter(post => popularPostIds.includes(post.id));
-        
+        const popularPosts = allPosts.filter((post) => popularPostIds.includes(post.id));
+
         // Sort by the order from the API
-        return popularPosts.sort((a, b) => {
-          const aIndex = popularPostIds.indexOf(a.id);
-          const bIndex = popularPostIds.indexOf(b.id);
-          return aIndex - bIndex;
-        }).slice(0, limit);
+        return popularPosts
+          .sort((a, b) => {
+            const aIndex = popularPostIds.indexOf(a.id);
+            const bIndex = popularPostIds.indexOf(b.id);
+            return aIndex - bIndex;
+          })
+          .slice(0, limit);
       }
     }
   } catch (error) {
     console.warn('Failed to get popular posts from view tracking API:', error);
   }
-  
+
   // Fallback to recent posts
   const posts = await getPosts(1, limit);
   return posts;

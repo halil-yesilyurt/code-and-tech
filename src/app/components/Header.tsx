@@ -9,7 +9,7 @@ const WP_API = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || process.env.WORDPRES
 export default function Header() {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState<'login' | 'signup'>('login');
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -48,7 +48,6 @@ export default function Header() {
     setUser(null);
   };
 
-  const isAdmin = user && (user.data?.roles?.includes('administrator') || user.user_email === 'admin' || user.roles?.includes('administrator'));
   const adminUrl = WP_API ? `${WP_API.replace(/\/$/, '')}/wp-admin` : '/wp-admin';
 
   // Portal for mobile menu

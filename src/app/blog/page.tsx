@@ -1,11 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
-import { getPosts, getCategories, getTags, getPopularPosts, stripHtml } from '@/lib/wordpress';
+import { getPosts, getCategories, getTags, getPopularPosts } from '@/lib/wordpress';
 import Sidebar from '../components/Sidebar';
-import { decodeHtmlEntities } from '@/lib/wordpress';
 import BlogPostList from './BlogPostList';
 import FeaturedPosts from './FeaturedPosts';
-import ArticleCard from '../components/ArticleCard';
 
 export default async function PostsPage() {
   const posts = await getPosts(1, 20);

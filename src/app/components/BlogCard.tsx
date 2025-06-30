@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { decodeHtmlEntities } from '@/lib/wordpress';
 import Image from 'next/image';
 
-export default function BlogCard({ post }: { post: any }) {
-  const { slug, title, excerpt, date, author, image } = post;
+export default function BlogCard({ post }: { post: unknown }) {
+  const { slug, title, excerpt, date, author, image } = post as any;
+  const p = post as { categories?: string[] };
   
   const decodedTitle = decodeHtmlEntities(title);
   const decodedExcerpt = decodeHtmlEntities(excerpt);
@@ -35,10 +36,10 @@ export default function BlogCard({ post }: { post: any }) {
         <div className="flex-1 p-6 lg:p-8">
           {/* Meta Information */}
           <div className="flex items-center text-sm text-slate-500 mb-3">
-            {post.categories && (
+            {p.categories && (
               <>
                 <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
-                  {post.categories[0]}
+                  {p.categories[0]}
                 </span>
                 <span className="mx-3">•</span>
               </>

@@ -36,7 +36,7 @@ function renderCategoryTree(
           {cat.children && cat.children.length > 0 && (
             <>
               <hr className="my-2 border-slate-200" />
-              {renderCategoryTree(cat.children as any, level + 1)}
+              {renderCategoryTree(cat.children as (WordPressCategory & { children: WordPressCategory[] })[], level + 1)}
             </>
           )}
         </li>

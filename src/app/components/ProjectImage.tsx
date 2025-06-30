@@ -13,9 +13,9 @@ const ExternalLinkIcon = () => (
   </svg>
 );
 
-export default function ProjectImage({ project }: { project: any }) {
+export default function ProjectImage({ project }: { project: unknown }) {
   const [imgError, setImgError] = useState(false);
-  const { image, title, description, techStack, github, demo, isNew } = project;
+  const { image, title, description, techStack, github, demo, isNew } = project as any;
 
   return (
     <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-200 flex flex-col overflow-hidden border border-slate-100">

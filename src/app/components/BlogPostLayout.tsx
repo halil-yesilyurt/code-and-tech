@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 interface BlogPostLayoutProps {
   post: WordPressPost;
-  author: any;
+  author: unknown;
   tags: WordPressTag[];
   posts: WordPressPost[];
   categories: WordPressCategory[];

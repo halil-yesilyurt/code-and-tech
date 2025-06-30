@@ -1,16 +1,16 @@
 import { getPosts, getTags, getCategories, getPopularPosts } from '@/lib/wordpress';
 import SearchBar from './components/SearchBar';
-import ArticleCard from './components/ArticleCard';
 import Link from 'next/link';
 import Sidebar from './components/Sidebar';
 import LatestArticlesList from './components/LatestArticlesList';
+import BlogPostList from './blog/BlogPostList';
+import FeaturedPosts from './blog/FeaturedPosts';
 
 export default async function Home() {
   // Fetch posts using WordPress API (falls back to sample data if not configured)
   const posts = await getPosts(1, 20);
   const tags = await getTags();
   const categories = await getCategories();
-  console.log('Page categories:', categories);
   const popularPosts = await getPopularPosts(3); // Get actual popular posts by views
   const recommendedTags = tags.slice(0, 6);
 
@@ -73,6 +73,9 @@ export default async function Home() {
                 </div>
               </div>
             </section>
+
+            <FeaturedPosts posts={posts.slice(0, 3)} />
+            <BlogPostList posts={posts} />
           </main>
           <aside className="lg:col-span-1">
             <div className="sticky top-8">

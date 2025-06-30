@@ -196,5 +196,5 @@ export default function LoginModal({ show, onClose, onLoginSuccess, initialType 
     </div>
   );
 
-  return createPortal(modalContent, typeof window !== 'undefined' ? document.body : (globalThis as any).document?.body || document.createElement('div'));
+  return createPortal(modalContent, typeof window !== 'undefined' ? document.body : (globalThis as unknown as Document)?.body || document.createElement('div'));
 } 
