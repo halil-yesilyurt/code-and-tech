@@ -9,12 +9,12 @@ export default async function DynamicPage({ params }: { params: { slug: string }
 
   // Try to match a category first
   const categories = await getCategories();
-  const category = categories.find((cat: any) => cat.slug === slug);
+  const category = categories.find((cat: { slug: string }) => cat.slug === slug);
 
   if (category) {
     // Fetch posts in this category
     const allPosts = await getPosts(1, 100); // Adjust as needed for pagination
-    const postsInCategory = allPosts.filter((post: any) => post.categories && post.categories.includes(category.id));
+    const postsInCategory = allPosts.filter((post: { categories?: number[]; id: number }) => post.categories && post.categories.includes(category.id));
     
     // Fetch sidebar data
     const tags = await getTags();
@@ -35,7 +35,7 @@ export default async function DynamicPage({ params }: { params: { slug: string }
             
             {postsInCategory.length > 0 ? (
               <div className="space-y-8">
-                {postsInCategory.map((post: any) => (
+                {postsInCategory.map((post: { id: number }) => (
                   <ArticleCard key={post.id} post={post} linkBase="/" />
                 ))}
               </div>
@@ -67,7 +67,6 @@ export default async function DynamicPage({ params }: { params: { slug: string }
 
   // Fallback: Try to fetch a post first
   let content = await getPostBySlug(slug);
-  let type = 'post';
   if (content) {
     // It's a blog post, use BlogPostLayout
     const author = getAuthorInfo(content);
@@ -90,7 +89,6 @@ export default async function DynamicPage({ params }: { params: { slug: string }
   }
   // If not found, try to fetch a page
   content = await getPageBySlug(slug);
-  type = 'page';
   if (!content) {
     notFound();
   }
