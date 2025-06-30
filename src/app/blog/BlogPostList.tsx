@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { decodeHtmlEntities, stripHtml } from '@/lib/wordpress';
+import Image from 'next/image';
 
 type Post = {
   id: number;
@@ -42,10 +43,13 @@ export default function BlogPostList({ posts }: { posts: Post[] }) {
               hover:scale-[1.025] hover:shadow-2xl duration-300'
           >
             {post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]?.source_url && (
-              <img
+              <Image
                 src={post._embedded['wp:featuredmedia'][0].source_url}
                 alt={post.title.rendered}
+                width={800}
+                height={320}
                 className='w-full h-48 object-cover rounded-t-2xl transition-transform duration-300 group-hover:scale-105'
+                priority={false}
               />
             )}
             <div className='flex-1 p-6 flex flex-col'>
@@ -72,15 +76,18 @@ export default function BlogPostList({ posts }: { posts: Post[] }) {
                 {post._embedded &&
                   post._embedded['wp:term'] &&
                   post._embedded['wp:term'][0] &&
-                  post._embedded['wp:term'][0].map((cat: any) => (
-                    <Link
-                      key={cat.id}
-                      href={`/category/${cat.slug}`}
-                      className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200'
-                    >
-                      #{cat.name}
-                    </Link>
-                  ))}
+                  post._embedded['wp:term'][0].map((cat) => {
+                    const category = cat as { id: number; slug: string; name: string };
+                    return (
+                      <Link
+                        key={category.id}
+                        href={`/category/${category.slug}`}
+                        className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200'
+                      >
+                        #{category.name}
+                      </Link>
+                    );
+                  })}
               </div>
               <div className='mt-2'>
                 <Link

@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { decodeHtmlEntities } from '@/lib/wordpress';
+import Image from 'next/image';
 
 export default function BlogCard({ post }: { post: any }) {
   const { slug, title, excerpt, date, author, image } = post;
@@ -14,10 +15,12 @@ export default function BlogCard({ post }: { post: any }) {
         {/* Image Section */}
         <div className="lg:w-1/3 h-48 lg:h-auto overflow-hidden bg-slate-100">
           {image ? (
-            <img 
+            <Image 
               src={image} 
               alt={decodedTitle} 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              width={192}
+              height={256}
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">

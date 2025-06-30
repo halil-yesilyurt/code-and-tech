@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { getAuthorInfo, formatDate, generateExcerpt, getFeaturedImageUrl } from '@/lib/wordpress';
+import Image from 'next/image';
 
 export default function ArticleCard({ post, linkBase = '/' }: { post: any, linkBase?: string }) {
-  const author = getAuthorInfo(post);
   const excerpt = post.excerpt?.rendered
     ? generateExcerpt(post.excerpt.rendered, 150)
     : generateExcerpt(post.content.rendered, 150);
@@ -14,10 +14,13 @@ export default function ArticleCard({ post, linkBase = '/' }: { post: any, linkB
         {/* Image Section */}
         {thumbnail && (
           <div className="lg:w-1/3 h-48 lg:h-auto overflow-hidden">
-            <img 
-              src={thumbnail} 
-              alt={post.title.rendered} 
+            <Image
+              src={thumbnail}
+              alt={post.title.rendered}
+              width={800}
+              height={320}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              priority={false}
             />
           </div>
         )}

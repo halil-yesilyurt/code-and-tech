@@ -4,6 +4,7 @@ import Sidebar from './Sidebar';
 import ViewTracker from './ViewTracker';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface BlogPostLayoutProps {
   post: WordPressPost;
@@ -39,10 +40,12 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
             {/* Hero Section */}
             {featuredImageUrl && (
               <div className="relative h-64 md:h-96 w-full">
-                <img
+                <Image
                   src={featuredImageUrl}
                   alt={post.title.rendered}
+                  fill
                   className="w-full h-full object-cover"
+                  priority={false}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
               </div>

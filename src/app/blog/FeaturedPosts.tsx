@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { decodeHtmlEntities, stripHtml } from '@/lib/wordpress';
+import Image from 'next/image';
 
 type Post = {
   id: number;
@@ -47,15 +48,18 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
             {post._embedded &&
               post._embedded['wp:term'] &&
               post._embedded['wp:term'][0] &&
-              post._embedded['wp:term'][0].map((cat: any) => (
-                <Link
-                  key={cat.id}
-                  href={`/category/${cat.slug}`}
-                  className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200'
-                >
-                  #{cat.name}
-                </Link>
-              ))}
+              post._embedded['wp:term'][0].map((cat) => {
+                const category = cat as { id: number; slug: string; name: string };
+                return (
+                  <Link
+                    key={category.id}
+                    href={`/category/${category.slug}`}
+                    className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200'
+                  >
+                    #{category.name}
+                  </Link>
+                );
+              })}
           </div>
           <div className='mt-4'>
             <Link
