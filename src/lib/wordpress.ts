@@ -1,6 +1,8 @@
 // WordPress API Integration Utilities
 // This will replace the sample data with real WordPress content
 
+import he from 'he';
+
 export interface WordPressPost {
   id: number;
   date: string;
@@ -531,30 +533,8 @@ export async function getCategories(): Promise<WordPressCategory[]> {
   }
 }
 
-export function decodeHtmlEntities(str: string): string {
-  if (!str) return '';
-  // Decode numeric (decimal and hex) entities
-  let decoded = str
-    .replace(/&#([0-9]{1,7});/g, (match, dec) => String.fromCharCode(dec))
-    .replace(/&#x([0-9a-fA-F]{1,6});/g, (match, hex) => String.fromCharCode(parseInt(hex, 16)));
-  // Decode common named entities
-  decoded = decoded
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&rsquo;/g, '’')
-    .replace(/&lsquo;/g, '‘')
-    .replace(/&ldquo;/g, '“')
-    .replace(/&rdquo;/g, '”');
-  // Fallback for any remaining named entities using DOMParser (browser only)
-  if (typeof window !== 'undefined' && decoded.match(/&[a-zA-Z]+;/)) {
-    const doc = new window.DOMParser().parseFromString(decoded, 'text/html');
-    decoded = doc.documentElement.textContent || decoded;
-  }
-  return decoded;
+export function decodeHtmlEntities(str: string) {
+  return he.decode(str);
 }
 
 /**

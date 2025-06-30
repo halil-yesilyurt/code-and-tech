@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { decodeHtmlEntities } from '@/lib/wordpress';
 
@@ -75,9 +76,17 @@ function formatViewCount(views: number): string {
 
 export default function Sidebar({ popularPosts, tags, categories }: { popularPosts: PopularPost[]; tags: any[]; categories: any[] }) {
   console.log('Sidebar categories:', categories);
-  // Shuffle and take 10 random categories (flat)
-  const shuffled = shuffleArray([...categories]);
-  const randomCategories = shuffled.slice(0, 10);
+  // Client-side shuffle to avoid hydration errors
+  const [shuffled, setShuffled] = useState(categories);
+  useEffect(() => {
+    const arr = [...categories];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    setShuffled(arr.slice(0, 10));
+  }, [categories]);
+  const randomCategories = shuffled;
   
   return (
     <aside className="space-y-6">
