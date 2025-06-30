@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar';
 import { decodeHtmlEntities } from '@/lib/wordpress';
 import BlogPostList from './BlogPostList';
 import FeaturedPosts from './FeaturedPosts';
+import ArticleCard from '../components/ArticleCard';
 
 export default async function PostsPage() {
   const posts = await getPosts(1, 20);
@@ -30,12 +31,6 @@ export default async function PostsPage() {
   const featured = posts.slice(0, 3);
   const rest = posts.slice(3);
 
-  // Helper to get category names from IDs
-  function getCategoryNames(post: any) {
-    if (!post.categories || !post._embedded || !post._embedded['wp:term'] || !post._embedded['wp:term'][0]) return [];
-    return post._embedded['wp:term'][0].map((cat: any) => cat.name);
-  }
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <main className="lg:col-span-3 space-y-12">
@@ -46,10 +41,7 @@ export default async function PostsPage() {
         </header>
         {/* Featured First 3 Articles */}
         <FeaturedPosts posts={featured} />
-        {/* Grid of Other Articles with Show More */}
-        <section>
-          <BlogPostList posts={rest} />
-        </section>
+        <BlogPostList posts={rest} />
       </main>
       <aside className="lg:col-span-1">
         <div className="sticky top-8">

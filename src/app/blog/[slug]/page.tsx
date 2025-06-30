@@ -1,11 +1,9 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { 
   getPostBySlug, 
   getAllPostSlugs, 
   getFeaturedImageUrl, 
   getAuthorInfo, 
-  formatDate, 
   stripHtml,
   getPosts,
   getCategories,
