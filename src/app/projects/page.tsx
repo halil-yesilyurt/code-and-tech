@@ -16,27 +16,74 @@ export default async function ProjectsPage() {
   const posts = await getPosts(1, 10);
   const popularPosts = await getPopularPosts(3);
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
-      <main className='lg:col-span-3 space-y-8'>
-        <h1 className='text-3xl font-bold mb-8 text-slate-900'>Projects</h1>
-        {!projects || projects.length === 0 ? (
-          <div className='bg-white rounded-xl shadow p-8 text-center text-slate-500 border border-slate-200'>
-            <p>No projects found. Please check your portfolio API or try again later.</p>
+    <>
+      {/* JSON-LD Structured Data for Projects */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            projects.map((p: any) => ({
+              '@context': 'https://schema.org',
+              '@type': 'Project',
+              name: p.title,
+              description: p.description,
+              image: p.image ? [p.image] : undefined,
+              keywords: p.techStack ? p.techStack.join(', ') : undefined,
+              url: p.demo || undefined,
+              codeRepository: p.github || undefined,
+            }))
+          ),
+        }}
+      />
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
+        <main className='lg:col-span-3 space-y-8'>
+          <h1 className='text-3xl font-bold mb-8 text-slate-900'>Projects</h1>
+          {!projects || projects.length === 0 ? (
+            <div className='bg-white rounded-xl shadow p-8 text-center text-slate-500 border border-slate-200'>
+              <p>No projects found. Please check your portfolio API or try again later.</p>
+            </div>
+          ) : (
+            <div className='grid gap-8 md:grid-cols-2'>
+              {projects.map((project: unknown) => {
+                const p = project as { id: number };
+                return <ProjectImage key={p.id} project={p} />;
+              })}
+            </div>
+          )}
+        </main>
+        <aside className='lg:col-span-1'>
+          <div className='sticky top-8'>
+            <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
           </div>
-        ) : (
-          <div className='grid gap-8 md:grid-cols-2'>
-            {projects.map((project: unknown) => {
-              const p = project as { id: number };
-              return <ProjectImage key={p.id} project={p} />;
-            })}
-          </div>
-        )}
-      </main>
-      <aside className='lg:col-span-1'>
-        <div className='sticky top-8'>
-          <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
-        </div>
-      </aside>
-    </div>
+        </aside>
+      </div>
+    </>
   );
+}
+
+export async function generateMetadata() {
+  const res = await fetch('https://halilyesilyurt.com/api/projects');
+  const projects = res.ok ? await res.json() : [];
+  const keywords = Array.from(new Set(projects.flatMap((p: any) => p.techStack || [])));
+  const title = 'Projects | Code and Tech Blog';
+  const description = 'A showcase of projects built by Halil Yesilyurt, featuring modern web technologies and creative solutions.';
+  const images = projects.filter((p: any) => p.image).slice(0, 3).map((p: any) => ({ url: p.image, alt: p.title }));
+  return {
+    title,
+    description,
+    keywords: keywords.join(', '),
+    openGraph: {
+      title,
+      description,
+      images,
+      type: 'website',
+      url: 'https://halilyesilyurt.com/projects',
+    },
+    twitter: {
+      card: images.length > 0 ? 'summary_large_image' : 'summary',
+      title,
+      description,
+      images: images.map((img: any) => img.url),
+    },
+  };
 }

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://code-and-tech.vercel.app/sitemap.xml 

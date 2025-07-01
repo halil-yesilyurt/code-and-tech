@@ -33,6 +33,33 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
 
   return (
     <>
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: decodedTitle,
+            description: post.excerpt?.rendered || decodedContent.substring(0, 160),
+            datePublished: post.date,
+            dateModified: post.modified,
+            author: (author && typeof author === 'object' && 'name' in author && (author as any).name)
+              ? { '@type': 'Person', name: (author as any).name }
+              : undefined,
+            image: featuredImageUrl ? [featuredImageUrl] : undefined,
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': typeof window !== 'undefined' ? window.location.href : '',
+            },
+            keywords: tags && tags.length > 0 ? tags.map(t => t.name).join(', ') : undefined,
+            publisher: {
+              '@type': 'Organization',
+              name: 'Code and Tech Blog',
+            },
+          }),
+        }}
+      />
       <ViewTracker postId={post.id} />
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <main className="lg:col-span-3">

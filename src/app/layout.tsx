@@ -25,6 +25,30 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${montserrat.variable} ${inter.variable} ${GeistSans.variable}`}> 
+      <head>
+        {/* JSON-LD Structured Data for WebPage */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebPage',
+              name: metadata.title,
+              description: metadata.description,
+              publisher: {
+                '@type': 'Organization',
+                name: 'Code and Tech Blog',
+              },
+            }),
+          }}
+        />
+        {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
+          <meta
+            name="google-site-verification"
+            content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
+          />
+        )}
+      </head>
       <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
         <ErrorBoundary>
           <Layout>{children}</Layout>
