@@ -4,7 +4,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech/commits/main)
 [![GitHub stars](https://img.shields.io/github/stars/halil-yesilyurt/code-and-tech.svg?style=social)](https://github.com/halil-yesilyurt/code-and-tech/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/halil-yesilyurt/code-and-tech.svg?style=social)](https://github.com/halil-yesilyurt/code-and-tech/network)
 [![Code Size](https://img.shields.io/github/languages/code-size/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech)
 [![Top Language](https://img.shields.io/github/languages/top/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech)
 
