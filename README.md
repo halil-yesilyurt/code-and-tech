@@ -1,28 +1,49 @@
 # Code & Tech
 
+[![Build Status](https://github.com/halil-yesilyurt/code-and-tech/actions/workflows/main.yml/badge.svg)](https://github.com/halil-yesilyurt/code-and-tech/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Last Commit](https://img.shields.io/github/last-commit/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech/commits/main)
+[![Issues](https://img.shields.io/github/issues/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech/pulls)
+[![GitHub stars](https://img.shields.io/github/stars/halil-yesilyurt/code-and-tech.svg?style=social)](https://github.com/halil-yesilyurt/code-and-tech/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/halil-yesilyurt/code-and-tech.svg?style=social)](https://github.com/halil-yesilyurt/code-and-tech/network)
+[![Code Size](https://img.shields.io/github/languages/code-size/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech)
+[![Top Language](https://img.shields.io/github/languages/top/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech)
+[![Contributors](https://img.shields.io/github/contributors/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech/graphs/contributors)
+
 A modern, high-performance tech blog built with Next.js and headless WordPress. Designed for developers and tech enthusiasts, it features a beautiful UI, blazing-fast performance, and a fully decoupled content management experience.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/yourusername/yourrepo/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Vercel](https://vercelbadge.vercel.app/api/halil-yesilyurt/code-and-tech)](https://vercel.com/halil-yesilyurt/code-and-tech)
 
 ---
 
 ## 🚀 Live Demo
 
-[View the Live Site](https://your-demo-link.com)
-
----
-
-## 🖼️ Screenshot
-
-![Code & Tech Blog Screenshot](./public/screenshot.png)
+[View the Live Site](https://code-and-tech.vercel.app/)
 
 ---
 
 ## 📖 Description
 
 **Code & Tech** is a modern, high-performance tech blog that leverages a headless WordPress backend and a Next.js frontend. It is designed to provide a seamless, fast, and SEO-optimized reading experience for tech enthusiasts, developers, and content creators. The project decouples content management from presentation, allowing editors to use the familiar WordPress dashboard while delivering a blazing-fast, modern frontend.
+
+---
+
+## 🖼️ Screenshots
+
+Here are some screenshots of the Code & Tech blog:
+
+**Homepage**
+
+![Homepage](./public/screenshot-1.png)
+
+**Article Page**
+
+![Article Page](./public/screenshot-2.png)
+
+**Contact Page**
+
+![Contact Page](./public/screenshot-3.png)
 
 ---
 
@@ -56,11 +77,9 @@ A modern, high-performance tech blog built with Next.js and headless WordPress. 
 
 ### Backend
 - **CMS:** Headless WordPress
-- **API:** WordPress REST API (WPGraphQL optional)
+- **API:** WordPress REST API
 - **Plugins:**
-  - WPGraphQL (optional, for GraphQL support)
   - Advanced Custom Fields (ACF)
-  - Custom Post Type UI (optional)
   - JWT Authentication for WP REST API (for login)
 
 ---
@@ -80,9 +99,7 @@ A modern, high-performance tech blog built with Next.js and headless WordPress. 
 
 1. Ensure your WordPress site is running (locally or remotely).
 2. Install and activate the required plugins:
-   - WPGraphQL (optional)
    - Advanced Custom Fields (ACF)
-   - Custom Post Type UI (optional)
    - JWT Authentication for WP REST API
 3. Set Permalinks to "Post name" in WordPress settings for clean URLs.
 4. Configure ACF fields and custom post types as needed.
@@ -115,19 +132,25 @@ A modern, high-performance tech blog built with Next.js and headless WordPress. 
 Create a `.env.local` file in the root directory. Example:
 
 ```env
-# WordPress REST API Endpoint
+# WordPress REST API Endpoint (server-side)
+WORDPRESS_API_URL="https://your-wordpress-site.com/wp-json"
+
+# WordPress REST API Endpoint (client-side)
 NEXT_PUBLIC_WORDPRESS_API_URL="https://your-wordpress-site.com/wp-json"
 
-# JWT Auth (if using login)
-NEXT_PUBLIC_JWT_AUTH_URL="https://your-wordpress-site.com/wp-json/jwt-auth/v1/token"
+# WordPress JWT Secret (for authentication, if used)
+WORDPRESS_JWT_SECRET="your-jwt-secret"
 
 # Resend API Key (for contact form)
 RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Contact Email (for receiving contact form submissions)
 CONTACT_EMAIL="your-email@example.com"
 ```
 
-- `NEXT_PUBLIC_WORDPRESS_API_URL`: The base URL for your WordPress REST API.
-- `NEXT_PUBLIC_JWT_AUTH_URL`: The endpoint for JWT authentication (if login is enabled).
+- `WORDPRESS_API_URL`: The base URL for your WordPress REST API (server-side).
+- `NEXT_PUBLIC_WORDPRESS_API_URL`: The base URL for your WordPress REST API (client-side, exposed to browser).
+- `WORDPRESS_JWT_SECRET`: Secret key for JWT authentication (if login/auth is enabled).
 - `RESEND_API_KEY`: API key for Resend email service (contact form).
 - `CONTACT_EMAIL`: Email address to receive contact form submissions.
 
