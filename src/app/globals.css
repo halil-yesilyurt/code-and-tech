@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -54,25 +54,42 @@
 body {
   background: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-inter),
+    system-ui,
+    -apple-system,
+    sans-serif;
   line-height: 1.6;
   user-select: auto;
 }
 
-html, body {
+html,
+body {
   user-select: auto;
 }
 
 .font-montserrat {
-  font-family: var(--font-montserrat), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-montserrat),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .font-inter {
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-inter),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .font-geist {
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 /* Custom scrollbar */
@@ -95,7 +112,11 @@ html, body {
 
 /* Smooth transitions */
 * {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* Focus styles */
@@ -119,7 +140,9 @@ html, body {
 
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 /* Line clamp utilities */
@@ -183,11 +206,17 @@ html, body {
 }
 
 @keyframes fade-slide-in {
-  0% { opacity: 0; transform: translateY(32px) scale(0.98); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 .animate-fade-slide-in {
-  animation: fade-slide-in 0.5s cubic-bezier(.4,0,.2,1) both;
+  animation: fade-slide-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 /* Remove or override global heading reset */
@@ -254,16 +283,21 @@ html, body {
 
 /* Smooth transitions */
 * {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 /* Prevent text selection on interactive elements */
-button, a {
+button,
+a {
   user-select: none;
 }
 
 /* Ensure proper focus states */
-button:focus, a:focus {
+button:focus,
+a:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
@@ -282,4 +316,8 @@ button:focus, a:focus {
   100% {
     background-position: -200% 0;
   }
+}
+input::selection {
+  background: #c7d2fe;
+  color: #1e3a8a;
 }
