@@ -107,7 +107,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
                   {index + 1}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-2">
+                  <h4 className="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-3">
                     {post.title.rendered}
                   </h4>
                   <div className="flex items-center justify-between mt-1">
@@ -128,7 +128,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
         </div>
         <Link 
           href="/blog" 
-          className="inline-flex items-center mt-4 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors duration-200"
+          className="inline-flex items-center mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
         >
           View All Posts
           <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,31 +145,32 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           </svg>
           <h3 className="text-lg font-bold text-slate-900">Categories</h3>
         </div>
-        <div className="overflow-x-auto">
-          {randomCategories.map((category, idx) => (
-            <span key={category.id}>
-              <Link href={`/category/${decodeHtmlEntities(category.slug)}`} className="text-blue-600 hover:underline">
-                #{decodeHtmlEntities(category.slug)}
-              </Link>{idx < randomCategories.length - 1 ? ', ' : ''}
-            </span>
+        <div className="flex flex-wrap gap-2">
+          {randomCategories.map((category) => (
+            <Link
+              key={category.id}
+              href={`/category/${decodeHtmlEntities(category.slug)}`}
+              className="px-3 py-1 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-xs font-semibold hover:from-blue-200 hover:to-purple-200 transition-all duration-200 shadow-sm"
+            >
+              #{decodeHtmlEntities(category.slug)}
+            </Link>
           ))}
-          <span className="ml-2">
-            <Link href="/categories" className="inline-block px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200">All Categories</Link>
-          </span>
+          <Link href="/categories" className="px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200 ml-2">All Categories</Link>
         </div>
       </div>
 
-      {/* Newsletter Signup */}
+      {/* Newsletter Signup (Mailchimp) */}
       <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
         <div className="text-center">
           <svg className="w-8 h-8 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
-          <h3 className="text-lg font-bold mb-2">Stay Updated</h3>
-          <p className="text-blue-100 text-sm mb-4">Get the latest tech insights delivered to your inbox</p>
-          <button className="w-full bg-white text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-200">
-            Subscribe Now
-          </button>
+          <h3 className="text-lg font-bold mb-2">Subscribe to Newsletter</h3>
+          <p className="text-blue-100 text-sm mb-4">Get the latest blog posts delivered to your inbox</p>
+          <form action="https://gmail.us15.list-manage.com/subscribe/post?u=986c78fd0ebe5113cedbde9ed&amp;id=f69d8b3a8e&amp;f_id=00a69de1f0" method="post" target="_blank" className="flex flex-col gap-2">
+            <input type="email" name="EMAIL" required placeholder="Your email address" className="rounded-lg px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-400" />
+            <button type="submit" className="w-full bg-white text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-200">Subscribe</button>
+          </form>
         </div>
       </div>
     </aside>

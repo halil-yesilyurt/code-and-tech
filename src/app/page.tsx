@@ -19,7 +19,7 @@ export default async function Home() {
 
   return (
     <div className='min-h-screen flex flex-col'>
-      <div className='flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20'>
+      <div className='flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4'>
         <div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
           <main className='lg:col-span-3 space-y-8'>
             {/* Hero Section */}
