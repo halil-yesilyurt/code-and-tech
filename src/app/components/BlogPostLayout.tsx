@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Sidebar from './Sidebar';
 import ViewTracker from './ViewTracker';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 interface BlogPostLayoutProps {
@@ -21,15 +20,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
   const featuredImageUrl = getFeaturedImageUrl(post, 'large');
   const decodedTitle = decodeHtmlEntities(post.title.rendered);
   const decodedContent = decodeHtmlEntities(post.content.rendered);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    console.log('CLIENT BlogPostLayout raw title:', post.title);
-    console.log('CLIENT BlogPostLayout raw content:', post.content);
-    if (typeof window !== 'undefined') {
-      setIsLoggedIn(!!localStorage.getItem('jwtToken'));
-    }
-  }, [post]);
+  // NOTE: Removed isLoggedIn state and related useEffect block
 
   return (
     <>
@@ -111,45 +102,6 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
               <div className="font-montserrat prose prose-lg max-w-none prose-headings:font-geist prose-headings:font-bold prose-headings:text-slate-900 prose-h1:text-4xl prose-h1:mb-6 prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-h4:text-xl prose-h4:mt-6 prose-h4:mb-2 prose-p:text-slate-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:text-blue-700 prose-strong:text-slate-900 prose-strong:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-slate-600 prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-slate-900 prose-pre:text-slate-100">
                 <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
               </div>
-              {/* Comment Section */}
-              <div className="mt-12 pt-8 border-t border-slate-200">
-                <h4 className="font-geist text-lg font-semibold text-slate-900 mb-4 tracking-widest uppercase">Comments</h4>
-                {isLoggedIn ? (
-                  <form className="mb-6">
-                    <textarea className="w-full border border-slate-300 rounded-lg p-3 mb-2" rows={4} placeholder="Write your comment..."></textarea>
-                    <button type="submit" className="px-6 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md">Post Comment</button>
-                  </form>
-                ) : (
-                  <div className="mb-6">
-                    <span className="text-slate-500 text-sm mr-2">You must be logged in to comment.</span>
-                    <button onClick={() => window.dispatchEvent(new CustomEvent('open-login-modal'))} className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-md">Log In</button>
-                  </div>
-                )}
-                {/* Comments list placeholder */}
-                <div className="text-slate-500 text-sm">No comments yet. Be the first to comment!</div>
-              </div>
-              {/* Author Info
-              {author && (
-                <div className="mt-12 pt-8 border-t border-slate-200">
-                  <div className="flex items-center space-x-4 p-6 bg-slate-50 rounded-xl">
-                    {author.avatar_urls?.['96'] && (
-                      <img
-                        src={author.avatar_urls['96']}
-                        alt={author.name}
-                        width={64}
-                        height={64}
-                        className="rounded-full ring-2 ring-white shadow-sm"
-                      />
-                    )}
-                    <div>
-                      <h3 className="font-geist text-lg font-semibold text-slate-900">{author.name}</h3>
-                      {author.description && (
-                        <p className="font-montserrat text-slate-600 mt-1">{author.description}</p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )} */}
               {/* You May Also Like */}
               {posts && posts.length > 1 && (
                 <div className="mt-16 pt-8 border-t border-slate-200">
