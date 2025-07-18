@@ -631,37 +631,14 @@ export async function searchPosts(query: string, page: number = 1, perPage: numb
  * Falls back to recent posts if view tracking is not available
  */
 export async function getPopularPosts(limit: number = 10): Promise<WordPressPost[]> {
-  try {
-    // Try to get popular posts from our view tracking API
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/posts/views`, {
-      next: { revalidate: 300 }, // Cache for 5 minutes
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.popularPosts && data.popularPosts.length > 0) {
-        // Get full post data for the popular posts
-        const popularPostIds = data.popularPosts.map((p: unknown) => (p as { id: number }).id);
-        const allPosts = await getPosts(1, 100);
-        const popularPosts = allPosts.filter((post) => popularPostIds.includes(post.id));
-
-        // Sort by the order from the API
-        return popularPosts
-          .sort((a, b) => {
-            const aIndex = popularPostIds.indexOf(a.id);
-            const bIndex = popularPostIds.indexOf(b.id);
-            return aIndex - bIndex;
-          })
-          .slice(0, limit);
-      }
-    }
-  } catch (error) {
-    console.warn('Failed to get popular posts from view tracking API:', error);
+  // Without view metrics, just return a random selection of published posts.
+  const all = await getPosts(1, 100);
+  // Fisher-Yates shuffle
+  for (let i = all.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [all[i], all[j]] = [all[j], all[i]];
   }
-
-  // Fallback to recent posts
-  const posts = await getPosts(1, limit);
-  return posts;
+  return all.slice(0, limit);
 }
 
 /**

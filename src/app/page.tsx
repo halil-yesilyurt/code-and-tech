@@ -1,8 +1,5 @@
 import { getPosts, getTags, getCategories, getPopularPosts } from '@/lib/wordpress';
-import { getTotalViews } from '@/lib/viewStorage';
-
-// Revalidate this page every 60 seconds so the total-views counter stays fresh
-export const revalidate = 60;
+// Removed view counter logic
 import SearchBar from './components/SearchBar';
 import Link from 'next/link';
 import Sidebar from './components/Sidebar';
@@ -18,7 +15,7 @@ export default async function Home() {
   const categories = await getCategories();
   const popularPosts = await getPopularPosts(3); // Get actual popular posts by views
   const recommendedTags = tags.slice(0, 6);
-  const totalViews = await getTotalViews();
+  // Removed totalViews
 
   return (
     <div className='min-h-screen flex flex-col'>
@@ -68,7 +65,7 @@ export default async function Home() {
 
             {/* Quick Stats */}
             <section className='bg-white rounded-2xl shadow-sm border border-slate-200 p-8'>
-              <div className='grid grid-cols-1 md:grid-cols-3 gap-8 text-center'>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-8 text-center'>
                 <div>
                   <div className='text-3xl font-bold text-blue-600 mb-2'>
                     <AnimatedCounter value={posts.length} suffix="+" />
@@ -80,12 +77,6 @@ export default async function Home() {
                     <AnimatedCounter value={categories.length} />
                   </div>
                   <div className='text-slate-600'>Categories</div>
-                </div>
-                <div>
-                  <div className='text-3xl font-bold text-green-600 mb-2'>
-                    <AnimatedCounter value={totalViews} suffix="+" />
-                  </div>
-                  <div className='text-slate-600'>Total Views</div>
                 </div>
               </div>
             </section>

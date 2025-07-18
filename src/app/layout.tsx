@@ -3,7 +3,7 @@ import { Montserrat, Inter } from 'next/font/google';
 import { GeistSans } from 'geist/font/sans';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
-import Head from 'next/head';
+import Script from 'next/script';
 
 const montserrat = Montserrat({ 
   subsets: ['latin'], 
@@ -59,6 +59,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="icon" href="/ct-logo.svg" type="image/svg+xml" />
       </head>
       <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
+        {/* Google Analytics */}
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);} gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', { page_path: window.location.pathname });
+              `}
+            </Script>
+          </>
+        )}
         <ErrorBoundary>
           <Layout>{children}</Layout>
         </ErrorBoundary>

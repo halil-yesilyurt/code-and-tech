@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import Sidebar from './Sidebar';
-import ViewTracker from './ViewTracker';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
 import Image from 'next/image';
 
@@ -51,7 +50,6 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
           }),
         }}
       />
-      <ViewTracker postId={post.id} />
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <main className="lg:col-span-3">
           <article className="bg-white rounded-2xl overflow-hidden">

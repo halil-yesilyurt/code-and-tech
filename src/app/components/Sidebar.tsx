@@ -93,7 +93,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
       <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
         <div className="flex items-center mb-4">
           <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mr-3"></div>
-          <h3 className="text-lg font-bold text-slate-900">Popular Posts</h3>
+          <h3 className="text-lg font-bold text-slate-900">Random Posts</h3>
         </div>
         <div className="space-y-4">
           {popularPosts.map((post, index) => (
