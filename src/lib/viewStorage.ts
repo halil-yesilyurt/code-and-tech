@@ -59,4 +59,13 @@ export function getViewCount(postId: number): number {
 // Get all view counts
 export function getAllViewCounts(): ViewData {
   return readViewCounts();
+}
+
+// Get total views across all posts
+export function getTotalViews(): number {
+  const viewData = readViewCounts();
+  return Object.values(viewData).reduce((sum, count) => {
+    // Skip the lastUpdated property which is a string
+    return sum + (typeof count === 'number' ? count : 0);
+  }, 0);
 } 

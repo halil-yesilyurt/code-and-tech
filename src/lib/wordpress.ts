@@ -457,8 +457,13 @@ function getSamplePostBySlug(slug: string): WordPressPost | null {
 }
 
 export async function getPageBySlug(slug: string) {
-  const apiUrl = `https://code-and-tech.infinityfreeapp.com/wp-json/wp/v2/pages?slug=${slug}`;
-  const res = await fetch(apiUrl);
+  // Use the configured WordPress URL instead of a hard-coded domain
+  if (!WORDPRESS_API_URL) {
+    console.warn('WORDPRESS_API_URL is not set – returning null for getPageBySlug');
+    return null;
+  }
+  const apiUrl = `${WORDPRESS_API_URL}/wp-json/wp/v2/pages?slug=${slug}`;
+  const res = await fetch(apiUrl, { next: { revalidate: 60 } });
   if (!res.ok) {
     console.error('Failed to fetch page:', res.status, await res.text());
     return null;

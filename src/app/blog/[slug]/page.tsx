@@ -43,12 +43,15 @@ export async function generateMetadata({ params }: PostPageProps) {
     ? stripHtml(post.excerpt.rendered)
     : stripHtml(post.content.rendered).substring(0, 160);
 
+  // Improved SEO description
+  const seoDescription = `${excerpt} | Read in-depth analysis, coding tutorials, and expert insights on Code & Tech.`;
+
   return {
     title: post.title.rendered,
-    description: excerpt,
+    description: seoDescription,
     openGraph: {
       title: post.title.rendered,
-      description: excerpt,
+      description: seoDescription,
       type: "article",
       publishedTime: post.date,
       modifiedTime: post.modified,
@@ -65,7 +68,7 @@ export async function generateMetadata({ params }: PostPageProps) {
     twitter: {
       card: "summary_large_image",
       title: post.title.rendered,
-      description: excerpt,
+      description: seoDescription,
       images: featuredImageUrl ? [featuredImageUrl] : [],
     },
   };

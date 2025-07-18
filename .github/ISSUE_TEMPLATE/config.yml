@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/halil-yesilyurt/code-and-tech/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📧 Contact
+    url: https://code-and-tech.vercel.app/contact
+    about: Contact the project maintainer directly
+  - name: 🌐 Website
+    url: https://code-and-tech.vercel.app
+    about: Visit the live website 

@@ -65,8 +65,8 @@ export async function generateMetadata() {
   const res = await fetch('https://halilyesilyurt.com/api/projects');
   const projects = res.ok ? await res.json() : [];
   const keywords = Array.from(new Set(projects.flatMap((p: any) => p.techStack || [])));
-  const title = 'Projects | Code and Tech Blog';
-  const description = 'A showcase of projects built by Halil Yesilyurt, featuring modern web technologies and creative solutions.';
+  const title = 'Projects | Code & Tech | Modern Tech Blog';
+  const description = 'Explore a curated portfolio of innovative web development projects, creative software solutions, and cutting-edge technology builds by Halil Yesilyurt. Discover real-world applications of modern frameworks, tools, and programming best practices.';
   const images = projects.filter((p: any) => p.image).slice(0, 3).map((p: any) => ({ url: p.image, alt: p.title }));
   return {
     title,
