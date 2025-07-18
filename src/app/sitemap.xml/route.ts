@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
-import { getAllPostSlugs, getCategories } from '@/lib/wordpress';
+import { getPosts, getCategories } from '@/lib/wordpress';
 
 const SITE_URL = 'https://code-and-tech.vercel.app';
 
 export async function GET() {
   try {
-    // Fetch all blog post slugs
-    const postSlugs = await getAllPostSlugs().catch(() => []);
+    // Fetch latest 100 blog posts (adjust per needs)
+    const posts = await getPosts(1, 100).catch(() => []);
 
     // Fetch all projects
-    const res = await fetch(`${SITE_URL}/api/projects`).catch(() => null);
+    const res = await fetch('https://halilyesilyurt.com/api/projects').catch(() => null);
     const projects = res && res.ok ? await res.json() : [];
 
     // Fetch all categories
@@ -31,12 +31,22 @@ export async function GET() {
 
     const urls = [
       ...staticPages.map((page) => `${SITE_URL}/${page}`),
-      ...postSlugs.map((slug) => `${SITE_URL}/blog/${slug}`),
+      // Blog posts with lastmod
+      ...posts.map((post: any) => ({ loc: `${SITE_URL}/blog/${post.slug}`, lastmod: post.modified || post.date })),
       ...projects.map((p: { id: string }) => `${SITE_URL}/projects#${p.id}`),
       ...categories.map((cat) => `${SITE_URL}/category/${cat.slug}`),
     ];
 
-    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((url) => `<url><loc>${url}</loc></url>`).join('\n')}\n</urlset>`;
+    const urlEntries = urls
+      .map((item) => {
+        if (typeof item === 'string') {
+          return `<url><loc>${item}</loc></url>`;
+        }
+        return `<url><loc>${item.loc}</loc><lastmod>${new Date(item.lastmod).toISOString()}</lastmod></url>`;
+      })
+      .join('\n');
+
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlEntries}\n</urlset>`;
 
     return new NextResponse(sitemap, {
       status: 200,

@@ -25,12 +25,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true, // Temporarily disable ESLint during builds
   },
   async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap.xml',
-      },
-    ];
+    return [];
   },
 };
 

@@ -49,6 +49,9 @@ export async function generateMetadata({ params }: PostPageProps) {
   return {
     title: post.title.rendered,
     description: seoDescription,
+    alternates: {
+      canonical: `https://code-and-tech.vercel.app/blog/${slug}`,
+    },
     openGraph: {
       title: post.title.rendered,
       description: seoDescription,

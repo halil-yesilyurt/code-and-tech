@@ -21,6 +21,13 @@ const inter = Inter({
 export const metadata = {
   title: 'Code & Tech | Modern Tech Blog',
   description: 'Code & Tech is your go-to source for the latest technology news, in-depth tutorials, software development guides, and expert insights on innovation, coding, and digital trends. Stay ahead in the tech world with our comprehensive resources and practical tips.',
+  metadataBase: new URL('https://code-and-tech.vercel.app'),
+  openGraph: {
+    title: 'Code & Tech | Modern Tech Blog',
+    description: 'Discover expert tutorials, news, and resources on software development, AI, cloud, and emerging technologies.',
+    type: 'website',
+    url: 'https://code-and-tech.vercel.app',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

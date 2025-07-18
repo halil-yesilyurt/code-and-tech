@@ -72,6 +72,9 @@ export async function generateMetadata() {
     title,
     description,
     keywords: keywords.join(', '),
+    alternates: {
+      canonical: 'https://code-and-tech.vercel.app/projects',
+    },
     openGraph: {
       title,
       description,
