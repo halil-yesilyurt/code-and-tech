@@ -3,6 +3,7 @@ import { Montserrat, Inter } from 'next/font/google';
 import { GeistSans } from 'geist/font/sans';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
+import Head from 'next/head';
 
 const montserrat = Montserrat({ 
   subsets: ['latin'], 
@@ -18,8 +19,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: 'Code and Tech Blog',
-  description: 'A modern headless WordPress blog with Next.js',
+  title: 'Code & Tech | Modern Tech Blog',
+  description: 'Code & Tech is your go-to source for the latest technology news, in-depth tutorials, software development guides, and expert insights on innovation, coding, and digital trends. Stay ahead in the tech world with our comprehensive resources and practical tips.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
           />
         )}
+        <link rel="icon" href="/ct-logo.svg" type="image/svg+xml" />
       </head>
       <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
         <ErrorBoundary>

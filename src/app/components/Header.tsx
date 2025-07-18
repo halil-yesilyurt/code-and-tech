@@ -68,11 +68,9 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group min-w-0">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
-              <span className="text-white font-bold text-lg font-montserrat">CT</span>
-            </div>
+            <img src="/ct-logo.svg" alt="CT Logo" className="w-14 h-14 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300" />
             <div className="truncate">
-              <h1 className="text-xl lg:text-2xl font-bold font-montserrat bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent truncate">
+              <h1 className="text-xl lg:text-2xl font-bold font-montserrat bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent truncate">
                 Code & Tech
               </h1>
               <p className="text-xs text-slate-500 font-medium truncate">Modern Tech Blog</p>

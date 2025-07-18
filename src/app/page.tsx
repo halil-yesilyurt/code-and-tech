@@ -28,7 +28,7 @@ export default async function Home() {
                 <div className='mb-8'>
                   <h1 className='text-3xl sm:text-4xl lg:text-6xl font-bold font-montserrat mb-4 sm:mb-6 break-words'>
                     <span className='bg-gradient-to-r from-slate-900 via-blue-800 to-purple-800 bg-clip-text text-transparent break-words'>
-                      Code & Tech
+                      Code & Tech Blog
                     </span>
                   </h1>
                   <p className='text-lg sm:text-xl lg:text-2xl text-slate-600 mb-6 sm:mb-8 leading-relaxed break-words'>
