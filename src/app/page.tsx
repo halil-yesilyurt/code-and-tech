@@ -1,5 +1,8 @@
 import { getPosts, getTags, getCategories, getPopularPosts } from '@/lib/wordpress';
 import { getTotalViews } from '@/lib/viewStorage';
+
+// Revalidate this page every 60 seconds so the total-views counter stays fresh
+export const revalidate = 60;
 import SearchBar from './components/SearchBar';
 import Link from 'next/link';
 import Sidebar from './components/Sidebar';
@@ -15,7 +18,7 @@ export default async function Home() {
   const categories = await getCategories();
   const popularPosts = await getPopularPosts(3); // Get actual popular posts by views
   const recommendedTags = tags.slice(0, 6);
-  const totalViews = getTotalViews();
+  const totalViews = await getTotalViews();
 
   return (
     <div className='min-h-screen flex flex-col'>

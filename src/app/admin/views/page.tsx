@@ -2,7 +2,7 @@ import { getAllViewCounts } from '@/lib/viewStorage';
 import { getPosts } from '@/lib/wordpress';
 
 export default async function ViewsAdminPage() {
-  const viewCounts = getAllViewCounts();
+  const viewCounts = await getAllViewCounts();
   const posts = await getPosts(1, 100);
   
   // Create posts with view counts
@@ -95,9 +95,7 @@ export default async function ViewsAdminPage() {
             </table>
           </div>
 
-          <div className="mt-8 text-sm text-slate-500">
-            Last updated: {viewCounts.lastUpdated ? new Date(viewCounts.lastUpdated).toLocaleString() : 'Never'}
-          </div>
+          {/* No timestamp available when using KV; could store one if desired */}
         </div>
       </div>
     </div>

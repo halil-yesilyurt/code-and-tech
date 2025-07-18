@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Increment view count using file storage
-    const newCount = incrementViewCount(postId);
+    const newCount = await incrementViewCount(postId);
     
     return NextResponse.json({ 
       success: true, 
@@ -27,7 +27,7 @@ export async function GET() {
   try {
     // Get all posts to ensure we have view counts for all
     const posts = await getPosts(1, 100);
-    const viewCounts = getAllViewCounts();
+    const viewCounts = await getAllViewCounts();
     
     // Create a map of post IDs to view counts
     const postsWithViews = posts.map(post => ({
