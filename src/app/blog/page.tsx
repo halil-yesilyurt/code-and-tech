@@ -1,4 +1,8 @@
 import React from 'react';
+export const metadata = {
+  title: 'Blog | Code & Tech',
+  description: 'Latest articles, insights and tutorials on software development, AI, cloud and more at Code & Tech.'
+};
 import { getPosts, getCategories, getTags, getPopularPosts } from '@/lib/wordpress';
 import Sidebar from '../components/Sidebar';
 import BlogPostList from './BlogPostList';
