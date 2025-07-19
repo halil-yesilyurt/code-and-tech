@@ -14,8 +14,8 @@ import {
 import BlogPostLayout from '../../components/BlogPostLayout';
 
 interface PostPageProps {
-  params: { slug: string };
-  searchParams?: { [key: string]: string | string[] };
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] }>;
 }
 
 // Generate static params for all posts
@@ -28,7 +28,7 @@ export async function generateStaticParams() {
 
 // Generate metadata for each post
 export async function generateMetadata({ params }: PostPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
   
   if (!post) {
@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getPostBySlug(slug);
   
   if (!post) {
