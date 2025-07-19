@@ -19,6 +19,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
   const featuredImageUrl = getFeaturedImageUrl(post, 'large');
   const decodedTitle = decodeHtmlEntities(post.title.rendered);
   const decodedContent = decodeHtmlEntities(post.content.rendered);
+  const canonicalUrl = `https://code-and-tech.vercel.app/blog/${post.slug}`;
   // NOTE: Removed isLoggedIn state and related useEffect block
 
   return (
@@ -40,7 +41,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
             image: featuredImageUrl ? [featuredImageUrl] : undefined,
             mainEntityOfPage: {
               '@type': 'WebPage',
-              '@id': typeof window !== 'undefined' ? window.location.href : '',
+              '@id': canonicalUrl,
             },
             keywords: tags && tags.length > 0 ? tags.map(t => t.name).join(', ') : undefined,
             publisher: {
