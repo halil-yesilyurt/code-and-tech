@@ -641,19 +641,7 @@ export async function getPopularPosts(limit: number = 10): Promise<WordPressPost
   return all.slice(0, limit);
 }
 
-/**
- * Track a post view
- */
-export async function trackPostView(postId: number): Promise<void> {
-  try {
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/posts/views`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ postId }),
-    });
-  } catch (error) {
-    console.warn('Failed to track post view:', error);
-  }
+// View tracking was removed; keep the function for legacy imports but make it a no-op.
+export async function trackPostView(_postId: number): Promise<void> {
+  // Intentionally left blank
 }
