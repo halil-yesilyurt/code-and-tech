@@ -1,8 +1,5 @@
 'use client';
-export const metadata = {
-  title: 'Contact | Code & Tech',
-  description: 'Get in touch with the Code & Tech team for questions, collaborations or feedback.'
-};
+// metadata moved to separate server file
 
 import { useState } from 'react';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';
