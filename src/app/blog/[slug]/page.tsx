@@ -14,9 +14,8 @@ import {
 import BlogPostLayout from '../../components/BlogPostLayout';
 
 interface PostPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] }>;
 }
 
 // Generate static params for all posts

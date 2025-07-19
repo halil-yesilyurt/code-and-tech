@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'Privacy Policy | Code & Tech',
+  description: 'Learn how Code & Tech collects and handles your personal information.'
+};
+
 export default function PrivacyPolicy() {
   return (
     <main className="max-w-2xl mx-auto py-16 px-4">

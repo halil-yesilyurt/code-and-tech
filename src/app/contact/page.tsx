@@ -1,4 +1,5 @@
 'use client';
+// metadata moved to separate server file
 
 import { useState } from 'react';
 import { EnvelopeIcon } from '@heroicons/react/24/outline';

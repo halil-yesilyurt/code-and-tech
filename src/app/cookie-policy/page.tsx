@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'Cookie Policy | Code & Tech',
+  description: 'Understand how Code & Tech uses cookies and how you can manage them.'
+};
+
 export default function CookiePolicy() {
   return (
     <main className="max-w-2xl mx-auto py-16 px-4">

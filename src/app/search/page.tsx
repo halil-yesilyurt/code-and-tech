@@ -2,6 +2,11 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { searchPosts } from '@/lib/wordpress';
 
+export const metadata = {
+  title: 'Search | Code & Tech',
+  description: 'Search articles, tutorials and projects on Code & Tech.'
+};
+
 function getQueryFromSearchParams(searchParams: { [key: string]: string | string[] | undefined }) {
   if (!searchParams || !searchParams.query) return '';
   if (Array.isArray(searchParams.query)) return searchParams.query[0] || '';
@@ -10,7 +15,7 @@ function getQueryFromSearchParams(searchParams: { [key: string]: string | string
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
   const resolvedSearchParams = await searchParams;
-  const query = getQueryFromSearchParams(resolvedSearchParams);
+  const query = getQueryFromSearchParams(resolvedSearchParams || {});
 
   if (!query) {
     return (

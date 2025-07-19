@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'Terms of Service | Code & Tech',
+  description: 'Read the Terms of Service for using the Code & Tech website.'
+};
+
 export default function TermsOfService() {
   return (
     <main className="max-w-2xl mx-auto py-16 px-4">

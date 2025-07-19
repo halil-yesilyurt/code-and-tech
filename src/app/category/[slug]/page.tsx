@@ -1,9 +1,26 @@
 import { getCategories, getPosts, getTags, decodeHtmlEntities } from '@/lib/wordpress';
+// Dynamic metadata per category for better SEO
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const categories = await getCategories();
+  const { slug } = await params;
+  const cat = categories.find(c => (c as { slug: string }).slug === slug);
+  if (!cat) {
+    return {
+      title: 'Category | Code & Tech',
+      description: 'Browse articles by category on Code & Tech.'
+    };
+  }
+  const name = decodeHtmlEntities((cat as { name: string }).name);
+  return {
+    title: `Category: ${name} | Code & Tech`,
+    description: `Discover all posts filed under ${name} on Code & Tech.`
+  };
+}
 import ArticleCard from '@/app/components/ArticleCard';
 import Sidebar from '@/app/components/Sidebar';
 import { notFound } from 'next/navigation';
 
-export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function CategoryPage({ params }: { params: Promise<{ slug: string }>; searchParams?: Promise<any> }) {
   const { slug } = await params;
   const categories = await getCategories();
   const category = categories.find((cat) => (cat as { slug: string }).slug === slug);

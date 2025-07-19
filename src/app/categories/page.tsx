@@ -1,4 +1,8 @@
 import React from 'react';
+export const metadata = {
+  title: 'All Categories | Code & Tech',
+  description: 'Browse all technology categories covered by Code & Tech blog.'
+};
 import { getCategories, getTags, getPosts, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
 import Link from 'next/link';
 import Sidebar from '../components/Sidebar';
