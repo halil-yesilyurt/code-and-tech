@@ -19,8 +19,8 @@ import ArticleCard from '@/app/components/ArticleCard';
 import Sidebar from '@/app/components/Sidebar';
 import { notFound } from 'next/navigation';
 
-export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
   const categories = await getCategories();
   const category = categories.find((cat) => (cat as { slug: string }).slug === slug);
 

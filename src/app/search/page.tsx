@@ -13,9 +13,8 @@ function getQueryFromSearchParams(searchParams: { [key: string]: string | string
   return searchParams.query;
 }
 
-export default async function SearchPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-  const resolvedSearchParams = await searchParams;
-  const query = getQueryFromSearchParams(resolvedSearchParams);
+export default async function SearchPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const query = getQueryFromSearchParams(searchParams || {});
 
   if (!query) {
     return (
