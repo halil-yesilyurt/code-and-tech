@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import SocialMediaLinks from './SocialMediaLinks';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -51,10 +50,21 @@ export default function Header() {
                 </Link>
               ))}
               
-              {/* Social Media Links in Mobile Menu */}
+              {/* Search Link in Mobile Menu */}
               <div className="mt-8 pt-6 border-t border-slate-200">
-                <h4 className="text-sm font-semibold text-slate-500 mb-4 px-4">Follow Us</h4>
-                <SocialMediaLinks variant="header" className="px-4" />
+                <h4 className="text-sm font-semibold text-slate-500 mb-4 px-4">Search</h4>
+                <Link
+                  href="/search"
+                  className="block px-4 py-3 rounded-lg text-lg font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring cursor-pointer"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Search Articles
+                  </div>
+                </Link>
               </div>
             </div>
           </nav>
@@ -100,9 +110,18 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
-            {/* Social Media Links */}
+            {/* Search Icon */}
             <div className="ml-4 pl-4 border-l border-slate-200">
-              <SocialMediaLinks variant="header" />
+              <Link
+                href="/search"
+                className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 hover:bg-blue-100 hover:text-blue-600 transition-colors duration-200"
+                aria-label="Search"
+                title="Search"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </Link>
             </div>
           </nav>
 

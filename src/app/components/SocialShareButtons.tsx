@@ -6,20 +6,29 @@ interface SocialShareButtonsProps {
   title: string;
   description?: string;
   hashtags?: string[];
+  categories?: string[];
 }
 
-export default function SocialShareButtons({ url, title, description, hashtags = [] }: SocialShareButtonsProps) {
+export default function SocialShareButtons({ url, title, description, hashtags = [], categories = [] }: SocialShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+
+  // Convert categories to kebab-case hashtags
+  const categoryHashtags = categories.map(cat => 
+    cat.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
+  );
+
+  // Combine hashtags and category hashtags
+  const allHashtags = [...hashtags, ...categoryHashtags];
 
   const shareData = {
     url,
     title,
     description: description || title,
-    hashtags: hashtags.join(',')
+    hashtags: allHashtags.join(',')
   };
 
   const shareUrls = {
-    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}&hashtags=${encodeURIComponent(hashtags.join(','))}`,
+    twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}&hashtags=${encodeURIComponent(allHashtags.join(','))}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
     linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
     whatsapp: `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`,
