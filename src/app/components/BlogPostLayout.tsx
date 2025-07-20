@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import Sidebar from './Sidebar';
 import Breadcrumbs from './Breadcrumbs';
+import SocialShareButtons from './SocialShareButtons';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
 import Image from 'next/image';
 
@@ -109,6 +110,16 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
               {/* Article Content */}
               <div className="font-montserrat prose prose-lg max-w-none prose-headings:font-geist prose-headings:font-bold prose-headings:text-slate-900 prose-h1:text-4xl prose-h1:mb-6 prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-h4:text-xl prose-h4:mt-6 prose-h4:mb-2 prose-p:text-slate-700 prose-p:leading-relaxed prose-a:text-blue-600 prose-a:no-underline hover:prose-a:text-blue-700 prose-strong:text-slate-900 prose-strong:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-slate-600 prose-code:bg-slate-100 prose-code:text-slate-800 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-slate-900 prose-pre:text-slate-100">
                 <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
+              </div>
+              
+              {/* Social Share Buttons */}
+              <div className="mt-12 pt-8 border-t border-slate-200">
+                <SocialShareButtons
+                  url={canonicalUrl}
+                  title={decodedTitle}
+                  description={post.excerpt?.rendered ? decodeHtmlEntities(post.excerpt.rendered) : undefined}
+                  hashtags={tags ? tags.map(t => t.name) : []}
+                />
               </div>
               {/* You May Also Like */}
               {posts && posts.length > 1 && (

@@ -48,6 +48,8 @@ export async function generateMetadata({ params }: PostPageProps) {
   return {
     title: post.title.rendered,
     description: seoDescription,
+    keywords: (post._embedded as any)?.['wp:term']?.[0]?.map((tag: any) => tag.name) || [],
+    authors: post._embedded?.author?.map(author => author.name) || ['Halil Yesilyurt'],
     alternates: {
       canonical: `https://code-and-tech.vercel.app/blog/${slug}`,
     },
@@ -57,7 +59,9 @@ export async function generateMetadata({ params }: PostPageProps) {
       type: "article",
       publishedTime: post.date,
       modifiedTime: post.modified,
-      authors: post._embedded?.author?.map(author => author.name) || [],
+      authors: post._embedded?.author?.map(author => author.name) || ['Halil Yesilyurt'],
+      siteName: 'Code & Tech',
+      locale: 'en_US',
       images: featuredImageUrl ? [
         {
           url: featuredImageUrl,
@@ -65,13 +69,22 @@ export async function generateMetadata({ params }: PostPageProps) {
           height: 630,
           alt: post.title.rendered,
         }
-      ] : [],
+      ] : [
+        {
+          url: '/screenshot-1.png',
+          width: 1200,
+          height: 630,
+          alt: 'Code & Tech - Modern Tech Blog',
+        }
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title.rendered,
       description: seoDescription,
-      images: featuredImageUrl ? [featuredImageUrl] : [],
+      creator: '@halilyesilyurt',
+      site: '@halilyesilyurt',
+      images: featuredImageUrl ? [featuredImageUrl] : ['/screenshot-1.png'],
     },
   };
 }

@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import SocialMediaLinks from './SocialMediaLinks';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,6 +50,12 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              
+              {/* Social Media Links in Mobile Menu */}
+              <div className="mt-8 pt-6 border-t border-slate-200">
+                <h4 className="text-sm font-semibold text-slate-500 mb-4 px-4">Follow Us</h4>
+                <SocialMediaLinks variant="header" className="px-4" />
+              </div>
             </div>
           </nav>
         </>,
@@ -93,6 +100,10 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
+            {/* Social Media Links */}
+            <div className="ml-4 pl-4 border-l border-slate-200">
+              <SocialMediaLinks variant="header" />
+            </div>
           </nav>
 
           {/* Mobile Hamburger */}
