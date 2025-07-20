@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProjectImage from '../components/ProjectImage';
 import ProjectSkeleton from '../components/ProjectSkeleton';
 import ProjectFilters from '../components/ProjectFilters';
@@ -27,12 +27,32 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
   const [visibleCount, setVisibleCount] = useState(6);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
+  useEffect(() => {
+    console.log('ProjectsClient mounted with', projects.length, 'projects');
+    console.log('Initial visibleCount:', visibleCount);
+    console.log('Initial filteredProjects.length:', filteredProjects.length);
+  }, []);
+
+  // Update filteredProjects when projects prop changes
+  useEffect(() => {
+    setFilteredProjects(projects);
+    setVisibleCount(6); // Reset to initial state
+    console.log('Projects prop changed, updated filteredProjects to', projects.length);
+  }, [projects]);
+
   const handleShowMore = () => {
-    setVisibleCount(prev => Math.min(prev + 6, filteredProjects.length));
+    console.log('Show More clicked! Current visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length);
+    setVisibleCount(prev => {
+      const newCount = Math.min(prev + 6, filteredProjects.length);
+      console.log('Setting visibleCount to:', newCount);
+      return newCount;
+    });
   };
 
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const hasMoreProjects = visibleCount < filteredProjects.length;
+  
+  console.log('Debug - visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length, 'hasMoreProjects:', hasMoreProjects);
 
   return (
     <>
@@ -140,6 +160,11 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                         </svg>
                         Show More Projects
                       </button>
+                    </div>
+                  )}
+                  {!hasMoreProjects && (
+                    <div className='text-center pt-8 text-sm text-slate-500'>
+                      Debug: Button not showing - visibleCount: {visibleCount}, total: {filteredProjects.length}
                     </div>
                   )}
                 </>
