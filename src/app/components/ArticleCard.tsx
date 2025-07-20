@@ -1,8 +1,17 @@
 import Link from 'next/link';
 import { formatDate, generateExcerpt, getFeaturedImageUrl, WordPressPost } from '@/lib/wordpress';
 import Image from 'next/image';
+import SearchResultHighlight from './SearchResultHighlight';
 
-export default function ArticleCard({ post, linkBase = '/' }: { post: unknown, linkBase?: string }) {
+export default function ArticleCard({ 
+  post, 
+  linkBase = '/', 
+  searchQuery = '' 
+}: { 
+  post: unknown, 
+  linkBase?: string,
+  searchQuery?: string 
+}) {
   const p = post as WordPressPost;
 
   const excerpt = p.excerpt?.rendered
@@ -41,13 +50,19 @@ export default function ArticleCard({ post, linkBase = '/' }: { post: unknown, l
           {/* Title */}
           <h2 className="text-xl lg:text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors duration-200">
             <Link href={`${linkBase}${p.slug}`} className="hover:no-underline">
-              {p.title.rendered}
+              <SearchResultHighlight 
+                text={p.title.rendered} 
+                query={searchQuery} 
+              />
             </Link>
           </h2>
 
           {/* Excerpt */}
           <p className="text-slate-600 leading-relaxed mb-4 line-clamp-3">
-            {excerpt}
+            <SearchResultHighlight 
+              text={excerpt} 
+              query={searchQuery} 
+            />
           </p>
 
           {/* Tags (now categories) */}
