@@ -97,7 +97,7 @@ export default async function SearchPage({
   }
 
   // Perform search with filters
-  const results = await searchPosts(query, filters.page, 12);
+  const results = await searchPosts(query, filters.page, 6);
   
   // Apply additional filters if specified
   let filteredResults = results;
@@ -120,7 +120,7 @@ export default async function SearchPage({
   }
 
   const totalResults = filteredResults.length;
-  const resultsPerPage = 12;
+  const resultsPerPage = 6;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
   const currentPage = filters.page;
 

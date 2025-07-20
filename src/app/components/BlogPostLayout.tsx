@@ -118,6 +118,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                   url={canonicalUrl}
                   title={decodedTitle}
                   description={post.excerpt?.rendered ? decodeHtmlEntities(post.excerpt.rendered) : undefined}
+                  featuredImage={featuredImageUrl || undefined}
                   categories={post.categories?.map(catId => {
                     const cat = categories.find((c: WordPressCategory) => c.id === catId);
                     return cat ? cat.name : '';

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import SharePreview from './SharePreview';
 
 interface SocialShareButtonsProps {
   url: string;
@@ -7,10 +8,12 @@ interface SocialShareButtonsProps {
   description?: string;
   hashtags?: string[];
   categories?: string[];
+  featuredImage?: string;
 }
 
-export default function SocialShareButtons({ url, title, description, hashtags = [], categories = [] }: SocialShareButtonsProps) {
+export default function SocialShareButtons({ url, title, description, hashtags = [], categories = [], featuredImage }: SocialShareButtonsProps) {
   const [copied, setCopied] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   // Convert categories to kebab-case hashtags
   const categoryHashtags = categories.map(cat => 
@@ -120,7 +123,29 @@ export default function SocialShareButtons({ url, title, description, hashtags =
 
   return (
     <div className="bg-white rounded-xl p-6 border border-slate-200">
-      <h3 className="font-geist text-lg font-semibold text-slate-900 mb-4">Share this article</h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="font-geist text-lg font-semibold text-slate-900">Share this article</h3>
+        <button
+          onClick={() => setShowPreview(!showPreview)}
+          className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+        >
+          {showPreview ? 'Hide Preview' : 'Show Preview'}
+        </button>
+      </div>
+      
+      {/* Share Preview */}
+      {showPreview && (
+        <div className="mb-6">
+          <SharePreview
+            url={url}
+            title={title}
+            description={description}
+            featuredImage={featuredImage}
+            platform="facebook"
+          />
+        </div>
+      )}
+      
       <div className="flex flex-wrap gap-3">
         {socialPlatforms.map((platform) => (
           <button
