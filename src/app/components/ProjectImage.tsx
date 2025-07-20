@@ -21,7 +21,7 @@ export default function ProjectImage({ project }: { project: unknown }) {
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-slate-100 hover:border-slate-200">
       {/* Image Container */}
-      <div className="relative w-full h-48 sm:h-52 lg:h-56 bg-gradient-to-br from-slate-50 to-slate-100 overflow-hidden">
+      <div className="relative w-full h-48 sm:h-52 lg:h-56 bg-white overflow-hidden">
         {isNew && (
           <span className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-lg backdrop-blur-sm">
             NEW
@@ -31,7 +31,7 @@ export default function ProjectImage({ project }: { project: unknown }) {
         {image && !imgError ? (
           <>
             {imgLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+              <div className="absolute inset-0 flex items-center justify-center bg-white z-10">
                 <div className="relative">
                   <div className="w-8 h-8 border-2 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
                   <div className="absolute inset-0 w-8 h-8 border-2 border-transparent border-t-blue-400 rounded-full animate-ping"></div>
@@ -53,7 +53,7 @@ export default function ProjectImage({ project }: { project: unknown }) {
             />
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full text-slate-400 group-hover:text-slate-500 transition-colors">
+          <div className="flex flex-col items-center justify-center h-full text-slate-400 group-hover:text-slate-500 transition-colors bg-slate-50">
             <div className="relative mb-3">
               <svg className="w-12 h-12 sm:w-16 sm:h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -63,9 +63,6 @@ export default function ProjectImage({ project }: { project: unknown }) {
             <span className="text-xs sm:text-sm font-medium">No Preview</span>
           </div>
         )}
-        
-        {/* Overlay on hover */}
-        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
       </div>
       
       {/* Content */}
