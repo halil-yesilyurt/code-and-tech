@@ -57,8 +57,8 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Code & Tech | Modern Tech Blog',
     description: 'Discover expert tutorials, news, and resources on software development, AI, cloud, and emerging technologies.',
-    creator: '@halilyesilyurt',
-    site: '@halilyesilyurt',
+    creator: '@haliilyesilyurt',
+    site: '@haliilyesilyurt',
     images: ['/screenshot-1.png'],
   },
   alternates: {

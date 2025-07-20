@@ -82,8 +82,8 @@ export async function generateMetadata({ params }: PostPageProps) {
       card: "summary_large_image",
       title: post.title.rendered,
       description: seoDescription,
-      creator: '@halilyesilyurt',
-      site: '@halilyesilyurt',
+      creator: '@haliilyesilyurt',
+      site: '@haliilyesilyurt',
       images: featuredImageUrl ? [featuredImageUrl] : ['/screenshot-1.png'],
     },
   };
