@@ -36,7 +36,7 @@ export default function BlogPostList({ posts }: { posts: Post[] }) {
           <article
             key={post.id}
             style={{
-              animationDelay: `${post.id * 60}ms`,
+              animationDelay: `${post.id * 20}ms`,
             }}
             className='group bg-white rounded-2xl shadow-md border border-slate-100 overflow-hidden card-hover flex flex-col transition-shadow
               animate-fade-slide-in

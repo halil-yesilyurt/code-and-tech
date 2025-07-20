@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Sidebar from './Sidebar';
+import Breadcrumbs from './Breadcrumbs';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
 import Image from 'next/image';
 
@@ -69,6 +70,14 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
             )}
             {/* Content Section */}
             <div className="p-6 md:p-8 lg:p-12">
+              {/* Breadcrumbs */}
+              <Breadcrumbs 
+                items={[
+                  { label: 'Home', href: '/' },
+                  { label: 'Blog', href: '/blog' },
+                  { label: decodedTitle }
+                ]} 
+              />
               {/* Header */}
               <header className="mb-8">
                 <h1 className="font-geist text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
