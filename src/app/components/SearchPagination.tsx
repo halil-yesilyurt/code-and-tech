@@ -52,11 +52,11 @@ export default function SearchPagination({ currentPage, totalPages }: SearchPagi
 
   return (
     <div className="flex items-center justify-center">
-      <nav className="flex items-center space-x-1" aria-label="Pagination">
+      <nav className="flex items-center space-x-1 sm:space-x-2" aria-label="Pagination">
         {/* Previous Button */}
         <Link
           href={currentPage > 1 ? createPageUrl(currentPage - 1) : '#'}
-          className={`relative inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+          className={`relative inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
             currentPage > 1
               ? 'text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 hover:text-slate-900'
               : 'text-slate-400 bg-white border border-slate-200 cursor-not-allowed'
@@ -76,12 +76,12 @@ export default function SearchPagination({ currentPage, totalPages }: SearchPagi
           <>
             <Link
               href={createPageUrl(1)}
-              className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors"
+              className="relative inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors"
             >
               1
             </Link>
             {pageNumbers[0] > 2 && (
-              <span className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-slate-500">
+              <span className="relative inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium text-slate-500">
                 ...
               </span>
             )}
@@ -93,7 +93,7 @@ export default function SearchPagination({ currentPage, totalPages }: SearchPagi
           <Link
             key={page}
             href={createPageUrl(page)}
-            className={`relative inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+            className={`relative inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
               page === currentPage
                 ? 'text-white bg-blue-600 border border-blue-600 hover:bg-blue-700'
                 : 'text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 hover:text-slate-900'
@@ -107,13 +107,13 @@ export default function SearchPagination({ currentPage, totalPages }: SearchPagi
         {pageNumbers[pageNumbers.length - 1] < totalPages && (
           <>
             {pageNumbers[pageNumbers.length - 1] < totalPages - 1 && (
-              <span className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-slate-500">
+              <span className="relative inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium text-slate-500">
                 ...
               </span>
             )}
             <Link
               href={createPageUrl(totalPages)}
-              className="relative inline-flex items-center px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors"
+              className="relative inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-slate-900 transition-colors"
             >
               {totalPages}
             </Link>
@@ -123,7 +123,7 @@ export default function SearchPagination({ currentPage, totalPages }: SearchPagi
         {/* Next Button */}
         <Link
           href={currentPage < totalPages ? createPageUrl(currentPage + 1) : '#'}
-          className={`relative inline-flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+          className={`relative inline-flex items-center px-2 sm:px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
             currentPage < totalPages
               ? 'text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 hover:text-slate-900'
               : 'text-slate-400 bg-white border border-slate-200 cursor-not-allowed'

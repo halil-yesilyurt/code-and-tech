@@ -22,11 +22,47 @@ export const metadata = {
   title: 'Code & Tech | Modern Tech Blog',
   description: 'Code & Tech is your go-to source for the latest technology news, in-depth tutorials, software development guides, and expert insights on innovation, coding, and digital trends. Stay ahead in the tech world with our comprehensive resources and practical tips.',
   metadataBase: new URL('https://code-and-tech.vercel.app'),
+  keywords: ['technology', 'programming', 'software development', 'AI', 'machine learning', 'web development', 'coding tutorials', 'tech news'],
+  authors: [{ name: 'Halil Yesilyurt' }],
+  creator: 'Halil Yesilyurt',
+  publisher: 'Code & Tech',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: 'Code & Tech | Modern Tech Blog',
     description: 'Discover expert tutorials, news, and resources on software development, AI, cloud, and emerging technologies.',
     type: 'website',
     url: 'https://code-and-tech.vercel.app',
+    siteName: 'Code & Tech',
+    locale: 'en_US',
+    images: [
+      {
+        url: '/screenshot-1.png',
+        width: 1200,
+        height: 630,
+        alt: 'Code & Tech - Modern Tech Blog',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Code & Tech | Modern Tech Blog',
+    description: 'Discover expert tutorials, news, and resources on software development, AI, cloud, and emerging technologies.',
+    creator: '@haliilyesilyurt',
+    site: '@haliilyesilyurt',
+    images: ['/screenshot-1.png'],
+  },
+  alternates: {
+    canonical: 'https://code-and-tech.vercel.app',
   },
 };
 

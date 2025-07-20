@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom';
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -49,6 +51,23 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              
+              {/* Search Link in Mobile Menu */}
+              <div className="mt-8 pt-6 border-t border-slate-200">
+                <h4 className="text-sm font-semibold text-slate-500 mb-4 px-4">Search</h4>
+                <Link
+                  href="/search"
+                  className="block px-4 py-3 rounded-lg text-lg font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring cursor-pointer"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Search Articles
+                  </div>
+                </Link>
+              </div>
             </div>
           </nav>
         </>,
@@ -93,6 +112,19 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
+            {/* Search Icon */}
+            <div className="ml-4 pl-4 border-l border-slate-200">
+              <button
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 hover:bg-blue-100 hover:text-blue-600 transition-colors duration-200"
+                aria-label="Search"
+                title="Search"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            </div>
           </nav>
 
           {/* Mobile Hamburger */}
@@ -111,6 +143,50 @@ export default function Header() {
             </svg>
           </button>
         </div>
+
+        {/* Search Input */}
+        {searchOpen && (
+          <div className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 shadow-lg z-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (searchQuery.trim()) {
+                    window.location.href = `/search?query=${encodeURIComponent(searchQuery.trim())}`;
+                  }
+                }}
+                className="flex items-center space-x-3"
+              >
+                <div className="flex-1 relative">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search articles..."
+                    className="w-full px-4 py-3 pl-12 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    autoFocus
+                  />
+                  <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <button
+                  type="submit"
+                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+                >
+                  Search
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  className="px-4 py-3 text-slate-600 hover:text-slate-800 transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
       {mobileMenuPortal}
     </header>
