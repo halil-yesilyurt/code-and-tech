@@ -31,7 +31,7 @@ export default function ProjectImage({ project }: { project: unknown }) {
         {image && !imgError ? (
           <>
             {imgLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-slate-50">
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
                 <div className="relative">
                   <div className="w-8 h-8 border-2 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
                   <div className="absolute inset-0 w-8 h-8 border-2 border-transparent border-t-blue-400 rounded-full animate-ping"></div>
@@ -49,6 +49,7 @@ export default function ProjectImage({ project }: { project: unknown }) {
                 setImgError(true);
                 setImgLoading(false);
               }}
+              loading="lazy"
             />
           </>
         ) : (

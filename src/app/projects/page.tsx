@@ -19,7 +19,7 @@ const fallbackProjects: Project[] = [
     id: 1,
     title: "E-Commerce Platform",
     description: "A modern e-commerce platform built with Next.js, featuring product management, user authentication, payment integration, and responsive design.",
-    image: "/screenshot-1.png",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop&crop=center",
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Stripe", "MongoDB"],
     github: "https://github.com/halil-yesilyurt/ecommerce-platform",
     demo: "https://ecommerce-demo.vercel.app",
@@ -29,7 +29,7 @@ const fallbackProjects: Project[] = [
     id: 2,
     title: "Task Management App",
     description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-    image: "/screenshot-2.png",
+    image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&h=600&fit=crop&crop=center",
     techStack: ["React", "Node.js", "Socket.io", "PostgreSQL", "Redis"],
     github: "https://github.com/halil-yesilyurt/task-manager",
     demo: "https://task-manager-demo.vercel.app"
@@ -38,7 +38,7 @@ const fallbackProjects: Project[] = [
     id: 3,
     title: "Weather Dashboard",
     description: "A beautiful weather dashboard with location-based forecasts, interactive maps, and detailed weather analytics.",
-    image: "/screenshot-3.png",
+    image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?w=800&h=600&fit=crop&crop=center",
     techStack: ["Vue.js", "OpenWeather API", "Chart.js", "PWA"],
     github: "https://github.com/halil-yesilyurt/weather-dashboard",
     demo: "https://weather-dashboard.vercel.app"
@@ -47,7 +47,7 @@ const fallbackProjects: Project[] = [
     id: 4,
     title: "Blog Platform",
     description: "A full-featured blog platform with markdown support, SEO optimization, and content management system.",
-    image: "/screenshot-1.png",
+    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=600&fit=crop&crop=center",
     techStack: ["Next.js", "MDX", "Prisma", "PostgreSQL", "Vercel"],
     github: "https://github.com/halil-yesilyurt/blog-platform",
     demo: "https://blog-platform-demo.vercel.app"
@@ -56,7 +56,7 @@ const fallbackProjects: Project[] = [
     id: 5,
     title: "Portfolio Website",
     description: "A modern portfolio website with smooth animations, dark mode support, and optimized performance.",
-    image: "/screenshot-2.png",
+    image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=800&h=600&fit=crop&crop=center",
     techStack: ["React", "Framer Motion", "Tailwind CSS", "Vite"],
     github: "https://github.com/halil-yesilyurt/portfolio",
     demo: "https://portfolio-demo.vercel.app"
@@ -65,7 +65,7 @@ const fallbackProjects: Project[] = [
     id: 6,
     title: "Chat Application",
     description: "A real-time chat application with user authentication, message history, and file sharing capabilities.",
-    image: "/screenshot-3.png",
+    image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=800&h=600&fit=crop&crop=center",
     techStack: ["React", "Firebase", "Socket.io", "Tailwind CSS"],
     github: "https://github.com/halil-yesilyurt/chat-app",
     demo: "https://chat-app-demo.vercel.app"
