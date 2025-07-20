@@ -13,22 +13,85 @@ interface Project {
   isNew?: boolean;
 }
 
+// Fallback projects data
+const fallbackProjects: Project[] = [
+  {
+    id: 1,
+    title: "E-Commerce Platform",
+    description: "A modern e-commerce platform built with Next.js, featuring product management, user authentication, payment integration, and responsive design.",
+    image: "/screenshot-1.png",
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Stripe", "MongoDB"],
+    github: "https://github.com/halil-yesilyurt/ecommerce-platform",
+    demo: "https://ecommerce-demo.vercel.app",
+    isNew: true
+  },
+  {
+    id: 2,
+    title: "Task Management App",
+    description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+    image: "/screenshot-2.png",
+    techStack: ["React", "Node.js", "Socket.io", "PostgreSQL", "Redis"],
+    github: "https://github.com/halil-yesilyurt/task-manager",
+    demo: "https://task-manager-demo.vercel.app"
+  },
+  {
+    id: 3,
+    title: "Weather Dashboard",
+    description: "A beautiful weather dashboard with location-based forecasts, interactive maps, and detailed weather analytics.",
+    image: "/screenshot-3.png",
+    techStack: ["Vue.js", "OpenWeather API", "Chart.js", "PWA"],
+    github: "https://github.com/halil-yesilyurt/weather-dashboard",
+    demo: "https://weather-dashboard.vercel.app"
+  },
+  {
+    id: 4,
+    title: "Blog Platform",
+    description: "A full-featured blog platform with markdown support, SEO optimization, and content management system.",
+    image: "/screenshot-1.png",
+    techStack: ["Next.js", "MDX", "Prisma", "PostgreSQL", "Vercel"],
+    github: "https://github.com/halil-yesilyurt/blog-platform",
+    demo: "https://blog-platform-demo.vercel.app"
+  },
+  {
+    id: 5,
+    title: "Portfolio Website",
+    description: "A modern portfolio website with smooth animations, dark mode support, and optimized performance.",
+    image: "/screenshot-2.png",
+    techStack: ["React", "Framer Motion", "Tailwind CSS", "Vite"],
+    github: "https://github.com/halil-yesilyurt/portfolio",
+    demo: "https://portfolio-demo.vercel.app"
+  },
+  {
+    id: 6,
+    title: "Chat Application",
+    description: "A real-time chat application with user authentication, message history, and file sharing capabilities.",
+    image: "/screenshot-3.png",
+    techStack: ["React", "Firebase", "Socket.io", "Tailwind CSS"],
+    github: "https://github.com/halil-yesilyurt/chat-app",
+    demo: "https://chat-app-demo.vercel.app"
+  }
+];
+
 async function getProjects(): Promise<Project[]> {
   try {
-    const res = await fetch('/api/projects', { 
+    // Try external API first
+    const res = await fetch('https://halilyesilyurt.com/api/projects', { 
       next: { revalidate: 3600 },
       headers: {
         'Accept': 'application/json',
       }
     });
-    if (!res.ok) {
-      console.error('Projects API error:', res.status, res.statusText);
-      return [];
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        return data;
+      }
     }
-    return res.json();
+    // Return fallback data if external API fails
+    return fallbackProjects;
   } catch (error) {
     console.error('Failed to fetch projects:', error);
-    return [];
+    return fallbackProjects;
   }
 }
 
@@ -45,8 +108,9 @@ export default async function ProjectsPage() {
 
 export async function generateMetadata() {
   try {
-    const res = await fetch('/api/projects');
-    const projects = res.ok ? await res.json() : [];
+    // Try external API first, fallback to local data
+    const res = await fetch('https://halilyesilyurt.com/api/projects');
+    const projects = res.ok ? await res.json() : fallbackProjects;
     const keywords = Array.from(new Set(projects.flatMap((p: any) => p.techStack || [])));
     const title = 'Projects | Code & Tech | Modern Tech Blog';
     const description = 'Explore a curated portfolio of innovative web development projects, creative software solutions, and cutting-edge technology builds by Halil Yesilyurt. Discover real-world applications of modern frameworks, tools, and programming best practices.';
