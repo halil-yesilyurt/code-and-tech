@@ -26,15 +26,12 @@ export default function ProjectImage({ project }: { project: unknown }) {
       
       // Force clear loading state after 5 seconds to prevent stuck loading
       const timeout = setTimeout(() => {
-        if (imgLoading) {
-          console.log('Forcing clear loading state for:', image);
-          setImgLoading(false);
-        }
+        setImgLoading(false);
       }, 5000);
       
       return () => clearTimeout(timeout);
     }
-  }, [image, imgLoading]);
+  }, [image]);
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-slate-100 hover:border-slate-200">
@@ -63,16 +60,11 @@ export default function ProjectImage({ project }: { project: unknown }) {
                 imgLoading ? 'opacity-0' : 'opacity-100'
               }`}
               onLoad={() => {
-                console.log('Image loaded successfully:', image);
                 setImgLoading(false);
               }}
               onError={() => {
-                console.error('Image failed to load:', image);
                 setImgError(true);
                 setImgLoading(false);
-              }}
-              onLoadStart={() => {
-                console.log('Image loading started:', image);
               }}
               loading="lazy"
             />
