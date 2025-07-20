@@ -70,7 +70,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
             <div className="flex items-center justify-center lg:justify-start gap-4 text-sm text-slate-500">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>{projects.length} Total Projects</span>
+                <span>Total Projects</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -138,24 +138,10 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                         <svg className='w-5 h-5 mr-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                           <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
                         </svg>
-                        Show More Projects ({filteredProjects.length - visibleCount} remaining)
+                        Show More Projects
                       </button>
                     </div>
                   )}
-                  
-                  {/* Projects Count */}
-                  <div className='text-center py-6'>
-                    <div className="inline-flex items-center gap-4 px-6 py-3 bg-slate-50 rounded-xl border border-slate-200">
-                      <span className='text-sm font-medium text-slate-700'>
-                        Showing {visibleProjects.length} of {filteredProjects.length} projects
-                      </span>
-                      {filteredProjects.length !== projects.length && (
-                        <span className='text-xs text-slate-500 bg-slate-200 px-2 py-1 rounded-full'>
-                          Filtered from {projects.length} total
-                        </span>
-                      )}
-                    </div>
-                  </div>
                 </>
               )}
             </>

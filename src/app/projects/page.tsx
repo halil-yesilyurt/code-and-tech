@@ -1,6 +1,6 @@
 import React from 'react';
-import ProjectsClient from './ProjectsClient';
 import { getCategories, getTags, getPopularPosts } from '@/lib/wordpress';
+import ProjectsClient from './ProjectsClient';
 
 interface Project {
   id: number;
@@ -63,6 +63,47 @@ const fallbackProjects: Project[] = [
     techStack: ["React", "Firebase", "Socket.io", "Tailwind CSS"],
     github: "https://github.com/halil-yesilyurt/chat-app",
     demo: "https://chat-app-demo.vercel.app"
+  },
+  {
+    id: 7,
+    title: "Code & Tech",
+    description: "A modern, high-performance tech blog that leverages a headless WordPress backend with Next.js frontend for optimal performance and SEO.",
+    techStack: ["Next.js", "React", "WordPress", "TypeScript", "Tailwind CSS"],
+    github: "https://github.com/halil-yesilyurt/code-and-tech",
+    demo: "https://code-and-tech.vercel.app",
+    isNew: true
+  },
+  {
+    id: 8,
+    title: "Github Mutuals",
+    description: "A powerful tool for developers to analyze their professional network on GitHub. This web application helps users discover mutual connections and potential collaborators.",
+    techStack: ["React", "TypeScript", "GitHub API", "Chart.js", "Tailwind CSS"],
+    github: "https://github.com/halil-yesilyurt/github-mutuals",
+    demo: "https://github-mutuals.vercel.app"
+  },
+  {
+    id: 9,
+    title: "Personal Finance Tracker",
+    description: "A comprehensive personal finance management application with expense tracking, budget planning, and financial analytics.",
+    techStack: ["Vue.js", "Node.js", "MongoDB", "Chart.js", "PWA"],
+    github: "https://github.com/halil-yesilyurt/finance-tracker",
+    demo: "https://finance-tracker.vercel.app"
+  },
+  {
+    id: 10,
+    title: "QR Code Generator",
+    description: "A versatile QR code generator with customization options, analytics tracking, and bulk generation capabilities.",
+    techStack: ["React", "QR Code API", "Tailwind CSS", "Local Storage"],
+    github: "https://github.com/halil-yesilyurt/qr-generator",
+    demo: "https://qr-generator.vercel.app"
+  },
+  {
+    id: 11,
+    title: "Tactical RPG Game",
+    description: "A browser-based tactical role-playing game with turn-based combat, character progression, and strategic gameplay.",
+    techStack: ["JavaScript", "Canvas API", "Web Audio API", "Local Storage"],
+    github: "https://github.com/halil-yesilyurt/tactical-rpg",
+    demo: "https://tactical-rpg.vercel.app"
   }
 ];
 
