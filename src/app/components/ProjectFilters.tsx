@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 interface ProjectFiltersProps {
   projects: any[];
@@ -36,7 +36,7 @@ export default function ProjectFilters({ projects, onFilterChange }: ProjectFilt
   }, [projects, searchTerm, selectedTech]);
 
   // Update parent component when filters change
-  useMemo(() => {
+  useEffect(() => {
     onFilterChange(filteredProjects);
   }, [filteredProjects, onFilterChange]);
 
