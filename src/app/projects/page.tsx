@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import ProjectImage from '../components/ProjectImage';
 import ProjectSkeleton from '../components/ProjectSkeleton';
+import ProjectFilters from '../components/ProjectFilters';
 import Sidebar from '../components/Sidebar';
 import { getCategories, getTags, getPosts, getPopularPosts } from '@/lib/wordpress';
 
@@ -40,6 +41,7 @@ export default function ProjectsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [tags, setTags] = useState<any[]>([]);
   const [popularPosts, setPopularPosts] = useState<any[]>([]);
@@ -56,6 +58,7 @@ export default function ProjectsPage() {
         ]);
         
         setProjects(projectsData);
+        setFilteredProjects(projectsData);
         setCategories(categoriesData);
         setTags(tagsData);
         setPopularPosts(popularPostsData);
@@ -71,11 +74,11 @@ export default function ProjectsPage() {
   }, []);
 
   const handleShowMore = () => {
-    setVisibleCount(prev => Math.min(prev + 6, projects.length));
+    setVisibleCount(prev => Math.min(prev + 6, filteredProjects.length));
   };
 
-  const visibleProjects = projects.slice(0, visibleCount);
-  const hasMoreProjects = visibleCount < projects.length;
+  const visibleProjects = filteredProjects.slice(0, visibleCount);
+  const hasMoreProjects = visibleCount < filteredProjects.length;
 
   return (
     <>
@@ -132,11 +135,40 @@ export default function ProjectsPage() {
             </div>
           ) : (
             <>
-              <div className='grid gap-6 md:grid-cols-2 xl:grid-cols-3'>
-                {visibleProjects.map((project: Project) => (
-                  <ProjectImage key={project.id} project={project} />
-                ))}
-              </div>
+              {/* Project Filters */}
+              <ProjectFilters 
+                projects={projects} 
+                onFilterChange={(filtered) => {
+                  setFilteredProjects(filtered);
+                  setVisibleCount(6); // Reset to show first 6 when filtering
+                }} 
+              />
+              
+              {filteredProjects.length === 0 ? (
+                <div className='bg-white rounded-xl shadow p-8 text-center text-slate-500 border border-slate-200'>
+                  <div className='text-slate-400 mb-4'>
+                    <svg className='w-12 h-12 mx-auto' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                      <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
+                    </svg>
+                  </div>
+                  <p>No projects match your current filters.</p>
+                  <button
+                    onClick={() => {
+                      setFilteredProjects(projects);
+                      setVisibleCount(6);
+                    }}
+                    className='mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
+                  >
+                    Clear Filters
+                  </button>
+                </div>
+              ) : (
+                <div className='grid gap-6 md:grid-cols-2 xl:grid-cols-3'>
+                  {visibleProjects.map((project: Project) => (
+                    <ProjectImage key={project.id} project={project} />
+                  ))}
+                </div>
+              )}
               
               {/* Show More Button */}
               {hasMoreProjects && (
@@ -148,14 +180,17 @@ export default function ProjectsPage() {
                     <svg className='w-5 h-5 mr-2' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
                     </svg>
-                    Show More Projects ({projects.length - visibleCount} remaining)
+                    Show More Projects ({filteredProjects.length - visibleCount} remaining)
                   </button>
                 </div>
               )}
               
               {/* Projects Count */}
               <div className='text-center text-slate-600 text-sm'>
-                Showing {visibleProjects.length} of {projects.length} projects
+                Showing {visibleProjects.length} of {filteredProjects.length} projects
+                {filteredProjects.length !== projects.length && (
+                  <span className='text-blue-600'> (filtered from {projects.length} total)</span>
+                )}
               </div>
             </>
           )}
