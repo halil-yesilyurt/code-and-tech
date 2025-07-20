@@ -152,7 +152,7 @@ export default function Header() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (searchQuery.trim()) {
-                    window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+                    window.location.href = `/search?query=${encodeURIComponent(searchQuery.trim())}`;
                   }
                 }}
                 className="flex items-center space-x-3"
