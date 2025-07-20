@@ -35,24 +35,22 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
 
   // Update filteredProjects when projects prop changes
   useEffect(() => {
+    console.log('Projects prop changed, updating filteredProjects from', filteredProjects.length, 'to', projects.length);
     setFilteredProjects(projects);
     setVisibleCount(6); // Reset to initial state
-    console.log('Projects prop changed, updated filteredProjects to', projects.length);
   }, [projects]);
 
   const handleShowMore = () => {
     console.log('Show More clicked! Current visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length);
-    setVisibleCount(prev => {
-      const newCount = Math.min(prev + 6, filteredProjects.length);
-      console.log('Setting visibleCount to:', newCount);
-      return newCount;
-    });
+    const newCount = Math.min(visibleCount + 6, filteredProjects.length);
+    console.log('Setting visibleCount to:', newCount);
+    setVisibleCount(newCount);
   };
 
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const hasMoreProjects = visibleCount < filteredProjects.length;
   
-  console.log('Debug - visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length, 'hasMoreProjects:', hasMoreProjects);
+  console.log('Debug - visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length, 'hasMoreProjects:', hasMoreProjects, 'visibleProjects.length:', visibleProjects.length);
 
   return (
     <>
@@ -149,8 +147,8 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                   </div>
                   
                   {/* Show More Button */}
-                  {hasMoreProjects && (
-                    <div className='text-center pt-8'>
+                  <div className='text-center pt-8'>
+                    {hasMoreProjects ? (
                       <button
                         onClick={handleShowMore}
                         className='inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
@@ -160,13 +158,12 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                         </svg>
                         Show More Projects
                       </button>
-                    </div>
-                  )}
-                  {!hasMoreProjects && (
-                    <div className='text-center pt-8 text-sm text-slate-500'>
-                      Debug: Button not showing - visibleCount: {visibleCount}, total: {filteredProjects.length}
-                    </div>
-                  )}
+                    ) : (
+                      <div className='text-sm text-slate-500'>
+                        Debug: Button not showing - visibleCount: {visibleCount}, total: {filteredProjects.length}
+                      </div>
+                    )}
+                  </div>
                 </>
               )}
             </>
