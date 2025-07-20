@@ -1,15 +1,24 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SearchBar() {
-  const [query, setQuery] = useState('');
+interface SearchBarProps {
+  initialQuery?: string;
+}
+
+export default function SearchBar({ initialQuery = '' }: SearchBarProps) {
+  const [query, setQuery] = useState(initialQuery);
   const router = useRouter();
+
+  // Update query when initialQuery changes
+  useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      router.push(`/search?query=${encodeURIComponent(query)}`);
+      router.push(`/search?query=${encodeURIComponent(query.trim())}`);
     }
   };
 
