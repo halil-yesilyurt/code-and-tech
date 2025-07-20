@@ -27,10 +27,15 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
   const [visibleCount, setVisibleCount] = useState(6);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
+  // Initialize visibleCount only once
+  useEffect(() => {
+    setVisibleCount(6);
+  }, []);
+
   // Update filteredProjects when projects prop changes
   useEffect(() => {
     setFilteredProjects(projects);
-    setVisibleCount(6); // Reset to initial state
+    // Don't reset visibleCount here - let it persist
   }, [projects]);
 
   const handleShowMore = () => {
