@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { getFeaturedImageUrl, decodeHtmlEntities } from '@/lib/wordpress';
+import { getFeaturedImageUrl, decodeHtmlEntities, stripHtml } from '@/lib/wordpress';
 
 interface SharePreviewProps {
   url: string;
@@ -29,7 +29,7 @@ export default function SharePreview({
 
   const renderPreview = () => {
     const decodedTitle = decodeHtmlEntities(title);
-    const decodedDescription = description ? decodeHtmlEntities(description) : '';
+    const decodedDescription = description ? stripHtml(decodeHtmlEntities(description)) : '';
     const imageUrl = featuredImage || '/screenshot-1.png';
 
     switch (selectedPlatform) {
@@ -50,13 +50,13 @@ export default function SharePreview({
               <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                 {siteName}
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2 leading-tight">
                 {decodedTitle}
               </h3>
-              <p className="text-sm text-gray-600 line-clamp-2">
-                {decodedDescription}
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {decodedDescription.length > 120 ? `${decodedDescription.substring(0, 120)}...` : decodedDescription}
               </p>
-              <div className="text-xs text-gray-500 mt-2">
+              <div className="text-xs text-gray-500 mt-2 truncate">
                 {url}
               </div>
             </div>
@@ -76,12 +76,12 @@ export default function SharePreview({
                     <span className="font-semibold text-gray-900">Code & Tech</span>
                     <span className="text-gray-500">@haliilyesilyurt</span>
                   </div>
-                  <p className="text-sm text-gray-900 mt-1">
+                  <p className="text-sm text-gray-900 mt-1 leading-relaxed">
                     {decodedTitle}
                   </p>
                   {decodedDescription && (
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                      {decodedDescription}
+                    <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+                      {decodedDescription.length > 100 ? `${decodedDescription.substring(0, 100)}...` : decodedDescription}
                     </p>
                   )}
                   <div className="mt-3 border border-gray-200 rounded-lg overflow-hidden">
@@ -99,10 +99,10 @@ export default function SharePreview({
                       <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                         {siteName}
                       </div>
-                      <h4 className="text-sm font-semibold text-gray-900 line-clamp-1">
+                      <h4 className="text-sm font-semibold text-gray-900 leading-tight">
                         {decodedTitle}
                       </h4>
-                      <div className="text-xs text-gray-500 mt-1">
+                      <div className="text-xs text-gray-500 mt-1 truncate">
                         {url}
                       </div>
                     </div>
@@ -130,13 +130,13 @@ export default function SharePreview({
               <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
                 {siteName}
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">
+              <h3 className="text-base font-semibold text-gray-900 mb-2 leading-tight">
                 {decodedTitle}
               </h3>
-              <p className="text-sm text-gray-600 line-clamp-3">
-                {decodedDescription}
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {decodedDescription.length > 150 ? `${decodedDescription.substring(0, 150)}...` : decodedDescription}
               </p>
-              <div className="text-xs text-gray-500 mt-2">
+              <div className="text-xs text-gray-500 mt-2 truncate">
                 {url}
               </div>
             </div>
@@ -149,16 +149,16 @@ export default function SharePreview({
   };
 
   return (
-    <div className="bg-white rounded-xl p-6 border border-slate-200">
+    <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200">
       <h3 className="font-geist text-lg font-semibold text-slate-900 mb-4">Share Preview</h3>
       
       {/* Platform Selector */}
-      <div className="flex space-x-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6">
         {platforms.map((platform) => (
           <button
             key={platform.id}
             onClick={() => setSelectedPlatform(platform.id as any)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               selectedPlatform === platform.id
                 ? `${platform.color} text-white`
                 : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -170,27 +170,35 @@ export default function SharePreview({
       </div>
 
       {/* Preview */}
-      <div className="flex justify-center">
-        {renderPreview()}
+      <div className="flex justify-center mb-6">
+        <div className="w-full max-w-md">
+          {renderPreview()}
+        </div>
       </div>
 
       {/* Preview Info */}
-      <div className="mt-4 p-4 bg-slate-50 rounded-lg">
-        <h4 className="text-sm font-semibold text-slate-900 mb-2">Preview Details</h4>
-        <div className="space-y-2 text-sm text-slate-600">
+      <div className="p-4 bg-slate-50 rounded-lg">
+        <h4 className="text-sm font-semibold text-slate-900 mb-3">Preview Details</h4>
+        <div className="space-y-3 text-sm text-slate-600">
           <div>
-            <span className="font-medium">Title:</span> {decodeHtmlEntities(title)}
+            <span className="font-medium text-slate-700">Title:</span>
+            <div className="mt-1 text-slate-800">{decodeHtmlEntities(title)}</div>
           </div>
           {description && (
             <div>
-              <span className="font-medium">Description:</span> {decodeHtmlEntities(description)}
+              <span className="font-medium text-slate-700">Description:</span>
+              <div className="mt-1 text-slate-800 leading-relaxed">
+                {stripHtml(decodeHtmlEntities(description))}
+              </div>
             </div>
           )}
           <div>
-            <span className="font-medium">URL:</span> {url}
+            <span className="font-medium text-slate-700">URL:</span>
+            <div className="mt-1 text-slate-800 break-all">{url}</div>
           </div>
           <div>
-            <span className="font-medium">Image:</span> {featuredImage ? 'Custom image' : 'Default image'}
+            <span className="font-medium text-slate-700">Image:</span>
+            <div className="mt-1 text-slate-800">{featuredImage ? 'Custom image' : 'Default image'}</div>
           </div>
         </div>
       </div>
