@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import ArticleCard from '../components/ArticleCard';
 import Sidebar from '../components/Sidebar';
 import BlogPostLayout from '../components/BlogPostLayout';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
   try {
@@ -23,9 +24,17 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
       
       return (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <main className="lg:col-span-3">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
-              <header className="mb-8">
+                  <main className="lg:col-span-3">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+            {/* Breadcrumbs */}
+            <Breadcrumbs 
+              items={[
+                { label: 'Home', href: '/' },
+                { label: 'Blog', href: '/blog' },
+                { label: `Category: ${decodeHtmlEntities(category.name)}` }
+              ]} 
+            />
+            <header className="mb-8">
                 <h1 className="font-geist text-3xl md:text-4xl font-bold text-slate-900 mb-4">
                   Category: {decodeHtmlEntities(category.name)}
                 </h1>
@@ -101,6 +110,13 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <main className="lg:col-span-3">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 lg:p-12">
+            {/* Breadcrumbs */}
+            <Breadcrumbs 
+              items={[
+                { label: 'Home', href: '/' },
+                { label: decodeHtmlEntities(content.title.rendered) }
+              ]} 
+            />
             <header className="mb-8">
               <h1 className="font-geist text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-6 leading-tight">
                 {content.title.rendered}

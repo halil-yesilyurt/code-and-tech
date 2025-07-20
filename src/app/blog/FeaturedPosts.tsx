@@ -21,7 +21,7 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
       {posts.map((post: Post) => (
         <article
           key={post.id}
-          style={{ animationDelay: `${post.id * 20}ms` }}
+          style={{ animationDelay: `${post.id * 10}ms` }}
           className='bg-white rounded-2xl shadow-md border border-slate-200 p-8 flex flex-col animate-fade-slide-in hover:scale-[1.015] hover:shadow-2xl transition-transform duration-300'
         >
           <div className='flex items-center text-sm text-slate-500 mb-2'>
