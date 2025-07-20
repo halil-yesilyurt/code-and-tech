@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const GitHubIcon = () => (
   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -17,6 +17,24 @@ export default function ProjectImage({ project }: { project: unknown }) {
   const [imgError, setImgError] = useState(false);
   const [imgLoading, setImgLoading] = useState(true);
   const { image, title, description, techStack, github, demo, isNew } = project as any;
+
+  // Reset loading state when image changes
+  useEffect(() => {
+    if (image) {
+      setImgLoading(true);
+      setImgError(false);
+      
+      // Force clear loading state after 5 seconds to prevent stuck loading
+      const timeout = setTimeout(() => {
+        if (imgLoading) {
+          console.log('Forcing clear loading state for:', image);
+          setImgLoading(false);
+        }
+      }, 5000);
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [image, imgLoading]);
 
   return (
     <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-slate-100 hover:border-slate-200">
@@ -44,10 +62,17 @@ export default function ProjectImage({ project }: { project: unknown }) {
               className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
                 imgLoading ? 'opacity-0' : 'opacity-100'
               }`}
-              onLoad={() => setImgLoading(false)}
+              onLoad={() => {
+                console.log('Image loaded successfully:', image);
+                setImgLoading(false);
+              }}
               onError={() => {
+                console.error('Image failed to load:', image);
                 setImgError(true);
                 setImgLoading(false);
+              }}
+              onLoadStart={() => {
+                console.log('Image loading started:', image);
               }}
               loading="lazy"
             />
