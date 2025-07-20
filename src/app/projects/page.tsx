@@ -15,7 +15,7 @@ interface Project {
 
 async function getProjects(): Promise<Project[]> {
   try {
-    const res = await fetch('https://code-and-tech.vercel.app/api/projects', { 
+    const res = await fetch('/api/projects', { 
       next: { revalidate: 3600 },
       headers: {
         'Accept': 'application/json',
@@ -45,7 +45,7 @@ export default async function ProjectsPage() {
 
 export async function generateMetadata() {
   try {
-    const res = await fetch('https://code-and-tech.vercel.app/api/projects');
+    const res = await fetch('/api/projects');
     const projects = res.ok ? await res.json() : [];
     const keywords = Array.from(new Set(projects.flatMap((p: any) => p.techStack || [])));
     const title = 'Projects | Code & Tech | Modern Tech Blog';
