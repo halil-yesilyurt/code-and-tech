@@ -27,30 +27,18 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
   const [visibleCount, setVisibleCount] = useState(6);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
-  useEffect(() => {
-    console.log('ProjectsClient mounted with', projects.length, 'projects');
-    console.log('Initial visibleCount:', visibleCount);
-    console.log('Initial filteredProjects.length:', filteredProjects.length);
-  }, []);
-
   // Update filteredProjects when projects prop changes
   useEffect(() => {
-    console.log('Projects prop changed, updating filteredProjects from', filteredProjects.length, 'to', projects.length);
     setFilteredProjects(projects);
     setVisibleCount(6); // Reset to initial state
   }, [projects]);
 
   const handleShowMore = () => {
-    console.log('Show More clicked! Current visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length);
-    const newCount = Math.min(visibleCount + 6, filteredProjects.length);
-    console.log('Setting visibleCount to:', newCount);
-    setVisibleCount(newCount);
+    setVisibleCount(prev => Math.min(prev + 6, filteredProjects.length));
   };
 
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const hasMoreProjects = visibleCount < filteredProjects.length;
-  
-  console.log('Debug - visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length, 'hasMoreProjects:', hasMoreProjects, 'visibleProjects.length:', visibleProjects.length);
 
   return (
     <>
@@ -147,20 +135,19 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                   </div>
                   
                   {/* Show More Button */}
-                  <div className='text-center pt-8'>
-                    <button
-                      onClick={handleShowMore}
-                      className='inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
-                    >
-                      <svg className='w-5 h-5 mr-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                      </svg>
-                      Show More Projects (Debug: {visibleCount}/{filteredProjects.length})
-                    </button>
-                    <div className='text-sm text-slate-500 mt-2'>
-                      hasMoreProjects: {hasMoreProjects.toString()}, visibleProjects: {visibleProjects.length}
+                  {hasMoreProjects && (
+                    <div className='text-center pt-8'>
+                      <button
+                        onClick={handleShowMore}
+                        className='inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                      >
+                        <svg className='w-5 h-5 mr-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                        </svg>
+                        Show More Projects
+                      </button>
                     </div>
-                  </div>
+                  )}
                 </>
               )}
             </>
