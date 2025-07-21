@@ -112,6 +112,17 @@ const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBL
 // Fallback to sample data if WordPress API is not configured
 const USE_SAMPLE_DATA = !WORDPRESS_API_URL;
 
+// Helper to safely parse JSON and log errors
+async function safeJsonParse(response: Response, context: string) {
+  try {
+    return await response.json();
+  } catch (err) {
+    const text = await response.text();
+    console.error(`[WordPress API] Failed to parse JSON in ${context}. Response text:`, text);
+    throw err;
+  }
+}
+
 /**
  * Fetch posts from WordPress REST API with embedded content
  * Falls back to sample data if WordPress is not configured
@@ -126,17 +137,16 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
       content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
     }));
   }
-
   try {
     const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?_embed&page=${page}&per_page=${perPage}&status=publish`, {
       headers: {
         'Content-Type': 'application/json',
       },
-      next: { revalidate: 60 }, // ISR with 60-second revalidation
+      next: { revalidate: 60 },
     });
-
     if (!response.ok) {
-      console.warn('WordPress API error, falling back to sample data:', response.status);
+      const text = await response.text();
+      console.warn('WordPress API error, falling back to sample data:', response.status, text);
       return getSamplePosts().map((post) => ({
         ...post,
         title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
@@ -144,8 +154,7 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
         content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
       }));
     }
-
-    const posts: WordPressPost[] = await response.json();
+    const posts: WordPressPost[] = await safeJsonParse(response, 'getPosts');
     return posts.map((post) => ({
       ...post,
       title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
@@ -201,7 +210,7 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
         : null;
     }
 
-    const posts: WordPressPost[] = await response.json();
+    const posts: WordPressPost[] = await safeJsonParse(response, 'getPostBySlug');
     const post = posts.length > 0 ? posts[0] : null;
     return post
       ? {
@@ -246,7 +255,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
       return ['getting-started-with-nextjs', 'future-of-headless-cms', 'building-scalable-apis-nodejs'];
     }
 
-    const posts: { slug: string }[] = await response.json();
+    const posts: { slug: string }[] = await safeJsonParse(response, 'getAllPostSlugs');
     return posts.map((post) => post.slug);
   } catch (error) {
     console.error('Error fetching post slugs:', error);
@@ -468,7 +477,7 @@ export async function getPageBySlug(slug: string) {
     console.error('Failed to fetch page:', res.status, await res.text());
     return null;
   }
-  const pages = await res.json();
+  const pages = await safeJsonParse(res, 'getPageBySlug');
   return pages.length > 0 ? pages[0] : null;
 }
 
@@ -493,10 +502,11 @@ export async function getTags(): Promise<WordPressTag[]> {
       next: { revalidate: 60 },
     });
     if (!response.ok) {
-      console.warn('WordPress API error fetching tags, falling back to sample data:', response.status);
+      const text = await response.text();
+      console.warn('WordPress API error fetching tags, falling back to sample data:', response.status, text);
       return [];
     }
-    const tags: WordPressTag[] = await response.json();
+    const tags: WordPressTag[] = await safeJsonParse(response, 'getTags');
     return tags.map((tag) => ({
       ...tag,
       name: decodeHtmlEntities(tag.name),
@@ -530,10 +540,11 @@ export async function getCategories(): Promise<WordPressCategory[]> {
       next: { revalidate: 60 },
     });
     if (!response.ok) {
-      console.warn('WordPress API error fetching categories:', response.status, await response.text());
+      const text = await response.text();
+      console.warn('WordPress API error fetching categories:', response.status, text);
       return [];
     }
-    const categories: WordPressCategory[] = await response.json();
+    const categories: WordPressCategory[] = await safeJsonParse(response, 'getCategories');
     // console.log('Fetched categories:', categories);
     return categories.map((cat) => ({
       ...cat,
@@ -601,7 +612,7 @@ export async function searchPosts(query: string, page: number = 1, perPage: numb
         }));
     }
 
-    const posts: WordPressPost[] = await response.json();
+    const posts: WordPressPost[] = await safeJsonParse(response, 'searchPosts');
     return posts.map((post) => ({
       ...post,
       title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
