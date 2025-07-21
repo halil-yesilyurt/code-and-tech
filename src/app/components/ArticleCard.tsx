@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { formatDate, generateExcerpt, getFeaturedImageUrl, WordPressPost } from '@/lib/wordpress';
+import { formatDate, generateExcerpt, getFeaturedImageUrl, WordPressPost, calculateReadingTime } from '@/lib/wordpress';
 import Image from 'next/image';
 import SearchResultHighlight from './SearchResultHighlight';
 
@@ -97,7 +97,7 @@ export default function ArticleCard({
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              {Math.max(1, Math.ceil((p.content?.rendered?.length || 0) / 800))} min read
+              {calculateReadingTime(p.content?.rendered || '')} min read
             </div>
           </div>
         </div>
