@@ -7,11 +7,13 @@ import { getPosts, getCategories, getTags, getPopularPosts } from '@/lib/wordpre
 import Sidebar from '../components/Sidebar';
 import BlogPostList from './BlogPostList';
 import FeaturedPosts from './FeaturedPosts';
+import BlogPaginationClient from './BlogPaginationClient';
 
 const POSTS_PER_PAGE = 10;
 
-export default async function PostsPage({ searchParams }: { searchParams?: { [key: string]: string | string[] } }) {
-  const page = searchParams?.page ? parseInt(Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page, 10) : 1;
+export default async function PostsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] }> }) {
+  const params = await searchParams;
+  const page = params?.page ? parseInt(Array.isArray(params.page) ? params.page[0] : params.page, 10) : 1;
   const allPosts = await getPosts(1, 1000); // Fetch all to get total count (or use API count if available)
   const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
   const startIdx = (page - 1) * POSTS_PER_PAGE;
@@ -39,15 +41,6 @@ export default async function PostsPage({ searchParams }: { searchParams?: { [ke
   const featured = page === 1 ? posts.slice(0, 3) : [];
   const rest = page === 1 ? posts.slice(3) : posts;
 
-  // Pagination handler (client-side navigation)
-  const handlePageChange = (newPage: number) => {
-    if (typeof window !== 'undefined') {
-      const url = new URL(window.location.href);
-      url.searchParams.set('page', newPage.toString());
-      window.location.href = url.toString();
-    }
-  };
-
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <main className="lg:col-span-3 space-y-12">
@@ -58,7 +51,7 @@ export default async function PostsPage({ searchParams }: { searchParams?: { [ke
         </header>
         {/* Featured First 3 Articles (only on first page) */}
         {page === 1 && <FeaturedPosts posts={featured} />}
-        <BlogPostList posts={rest} currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
+        <BlogPaginationClient posts={rest} currentPage={page} totalPages={totalPages} />
       </main>
       <aside className="lg:col-span-1">
         <div className="sticky top-8">
