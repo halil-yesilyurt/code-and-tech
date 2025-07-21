@@ -21,7 +21,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
   const featuredImageUrl = getFeaturedImageUrl(post, 'large');
   const decodedTitle = decodeHtmlEntities(post.title.rendered);
   const decodedContent = decodeHtmlEntities(post.content.rendered);
-  const canonicalUrl = `https://code-and-tech.vercel.app/blog/${post.slug}`;
+  const canonicalUrl = `https://code-and-tech.vercel.app/${post.slug}`;
   // NOTE: Removed isLoggedIn state and related useEffect block
 
   return (
@@ -134,7 +134,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     {posts.filter((p: WordPressPost) => p.slug !== post.slug).slice(0, 3).map((p: WordPressPost) => (
                       <li key={p.id} className="flex items-center">
                         <span className="text-blue-900 font-bold mr-2">&bull;</span>
-                        <Link href={`/blog/${p.slug}`} className="block font-montserrat text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
+                        <Link href={`/${p.slug}`} className="block font-montserrat text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
                           {p.title.rendered}
                         </Link>
                       </li>

@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PostPageProps) {
     keywords: (post._embedded as any)?.['wp:term']?.[0]?.map((tag: any) => tag.name) || [],
     authors: post._embedded?.author?.map(author => author.name) || ['Halil Yesilyurt'],
     alternates: {
-      canonical: `https://code-and-tech.vercel.app/blog/${slug}`,
+      canonical: `https://code-and-tech.vercel.app/${slug}`,
     },
     openGraph: {
       title: post.title.rendered,

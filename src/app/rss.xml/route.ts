@@ -10,8 +10,8 @@ export async function GET() {
   const rssItems = posts.map((post: any) => `
     <item>
       <title>${escapeXml(post.title.rendered)}</title>
-      <link>${SITE_URL}/blog/${post.slug}</link>
-      <guid>${SITE_URL}/blog/${post.slug}</guid>
+      <link>${SITE_URL}/${post.slug}</link>
+      <guid>${SITE_URL}/${post.slug}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <description><![CDATA[${post.excerpt?.rendered || ''}]]></description>
     </item>

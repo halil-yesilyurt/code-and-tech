@@ -32,7 +32,7 @@ export async function GET() {
     const urls = [
       ...staticPages.map((page) => `${SITE_URL}/${page}`),
       // Blog posts with lastmod
-      ...posts.map((post: any) => ({ loc: `${SITE_URL}/blog/${post.slug}`, lastmod: post.modified || post.date })),
+      ...posts.map((post: any) => ({ loc: `${SITE_URL}/${post.slug}`, lastmod: post.modified || post.date })),
       ...projects.map((p: { id: string }) => `${SITE_URL}/projects#${p.id}`),
       ...categories.map((cat) => `${SITE_URL}/category/${cat.slug}`),
     ];
