@@ -9,8 +9,9 @@ import BlogPostList from './BlogPostList';
 import FeaturedPosts from './FeaturedPosts';
 import BlogPagination from '../components/BlogPagination';
 
-export default async function PostsPage({ searchParams }: { searchParams?: { [key: string]: string | string[] } }) {
-  const currentPage = parseInt(Array.isArray(searchParams?.page) ? searchParams?.page[0] : (searchParams?.page ?? '1'), 10) || 1;
+export default async function PostsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] }> }) {
+  const params = await searchParams;
+  const currentPage = parseInt(Array.isArray(params?.page) ? params.page[0] : (params?.page ?? '1'), 10) || 1;
   const perPage = 6;
 
   const posts = await getPosts(1, 100);
