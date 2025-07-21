@@ -7,18 +7,18 @@ import { getPosts, getCategories, getTags, getPopularPosts } from '@/lib/wordpre
 import Sidebar from '../components/Sidebar';
 import BlogPostList from './BlogPostList';
 import FeaturedPosts from './FeaturedPosts';
-import BlogPaginationClient from './BlogPaginationClient';
+import BlogPagination from '../components/BlogPagination';
 
-const POSTS_PER_PAGE = 10;
+export default async function PostsPage({ searchParams }: { searchParams?: { [key: string]: string | string[] } }) {
+  const currentPage = parseInt(Array.isArray(searchParams?.page) ? searchParams?.page[0] : (searchParams?.page ?? '1'), 10) || 1;
+  const perPage = 6;
 
-export default async function PostsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] }> }) {
-  const params = await searchParams;
-  const page = params?.page ? parseInt(Array.isArray(params.page) ? params.page[0] : params.page, 10) : 1;
-  const allPosts = await getPosts(1, 1000); // Fetch all to get total count (or use API count if available)
-  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
-  const startIdx = (page - 1) * POSTS_PER_PAGE;
-  const endIdx = startIdx + POSTS_PER_PAGE;
-  const posts = allPosts.slice(startIdx, endIdx);
+  const posts = await getPosts(1, 100);
+  const totalPages = Math.ceil(posts.length / perPage);
+
+  const start = (currentPage - 1) * perPage;
+  const pagePosts = posts.slice(start, start + perPage);
+
   const categories = await getCategories();
   const tags = await getTags();
   const popularPosts = await getPopularPosts(3);
@@ -37,21 +37,21 @@ export default async function PostsPage({ searchParams }: { searchParams: Promis
     );
   }
 
-  // First 3 posts as prominent cards (only on first page)
-  const featured = page === 1 ? posts.slice(0, 3) : [];
-  const rest = page === 1 ? posts.slice(3) : posts;
+  // Featured only on first page (first 3 posts)
+  const featured = currentPage === 1 ? posts.slice(0, 3) : [];
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
       <main className="lg:col-span-3 space-y-12">
-        {/* Modern Blog Header */}
+        {/* Header */}
         <header className="mb-10">
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">Blog</h1>
           <p className="text-lg text-slate-600">Insights, tutorials, and the latest in tech—curated for you.</p>
         </header>
-        {/* Featured First 3 Articles (only on first page) */}
-        {page === 1 && <FeaturedPosts posts={featured} />}
-        <BlogPaginationClient posts={rest} currentPage={page} totalPages={totalPages} />
+
+        {featured.length > 0 && <FeaturedPosts posts={featured} />}
+        <BlogPostList posts={pagePosts} />
+        <BlogPagination currentPage={currentPage} totalPages={totalPages} />
       </main>
       <aside className="lg:col-span-1">
         <div className="sticky top-8">
