@@ -322,6 +322,18 @@ export function generateExcerpt(content: string, maxLength: number = 160): strin
   return stripped.substring(0, maxLength).trim() + '...';
 }
 
+/**
+ * Calculate reading time in minutes for a given HTML string (200 wpm)
+ */
+export function calculateReadingTime(html: string): number {
+  // Remove HTML tags and decode entities
+  const text = stripHtml(html);
+  // Count words
+  const words = text.trim().split(/\s+/).length;
+  // Average reading speed: 200 words per minute
+  return Math.max(1, Math.ceil(words / 200));
+}
+
 // Sample data functions for fallback
 function getSamplePosts(): WordPressPost[] {
   return [

@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Sidebar from './Sidebar';
 import Breadcrumbs from './Breadcrumbs';
 import SocialShareButtons from './SocialShareButtons';
-import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities } from '@/lib/wordpress';
+import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities, calculateReadingTime } from '@/lib/wordpress';
 import Image from 'next/image';
 
 interface BlogPostLayoutProps {
@@ -21,7 +21,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
   const featuredImageUrl = getFeaturedImageUrl(post, 'large');
   const decodedTitle = decodeHtmlEntities(post.title.rendered);
   const decodedContent = decodeHtmlEntities(post.content.rendered);
-  const canonicalUrl = `https://code-and-tech.vercel.app/blog/${post.slug}`;
+  const canonicalUrl = `https://code-and-tech.vercel.app/${post.slug}`;
   // NOTE: Removed isLoggedIn state and related useEffect block
 
   return (
@@ -103,7 +103,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    5 min read
+                    {calculateReadingTime(post.content.rendered)} min read
                   </div>
                 </div>
               </header>
@@ -123,6 +123,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     const cat = categories.find((c: WordPressCategory) => c.id === catId);
                     return cat ? cat.name : '';
                   }).filter(Boolean) || []}
+                  readingTime={calculateReadingTime(post.content.rendered)}
                 />
               </div>
               {/* You May Also Like */}
@@ -133,7 +134,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     {posts.filter((p: WordPressPost) => p.slug !== post.slug).slice(0, 3).map((p: WordPressPost) => (
                       <li key={p.id} className="flex items-center">
                         <span className="text-blue-900 font-bold mr-2">&bull;</span>
-                        <Link href={`/blog/${p.slug}`} className="block font-montserrat text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
+                        <Link href={`/${p.slug}`} className="block font-montserrat text-sm font-semibold text-slate-800 hover:text-blue-600 transition-colors duration-200 uppercase tracking-wide">
                           {p.title.rendered}
                         </Link>
                       </li>
