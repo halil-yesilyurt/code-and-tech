@@ -321,3 +321,8 @@ input::selection {
   background: #c7d2fe;
   color: #1e3a8a;
 }
+
+/* Custom transition for project images – more specific selector overrides global * rule */
+.project-image {
+  transition: transform 1s ease, object-position 1s ease, opacity 0.5s ease;
+}
