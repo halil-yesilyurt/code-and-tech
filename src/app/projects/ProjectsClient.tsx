@@ -39,9 +39,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
   }, [projects]);
 
   const handleShowMore = () => {
-    console.log('Button clicked! Current visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length);
     const newCount = Math.min(visibleCount + 4, filteredProjects.length);
-    console.log('Setting visibleCount to:', newCount);
     setVisibleCount(newCount);
   };
 
@@ -54,7 +52,6 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const hasMoreProjects = visibleCount < filteredProjects.length;
   
-  console.log('Render - visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length, 'hasMoreProjects:', hasMoreProjects, 'visibleProjects.length:', visibleProjects.length);
 
   return (
     <>

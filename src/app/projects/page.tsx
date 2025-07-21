@@ -109,8 +109,7 @@ const fallbackProjects: Project[] = [
 
 async function getProjects(): Promise<Project[]> {
   try {
-    // Try external API first
-    console.log('Fetching projects from external API...');
+    // Attempt to fetch projects from external API
     const res = await fetch('https://halilyesilyurt.com/api/projects', { 
       next: { revalidate: 3600 },
       headers: {
@@ -119,27 +118,21 @@ async function getProjects(): Promise<Project[]> {
       }
     });
     
-    console.log('API Response status:', res.status);
-    
     if (res.ok) {
       const data = await res.json();
-      console.log('API Response data:', data);
       if (Array.isArray(data) && data.length > 0) {
-        console.log('Using external API data with', data.length, 'projects');
         return data;
       } else {
-        console.log('External API returned empty or invalid data, using fallback');
+        console.error('External API returned empty or invalid data, using fallback');
       }
     } else {
-      console.log('External API failed with status:', res.status);
+      console.error('External API failed with status:', res.status);
     }
     
     // Return fallback data if external API fails
-    console.log('Using fallback projects data');
     return fallbackProjects;
   } catch (error) {
     console.error('Failed to fetch projects:', error);
-    console.log('Using fallback projects data due to error');
     return fallbackProjects;
   }
 }

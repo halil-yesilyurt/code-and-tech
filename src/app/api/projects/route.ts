@@ -78,7 +78,6 @@ export async function GET() {
     }
 
     // If external API fails or returns empty data, use fallback
-    console.log('Using fallback projects data');
     return NextResponse.json(fallbackProjects);
     
   } catch (error) {
