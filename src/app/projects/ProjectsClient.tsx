@@ -24,12 +24,12 @@ interface ProjectsClientProps {
 }
 
 export default function ProjectsClient({ projects, categories, tags, popularPosts }: ProjectsClientProps) {
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState(4);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
   // Initialize visibleCount only once
   useEffect(() => {
-    setVisibleCount(6);
+    setVisibleCount(4);
   }, []);
 
   // Update filteredProjects when projects prop changes
@@ -40,7 +40,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
 
   const handleShowMore = () => {
     console.log('Button clicked! Current visibleCount:', visibleCount, 'filteredProjects.length:', filteredProjects.length);
-    const newCount = Math.min(visibleCount + 6, filteredProjects.length);
+    const newCount = Math.min(visibleCount + 4, filteredProjects.length);
     console.log('Setting visibleCount to:', newCount);
     setVisibleCount(newCount);
   };
@@ -48,7 +48,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
   // Memoize the filter change handler to avoid unnecessary re-renders that reset visibleCount
   const handleFilterChange = useCallback((filtered: Project[]) => {
     setFilteredProjects(filtered);
-    setVisibleCount(6); // Reset to show first 6 when filtering
+    setVisibleCount(4); // Reset to show first 4 when filtering
   }, []);
   
   const visibleProjects = filteredProjects.slice(0, visibleCount);
@@ -89,16 +89,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                 Explore my latest web development projects and creative solutions
               </p>
             </div>
-            <div className="flex items-center justify-center lg:justify-start gap-4 text-sm text-slate-500">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span>Total Projects</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <span>Modern Tech Stack</span>
-              </div>
-            </div>
+            {/* Removed unnecessary stats section */}
           </div>
 
           {!projects || projects.length === 0 ? (
@@ -132,7 +123,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                   <button
                     onClick={() => {
                       setFilteredProjects(projects);
-                      setVisibleCount(6);
+                      setVisibleCount(4);
                     }}
                     className='px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm hover:shadow-md font-medium'
                   >
@@ -142,7 +133,8 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
               ) : (
                 <>
                   {/* Projects Grid */}
-                  <div className='grid gap-6 md:grid-cols-2 xl:grid-cols-3'>
+                  {/* Grid adjusted to 2 columns on medium and larger devices for a 2x2 layout initially */}
+                  <div className='grid gap-6 md:grid-cols-2'>
                     {visibleProjects.map((project: Project) => (
                       <ProjectImage key={project.id} project={project} />
                     ))}

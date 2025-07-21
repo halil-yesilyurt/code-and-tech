@@ -34,7 +34,7 @@ export default function ProjectImage({ project }: { project: unknown }) {
   }, [image]);
 
   return (
-    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-slate-100 hover:border-slate-200">
+    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-slate-100 hover:border-slate-200 animate-fade-slide-in">
       {/* Image Container */}
       <div className="relative w-full h-48 sm:h-52 lg:h-56 bg-white overflow-hidden">
         {isNew && (
@@ -87,14 +87,14 @@ export default function ProjectImage({ project }: { project: unknown }) {
         <h2 className="text-lg sm:text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
           {title}
         </h2>
-        <p className="text-sm sm:text-base text-slate-600 mb-4 line-clamp-3 leading-relaxed flex-1">
+        <p className="text-sm sm:text-base text-slate-600 mb-4 line-clamp-3 leading-relaxed overflow-hidden">
           {description}
         </p>
         
         {/* Tech Stack Tags */}
         {techStack && techStack.length > 0 && (
           <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-5">
-            {techStack.slice(0, 3).map((tag: string) => (
+            {techStack.map((tag: string) => (
               <span 
                 key={tag} 
                 className="inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors"
@@ -102,11 +102,6 @@ export default function ProjectImage({ project }: { project: unknown }) {
                 {tag}
               </span>
             ))}
-            {techStack.length > 3 && (
-              <span className="inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium bg-slate-50 text-slate-600 border border-slate-100">
-                +{techStack.length - 3}
-              </span>
-            )}
           </div>
         )}
         
