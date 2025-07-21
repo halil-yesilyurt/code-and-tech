@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ProjectImage from '../components/ProjectImage';
 import ProjectSkeleton from '../components/ProjectSkeleton';
 import ProjectFilters from '../components/ProjectFilters';
@@ -45,6 +45,12 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
     setVisibleCount(newCount);
   };
 
+  // Memoize the filter change handler to avoid unnecessary re-renders that reset visibleCount
+  const handleFilterChange = useCallback((filtered: Project[]) => {
+    setFilteredProjects(filtered);
+    setVisibleCount(6); // Reset to show first 6 when filtering
+  }, []);
+  
   const visibleProjects = filteredProjects.slice(0, visibleCount);
   const hasMoreProjects = visibleCount < filteredProjects.length;
   
@@ -108,12 +114,10 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
           ) : (
             <>
               {/* Project Filters */}
+
               <ProjectFilters 
                 projects={projects} 
-                onFilterChange={(filtered) => {
-                  setFilteredProjects(filtered);
-                  setVisibleCount(6); // Reset to show first 6 when filtering
-                }} 
+                onFilterChange={handleFilterChange} 
               />
               
               {filteredProjects.length === 0 ? (
@@ -145,34 +149,19 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                   </div>
                   
                   {/* Show More Button */}
-                  <div className='text-center pt-8'>
-                    <button
-                      onClick={() => {
-                        console.log('Button clicked directly!');
-                        handleShowMore();
-                      }}
-                      onMouseDown={() => console.log('Mouse down on button')}
-                      onMouseUp={() => console.log('Mouse up on button')}
-                      className='inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
-                    >
-                      <svg className='w-5 h-5 mr-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                        <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                      </svg>
-                      Show More Projects ({visibleCount}/{filteredProjects.length})
-                    </button>
-                    <div className='text-sm text-slate-500 mt-2'>
-                      hasMoreProjects: {hasMoreProjects.toString()}, visibleProjects: {visibleProjects.length}
+                  {hasMoreProjects && (
+                    <div className='text-center pt-8'>
+                      <button
+                        onClick={handleShowMore}
+                        className='inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                      >
+                        <svg className='w-5 h-5 mr-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+                        </svg>
+                        Show More Projects ({visibleCount}/{filteredProjects.length})
+                      </button>
                     </div>
-                    <div className='text-xs text-red-500 mt-1'>
-                      Click me to test!
-                    </div>
-                    <button 
-                      onClick={() => console.log('Test button clicked!')}
-                      className='mt-2 px-4 py-2 bg-red-500 text-white rounded'
-                    >
-                      Test Button
-                    </button>
-                  </div>
+                  )}
                 </>
               )}
             </>
