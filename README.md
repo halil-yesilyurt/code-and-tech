@@ -115,7 +115,7 @@ Here are some screenshots of the Code & Tech blog:
    ```
 3. Copy the example environment file and configure it:
    ```bash
-   cp .env.example .env.local
+   cp env.example .env.local
    # Edit .env.local with your WordPress API endpoint and other secrets
    ```
 
@@ -132,21 +132,29 @@ WORDPRESS_API_URL="https://your-wordpress-site.com/wp-json"
 # WordPress REST API Endpoint (client-side)
 NEXT_PUBLIC_WORDPRESS_API_URL="https://your-wordpress-site.com/wp-json"
 
-# WordPress JWT Secret (for authentication, if used)
+# WordPress authentication (optional)
 WORDPRESS_JWT_SECRET="your-jwt-secret"
+WORDPRESS_USERNAME="your-wp-username"
+WORDPRESS_PASSWORD="your-wp-application-password"
 
-# Resend API Key (for contact form)
+# Resend email service
 RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+RESEND_FROM_EMAIL="noreply@example.com"
 
-# Contact Email (for receiving contact form submissions)
+# Contact email destination
 CONTACT_EMAIL="your-email@example.com"
+
+# Google verification / analytics
+NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
 ```
 
-- `WORDPRESS_API_URL`: The base URL for your WordPress REST API (server-side).
-- `NEXT_PUBLIC_WORDPRESS_API_URL`: The base URL for your WordPress REST API (client-side, exposed to browser).
-- `WORDPRESS_JWT_SECRET`: Secret key for JWT authentication (if login/auth is enabled).
-- `RESEND_API_KEY`: API key for Resend email service (contact form).
-- `CONTACT_EMAIL`: Email address to receive contact form submissions.
+- `WORDPRESS_API_URL` / `NEXT_PUBLIC_WORDPRESS_API_URL`: Base URLs for your WordPress REST API (server & client)
+- `WORDPRESS_JWT_SECRET`, `WORDPRESS_USERNAME`, `WORDPRESS_PASSWORD`: Credentials for JWT-protected WordPress endpoints (optional)
+- `RESEND_API_KEY`, `RESEND_FROM_EMAIL`: Resend email-service credentials
+- `CONTACT_EMAIL`: Destination address for contact-form submissions
+- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`: Google Search Console verification code
+- `NEXT_PUBLIC_GA_ID`: Google Analytics / GA4 measurement ID
 
 ---
 
