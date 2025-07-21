@@ -123,6 +123,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     const cat = categories.find((c: WordPressCategory) => c.id === catId);
                     return cat ? cat.name : '';
                   }).filter(Boolean) || []}
+                  readingTime={calculateReadingTime(post.content.rendered)}
                 />
               </div>
               {/* You May Also Like */}

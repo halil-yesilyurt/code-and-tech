@@ -9,11 +9,13 @@ interface SocialShareButtonsProps {
   hashtags?: string[];
   categories?: string[];
   featuredImage?: string;
+  readingTime?: number;
 }
 
-export default function SocialShareButtons({ url, title, description, hashtags = [], categories = [], featuredImage }: SocialShareButtonsProps) {
+export default function SocialShareButtons({ url, title, description, hashtags = [], categories = [], featuredImage, readingTime }: SocialShareButtonsProps) {
   const [copied, setCopied] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [copiedTitleLink, setCopiedTitleLink] = useState(false);
 
   // Convert categories to kebab-case hashtags
   const categoryHashtags = categories.map(cat => 
@@ -55,6 +57,16 @@ export default function SocialShareButtons({ url, title, description, hashtags =
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy link:', err);
+    }
+  };
+
+  const handleCopyTitleLink = async () => {
+    try {
+      await navigator.clipboard.writeText(`${title} - ${url}`);
+      setCopiedTitleLink(true);
+      setTimeout(() => setCopiedTitleLink(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy title + link:', err);
     }
   };
 
@@ -132,7 +144,17 @@ export default function SocialShareButtons({ url, title, description, hashtags =
           {showPreview ? 'Hide Preview' : 'Show Preview'}
         </button>
       </div>
-      
+      {/* Reading Time Display */}
+      {readingTime && (
+        <div className="flex items-center mb-4 text-xs text-slate-500">
+          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {readingTime} min read
+        </div>
+      )}
+      {/* Divider */}
+      <div className="border-t border-slate-100 my-4" />
       {/* Share Preview */}
       {showPreview && (
         <div className="mb-6">
@@ -145,8 +167,8 @@ export default function SocialShareButtons({ url, title, description, hashtags =
           />
         </div>
       )}
-      
-      <div className="flex flex-wrap gap-3">
+      {/* Share Buttons */}
+      <div className="flex flex-wrap gap-2 mb-4">
         {socialPlatforms.map((platform) => (
           <button
             key={platform.name}
@@ -174,9 +196,28 @@ export default function SocialShareButtons({ url, title, description, hashtags =
             </svg>
           )}
         </button>
+        <button
+          onClick={handleCopyTitleLink}
+          className={`w-12 h-12 rounded-lg flex items-center justify-center text-slate-600 bg-slate-100 transition-all duration-200 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+          aria-label="Copy title and link"
+          title="Copy title and link"
+        >
+          {copiedTitleLink ? (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          )}
+        </button>
       </div>
       {copied && (
         <p className="text-sm text-green-600 mt-3 font-medium">Link copied to clipboard!</p>
+      )}
+      {copiedTitleLink && (
+        <p className="text-sm text-blue-600 mt-3 font-medium">Title + link copied!</p>
       )}
     </div>
   );
