@@ -8,8 +8,15 @@ import Sidebar from '../components/Sidebar';
 import BlogPostList from './BlogPostList';
 import FeaturedPosts from './FeaturedPosts';
 
-export default async function PostsPage() {
-  const posts = await getPosts(1, 20);
+const POSTS_PER_PAGE = 10;
+
+export default async function PostsPage({ searchParams }: { searchParams?: { [key: string]: string | string[] } }) {
+  const page = searchParams?.page ? parseInt(Array.isArray(searchParams.page) ? searchParams.page[0] : searchParams.page, 10) : 1;
+  const allPosts = await getPosts(1, 1000); // Fetch all to get total count (or use API count if available)
+  const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
+  const startIdx = (page - 1) * POSTS_PER_PAGE;
+  const endIdx = startIdx + POSTS_PER_PAGE;
+  const posts = allPosts.slice(startIdx, endIdx);
   const categories = await getCategories();
   const tags = await getTags();
   const popularPosts = await getPopularPosts(3);
@@ -28,9 +35,18 @@ export default async function PostsPage() {
     );
   }
 
-  // First 3 posts as prominent cards
-  const featured = posts.slice(0, 3);
-  const rest = posts.slice(3);
+  // First 3 posts as prominent cards (only on first page)
+  const featured = page === 1 ? posts.slice(0, 3) : [];
+  const rest = page === 1 ? posts.slice(3) : posts;
+
+  // Pagination handler (client-side navigation)
+  const handlePageChange = (newPage: number) => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('page', newPage.toString());
+      window.location.href = url.toString();
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -40,9 +56,9 @@ export default async function PostsPage() {
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">Blog</h1>
           <p className="text-lg text-slate-600">Insights, tutorials, and the latest in tech—curated for you.</p>
         </header>
-        {/* Featured First 3 Articles */}
-        <FeaturedPosts posts={featured} />
-        <BlogPostList posts={rest} />
+        {/* Featured First 3 Articles (only on first page) */}
+        {page === 1 && <FeaturedPosts posts={featured} />}
+        <BlogPostList posts={rest} currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
       </main>
       <aside className="lg:col-span-1">
         <div className="sticky top-8">

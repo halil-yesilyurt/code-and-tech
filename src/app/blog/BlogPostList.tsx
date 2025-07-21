@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { decodeHtmlEntities, stripHtml } from '@/lib/wordpress';
+import { decodeHtmlEntities, stripHtml, calculateReadingTime } from '@/lib/wordpress';
 import Image from 'next/image';
 
 type Post = {
@@ -18,21 +18,11 @@ type Post = {
   };
 };
 
-export default function BlogPostList({ posts }: { posts: Post[] }) {
-  // Show 4 initially, then 6 more each time
-  const INITIAL = 4;
-  const LOAD_MORE = 6;
-  const [visible, setVisible] = useState(INITIAL);
-
-  const handleShowMore = () => setVisible((v) => v + LOAD_MORE);
-
-  const visiblePosts = posts.slice(0, visible);
-  const hasMore = visible < posts.length;
-
+export default function BlogPostList({ posts, currentPage, totalPages, onPageChange }: { posts: Post[], currentPage: number, totalPages: number, onPageChange: (page: number) => void }) {
   return (
     <>
       <div className='grid md:grid-cols-2 gap-8'>
-        {visiblePosts.map((post: Post) => (
+        {posts.map((post: Post) => (
           <article
             key={post.id}
             style={{
@@ -65,6 +55,13 @@ export default function BlogPostList({ posts }: { posts: Post[] }) {
                   </svg>
                   {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </time>
+                <span className='mx-2'>•</span>
+                <span className='flex items-center'>
+                  <svg className='w-4 h-4 mr-1' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z' />
+                  </svg>
+                  {calculateReadingTime(post.content?.rendered || '')} min read
+                </span>
               </div>
               <h3 className='text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors duration-200'>
                 <Link href={`/${post.slug}`} className='hover:underline'>
@@ -109,17 +106,26 @@ export default function BlogPostList({ posts }: { posts: Post[] }) {
           </article>
         ))}
       </div>
-      {hasMore && (
-        <div className='flex justify-center mt-8'>
-          <button
-            onClick={handleShowMore}
-            className='px-6 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 cursor-pointer'
-            type='button'
-          >
-            Show More
-          </button>
-        </div>
-      )}
+      {/* Pagination Controls */}
+      <div className='flex justify-center mt-8 gap-4'>
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          className='px-4 py-2 rounded-lg bg-slate-200 text-slate-700 font-semibold hover:bg-slate-300 transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+          type='button'
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className='px-4 py-2 text-slate-600 font-medium'>Page {currentPage} of {totalPages}</span>
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          className='px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+          type='button'
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </>
   );
 }
