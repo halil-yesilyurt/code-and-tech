@@ -1,6 +1,5 @@
 # Code & Tech
 
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Last Commit](https://img.shields.io/github/last-commit/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech/commits/main)
 [![GitHub stars](https://img.shields.io/github/stars/halil-yesilyurt/code-and-tech.svg?style=social)](https://github.com/halil-yesilyurt/code-and-tech/stargazers)
@@ -9,19 +8,15 @@
 
 A modern, high-performance tech blog built with Next.js and headless WordPress. Designed for developers and tech enthusiasts, it features a beautiful UI, blazing-fast performance, and a fully decoupled content management experience.
 
----
 
 ## 🚀 Live Demo
 
 [View the Live Site](https://code-and-tech.vercel.app/)
 
----
 
-## 📖 Description
+## 📖 Project Overview
 
-**Code & Tech** is a modern, high-performance tech blog that leverages a headless WordPress backend and a Next.js frontend. It is designed to provide a seamless, fast, and SEO-optimized reading experience for tech enthusiasts, developers, and content creators. The project decouples content management from presentation, allowing editors to use the familiar WordPress dashboard while delivering a blazing-fast, modern frontend.
-
----
+**Code & Tech** is a modern, high-performance tech blog that leverages a headless WordPress backend and a Next.js frontend. It is designed for developers and tech enthusiasts, providing a beautiful, responsive UI, fast performance, and a fully decoupled content management experience. Content is managed in WordPress (hosted on InfinityFree or similar), while the frontend is deployed on Vercel for optimal speed and scalability.
 
 ## 🖼️ Screenshots
 
@@ -31,17 +26,23 @@ Here are some screenshots of the Code & Tech blog:
 
 ![Homepage](./public/screenshot-1.png)
 
-**Article Page**
+**Blog Page**
 
-![Article Page](./public/screenshot-2.png)
+![Blog Page](./public/screenshot-2.png)
+
+**Projects Page**
+
+![Blog Page](./public/screenshot-3.png)
+
+**Interviews Page**
+
+![Interviews Page](./public/screenshot-4.png)
 
 **Contact Page**
 
-![Contact Page](./public/screenshot-3.png)
+![Contact Page](./public/screenshot-5.png)
 
----
-
-## ✨ Key Features
+## ✨ Features
 
 - **Headless Architecture:** Decoupled WordPress backend and Next.js frontend for flexibility and performance.
 - **Static Site Generation (SSG) & Server-Side Rendering (SSR):** Combines SSG for most pages and SSR for dynamic content, ensuring fast load times and great SEO.
@@ -56,8 +57,6 @@ Here are some screenshots of the Code & Tech blog:
 - **Rate Limiting:** Built-in API rate limiting for spam protection.
 - **Newsletter Signup:** Integrated newsletter form for audience growth.
 - **Modern UI/UX:** Animations, gradients, and a clean, professional look.
-
----
 
 ## 🛠️ Tech Stack
 
@@ -76,7 +75,48 @@ Here are some screenshots of the Code & Tech blog:
   - Advanced Custom Fields (ACF)
   - JWT Authentication for WP REST API (for login)
 
----
+
+## 🗂️ Project Structure
+
+```
+code-and-tech/
+  ├── build.js
+  ├── data/
+  ├── docs/           # Documentation (PRD, tech stack, setup guides, etc.)
+  ├── public/         # Static assets (images, icons, etc.)
+  ├── scripts/
+  ├── src/
+  │   ├── app/        # Next.js app directory (pages, components, API routes)
+  │   ├── lib/        # Utilities (WordPress API, rate limiting, etc.)
+  ├── package.json
+  ├── tsconfig.json
+  └── ...
+```
+
+## 🔒 Security & Best Practices
+
+- Hide `/wp-admin` with a custom path (WPS Hide Login)
+- Secure API with JWT (block unauthorized access)
+- Use environment variables for API URLs and secrets
+- Optimize images with Next.js `Image` component
+- Implement ISR for incremental updates
+- Keep WordPress/plugins up to date
+- Use strong passwords and enable 2FA if possible
+- Disable XML-RPC
+- Rate limit API endpoints
+- Never expose sensitive credentials in the frontend
+
+## 🏠 Pages & User Flow
+
+| Path         | Purpose                                                      |
+|--------------|--------------------------------------------------------------|
+| `/`          | Home: Featured/latest blog posts, search, categories         |
+| `/blog`      | All blog posts (with filter/sort by category, tag)           |
+| `/about`     | Info about you, your experience, your goals                  |
+| `/categories`| List of post categories with post counts                     |
+| `/contact`   | Email form, social links, GitHub, etc.                       |
+| `/projects`  | Highlight personal dev projects                              |
+| `/interview` | Q&A with tech leaders (video + transcript)                   |
 
 ## 📦 Prerequisites
 
@@ -84,8 +124,6 @@ Here are some screenshots of the Code & Tech blog:
 - **npm**, **yarn**, or **pnpm**
 - **WordPress** (local or remote instance)
 - **Required WordPress Plugins** (see above)
-
----
 
 ## ⚡ Installation & Setup
 
@@ -118,8 +156,6 @@ Here are some screenshots of the Code & Tech blog:
    cp env.example .env.local
    # Edit .env.local with your WordPress API endpoint and other secrets
    ```
-
----
 
 ## 🔑 Environment Variables
 
@@ -156,8 +192,6 @@ NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
 - `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`: Google Search Console verification code
 - `NEXT_PUBLIC_GA_ID`: Google Analytics / GA4 measurement ID
 
----
-
 ## 🏃 Running the Application
 
 - **Development:**
@@ -187,9 +221,8 @@ NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
 
 Deployment is designed and tested for Vercel. For other platforms, custom configuration may be required.
 
----
 
-## 🤝 Contributing
+## 🧑‍💻 Contributing
 
 Contributions are welcome! To contribute:
 1. Fork the repository
@@ -198,13 +231,11 @@ Contributions are welcome! To contribute:
 4. Push to your fork (`git push origin feature/your-feature`)
 5. Open a Pull Request on GitHub
 
----
 
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
----
 
 ## 🙏 Acknowledgments
 
@@ -214,6 +245,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - **Vercel** for hosting
 - All open-source contributors
 
----
 
 **Happy coding! 🚀**
