@@ -19,7 +19,7 @@ export default function ArticleCard({
     : generateExcerpt(p.content?.rendered || '', 150);
   const thumbnail = getFeaturedImageUrl(p, 'medium');
   return (
-    <article className="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden card-hover">
+    <article className="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-full flex flex-col card-hover">
       <div className="flex flex-col lg:flex-row">
         {/* Image Section */}
         {thumbnail && (

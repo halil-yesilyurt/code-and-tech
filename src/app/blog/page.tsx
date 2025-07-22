@@ -3,10 +3,10 @@ export const metadata = {
   title: 'Blog | Code & Tech',
   description: 'Latest articles, insights and tutorials on software development, AI, cloud and more at Code & Tech.'
 };
-import { getPosts, getCategories, getTags, getPopularPosts } from '@/lib/wordpress';
+import { getPosts, getCategories, getTags, getPopularPosts, decodeHtmlEntities } from '@/lib/wordpress';
 import Sidebar from '../components/Sidebar';
 import BlogPostList from './BlogPostList';
-import FeaturedPosts from './FeaturedPosts';
+// FeaturedPosts removed
 import BlogPagination from '../components/BlogPagination';
 
 export default async function PostsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] }> }) {
@@ -14,17 +14,28 @@ export default async function PostsPage({ searchParams }: { searchParams: Promis
   const currentPage = parseInt(Array.isArray(params?.page) ? params.page[0] : (params?.page ?? '1'), 10) || 1;
   const perPage = 6;
 
-  const posts = await getPosts(1, 100);
-  const totalPages = Math.ceil(posts.length / perPage);
+  const allPosts = await getPosts(1, 100);
+  const categories = await getCategories();
+
+  // Identify category IDs whose name contains "interview"
+  const interviewCategoryIds = categories
+    .filter((cat) => decodeHtmlEntities(cat.name).toLowerCase().includes('interview'))
+    .map((cat) => cat.id);
+
+  // Filter out posts that belong to any interview category
+  const filteredPosts = allPosts.filter(
+    (post) => !post.categories?.some((cid) => interviewCategoryIds.includes(cid))
+  );
+
+  const totalPages = Math.ceil(filteredPosts.length / perPage);
 
   const start = (currentPage - 1) * perPage;
-  const pagePosts = posts.slice(start, start + perPage);
+  const pagePosts = filteredPosts.slice(start, start + perPage);
 
-  const categories = await getCategories();
   const tags = await getTags();
   const popularPosts = await getPopularPosts(3);
 
-  if (!posts.length) {
+  if (!filteredPosts.length) {
     return (
       <div className="text-center py-12 bg-white rounded-lg shadow-md">
         <div className="text-gray-400 mb-4">
@@ -38,8 +49,7 @@ export default async function PostsPage({ searchParams }: { searchParams: Promis
     );
   }
 
-  // Featured only on first page (first 3 posts)
-  const featured = currentPage === 1 ? posts.slice(0, 3) : [];
+  // Featured only on first page, already defined above
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -50,7 +60,7 @@ export default async function PostsPage({ searchParams }: { searchParams: Promis
           <p className="text-lg text-slate-600">Insights, tutorials, and the latest in tech—curated for you.</p>
         </header>
 
-        {featured.length > 0 && <FeaturedPosts posts={featured} />}
+        {/* Featured section removed */}
         <BlogPostList posts={pagePosts} />
         <BlogPagination currentPage={currentPage} totalPages={totalPages} />
       </main>
