@@ -56,6 +56,7 @@ You are a highly skilled content writer specializing in SEO-friendly, engaging, 
   - relational databases
 - development tools
 - internet of things (iot)
+- interview
 - learning & education
 - machine learning (ml)
 - mobile development
