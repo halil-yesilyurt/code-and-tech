@@ -167,10 +167,64 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           </svg>
           <h3 className="text-lg font-bold mb-2">Subscribe to Newsletter</h3>
           <p className="text-blue-100 text-sm mb-4">Get the latest blog posts delivered to your inbox</p>
-          <form action="https://gmail.us15.list-manage.com/subscribe/post?u=986c78fd0ebe5113cedbde9ed&amp;id=f69d8b3a8e&amp;f_id=00a69de1f0" method="post" target="_blank" className="flex flex-col gap-2">
-            <input type="email" name="EMAIL" required placeholder="Your email address" className="rounded-lg px-3 py-2 text-slate-900 bg-white border-2 border-blue-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-300" />
-            <button type="submit" className="w-full bg-white text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-200">Subscribe</button>
-          </form>
+          {/* Newsletter form logic */}
+          {/** BEGIN: Newsletter React Form **/}
+          {(() => {
+            const [email, setEmail] = React.useState("");
+            const [status, setStatus] = React.useState<null | "success" | "error" | "loading">(null);
+            const [message, setMessage] = React.useState("");
+            // Mailchimp endpoint and params
+            const MC_URL = "https://gmail.us15.list-manage.com/subscribe/post?u=986c78fd0ebe5113cedbde9ed&id=f69d8b3a8e&f_id=00a69de1f0";
+            const handleSubmit = async (e: React.FormEvent) => {
+              e.preventDefault();
+              setStatus("loading");
+              setMessage("");
+              // Mailchimp expects form-encoded data
+              const formData = new URLSearchParams();
+              formData.append("EMAIL", email);
+              try {
+                const res = await fetch(MC_URL, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                  },
+                  body: formData.toString(),
+                  mode: "no-cors", // Mailchimp does not return CORS headers
+                });
+                setStatus("success");
+                setMessage("Thank you for subscribing!");
+                setEmail("");
+              } catch (err) {
+                setStatus("error");
+                setMessage("There was an error. Please try again later.");
+              }
+            };
+            return (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                <input
+                  type="email"
+                  name="EMAIL"
+                  required
+                  placeholder="Your email address"
+                  className="rounded-lg px-3 py-2 text-slate-900 bg-white border-2 border-blue-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-300"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  disabled={status === "loading" || status === "success"}
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-white text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-200"
+                  disabled={status === "loading" || status === "success"}
+                >
+                  {status === "loading" ? "Subscribing..." : status === "success" ? "Subscribed" : "Subscribe"}
+                </button>
+                {message && (
+                  <div className={`text-sm mt-2 ${status === "success" ? "text-green-200" : "text-red-200"}`}>{message}</div>
+                )}
+              </form>
+            );
+          })()}
+          {/** END: Newsletter React Form **/}
         </div>
       </div>
     </aside>

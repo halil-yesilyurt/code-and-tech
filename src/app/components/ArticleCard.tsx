@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { formatDate, generateExcerpt, getFeaturedImageUrl, WordPressPost, calculateReadingTime } from '@/lib/wordpress';
+import { formatDate, generateExcerpt, getFeaturedImageUrl, WordPressPost, calculateReadingTime, decodeHtmlEntities } from '@/lib/wordpress';
 import Image from 'next/image';
 import SearchResultHighlight from './SearchResultHighlight';
 
@@ -74,7 +74,7 @@ export default function ArticleCard({
                   href={`/category/${cat.slug}`}
                   className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200"
                 >
-                  #{cat.name}
+                  #{decodeHtmlEntities(cat.name)}
                 </Link>
               ))}
             </div>

@@ -70,7 +70,7 @@ export default function BlogPostList({ posts }: { posts: Post[] }) {
                       href={`/category/${category.slug}`}
                       className='inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors duration-200'
                     >
-                      #{category.name}
+                      #{decodeHtmlEntities(category.name)}
                     </Link>
                   );
                 })}
