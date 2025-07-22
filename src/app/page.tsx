@@ -1,4 +1,4 @@
-import { getPosts, getTags, getCategories, getPopularPosts } from '@/lib/wordpress';
+import { getPosts, getTags, getCategories, getPopularPosts, getTotalPublishedPostsCount } from '@/lib/wordpress';
 // Removed view counter logic
 import SearchBar from './components/SearchBar';
 import Link from 'next/link';
@@ -16,6 +16,9 @@ export default async function Home() {
   const popularPosts = await getPopularPosts(3); // Get actual popular posts by views
   const recommendedTags = tags.slice(0, 6);
   // Removed totalViews
+
+  // Fetch the exact number of published articles
+  const totalArticles = await getTotalPublishedPostsCount();
 
   return (
     <div className='min-h-screen flex flex-col'>
@@ -68,7 +71,7 @@ export default async function Home() {
               <div className='grid grid-cols-1 md:grid-cols-2 gap-8 text-center'>
                 <div>
                   <div className='text-3xl font-bold text-blue-600 mb-2'>
-                    <AnimatedCounter value={posts.length} suffix="+" />
+                    <AnimatedCounter value={totalArticles} />
                   </div>
                   <div className='text-slate-600'>Articles Published</div>
                 </div>

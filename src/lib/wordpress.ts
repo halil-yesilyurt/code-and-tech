@@ -664,6 +664,35 @@ export async function getPopularPosts(limit: number = 10): Promise<WordPressPost
   return all.slice(0, limit);
 }
 
+/**
+ * Fetch the total number of published posts from WordPress REST API
+ * Falls back to sample data count if WordPress is not configured
+ */
+export async function getTotalPublishedPostsCount(): Promise<number> {
+  if (USE_SAMPLE_DATA) {
+    return getSamplePosts().length;
+  }
+  try {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?per_page=1&status=publish`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      next: { revalidate: 60 },
+    });
+    if (!response.ok) {
+      const text = await response.text();
+      console.warn('WordPress API error, falling back to sample data:', response.status, text);
+      return getSamplePosts().length;
+    }
+    // The total count is in the X-WP-Total header
+    const total = response.headers.get('X-WP-Total');
+    return total ? parseInt(total, 10) : 0;
+  } catch (error) {
+    console.error('Error fetching total published posts count from WordPress:', error);
+    return getSamplePosts().length;
+  }
+}
+
 // View tracking was removed; keep the function for legacy imports but make it a no-op.
 export async function trackPostView(_postId: number): Promise<void> {
   // Intentionally left blank
