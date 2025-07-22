@@ -168,7 +168,7 @@ NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
 - **Build:**
   ```bash
   npm run build
-  # Builds the production app
+  # Runs a custom build.js script, which wraps 'next build' and disables Next.js telemetry for production builds.
   ```
 - **Start:**
   ```bash

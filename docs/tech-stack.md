@@ -11,6 +11,7 @@ Below is an overview of the primary technologies, libraries and services that po
 | Language | **TypeScript** | Type-safe JavaScript across the entire codebase |
 | UI Library | **React 18** | Component model & hooks API |
 | Styling | **Tailwind CSS v3** + PostCSS | Utility-first styling, JIT compilation, custom plugins |
+| Build Script | **Custom build.js** | Wraps 'next build', disables Next.js telemetry for production builds |
 
 ## 🗂 Content layer
 
@@ -24,7 +25,7 @@ Below is an overview of the primary technologies, libraries and services that po
 
 | Service | Purpose |
 |---------|---------|
-| **Resend** | Transactional email service for contact-form submissions |
+| **Resend** | Transactional email service for contact-form submissions (Note: The 'resend' npm package is included for potential future use, but is not currently used in the codebase.) |
 
 ## 🛡 Security & Optimisation
 
