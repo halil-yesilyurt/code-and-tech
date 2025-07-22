@@ -7,7 +7,7 @@ import SocialMediaLinks from '../components/SocialMediaLinks';
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 py-6 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -19,7 +19,7 @@ export default function ContactPage() {
 
         <div className="max-w-4xl mx-auto">
           {/* Contact Information */}
-          <div className="space-y-8 text-center">
+          <div className="space-y-6 text-center">
             <div>
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">Let's Connect</h2>
               <p className="text-gray-600 mb-8">
@@ -41,9 +41,11 @@ export default function ContactPage() {
             </div>
 
             {/* Social Links */}
-            <div className="pt-6">
+            <div className="pt-4 flex flex-col items-center">
               <h3 className="text-lg font-medium text-gray-900 mb-4">Follow Me</h3>
-              <SocialMediaLinks variant="footer" className="justify-center" />
+              <div className="flex justify-center w-full">
+                <SocialMediaLinks variant="footer" />
+              </div>
             </div>
           </div>
         </div>
