@@ -138,7 +138,7 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
     }));
   }
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?_embed&page=${page}&per_page=${perPage}&status=publish`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?_embed&page=${page}&per_page=${perPage}&status=publish`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -190,7 +190,7 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
   }
 
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?slug=${slug}&_embed&status=publish`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?slug=${slug}&_embed&status=publish`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -243,7 +243,7 @@ export async function getAllPostSlugs(): Promise<string[]> {
   }
 
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?per_page=100&status=publish&_fields=slug`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?per_page=100&status=publish&_fields=slug`, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -483,7 +483,7 @@ export async function getPageBySlug(slug: string) {
     console.warn('WORDPRESS_API_URL is not set – returning null for getPageBySlug');
     return null;
   }
-  const apiUrl = `${WORDPRESS_API_URL}/wp-json/wp/v2/pages?slug=${slug}`;
+  const apiUrl = `${WORDPRESS_API_URL}/wp/v2/pages?slug=${slug}`;
   const res = await fetch(apiUrl, { next: { revalidate: 60 } });
   if (!res.ok) {
     console.error('Failed to fetch page:', res.status, await res.text());
@@ -509,7 +509,7 @@ export async function getTags(): Promise<WordPressTag[]> {
     }));
   }
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/tags?per_page=20`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/tags?per_page=20`, {
       headers: { 'Content-Type': 'application/json' },
       next: { revalidate: 60 },
     });
@@ -547,7 +547,7 @@ export async function getCategories(): Promise<WordPressCategory[]> {
     }));
   }
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/categories?per_page=100`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/categories?per_page=100`, {
       headers: { 'Content-Type': 'application/json' },
       next: { revalidate: 60 },
     });
@@ -598,7 +598,7 @@ export async function searchPosts(query: string, page: number = 1, perPage: numb
 
   try {
     const response = await fetch(
-      `${WORDPRESS_API_URL}/wp-json/wp/v2/posts?_embed&search=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}&status=publish`,
+      `${WORDPRESS_API_URL}/wp/v2/posts?_embed&search=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}&status=publish`,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -673,7 +673,7 @@ export async function getTotalPublishedPostsCount(): Promise<number> {
     return getSamplePosts().length;
   }
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp-json/wp/v2/posts?per_page=1&status=publish`, {
+    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?per_page=1&status=publish`, {
       headers: {
         'Content-Type': 'application/json',
       },

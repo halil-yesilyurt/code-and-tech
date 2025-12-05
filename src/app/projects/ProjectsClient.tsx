@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
 import ProjectImage from '../components/ProjectImage';
-import ProjectSkeleton from '../components/ProjectSkeleton';
 import ProjectFilters from '../components/ProjectFilters';
 import Sidebar from '../components/Sidebar';
 
@@ -16,11 +15,23 @@ interface Project {
   isNew?: boolean;
 }
 
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+interface Tag {
+  id: number;
+  name: string;
+  slug: string;
+}
+
 interface ProjectsClientProps {
   projects: Project[];
-  categories: any[];
-  tags: any[];
-  popularPosts: any[];
+  categories: Category[];
+  tags: Tag[];
+  popularPosts: any[]; // Temporary fix for type mismatch
 }
 
 export default function ProjectsClient({ projects, categories, tags, popularPosts }: ProjectsClientProps) {

@@ -39,7 +39,7 @@ export default function LoginModal({ show, onClose, onLoginSuccess, initialType 
     setError(null);
     setSuccess(null);
     try {
-      const res = await fetch(`${WP_API}/wp-json/jwt-auth/v1/token`, {
+      const res = await fetch(`${WP_API}/jwt-auth/v1/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: form.username, password: form.password }),
@@ -66,7 +66,7 @@ export default function LoginModal({ show, onClose, onLoginSuccess, initialType 
     setError(null);
     setSuccess(null);
     try {
-      const res = await fetch(`${WP_API}/wp-json/wp/v2/users/register`, {
+      const res = await fetch(`${WP_API}/wp/v2/users/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: form.username, email: form.email, password: form.password }),
