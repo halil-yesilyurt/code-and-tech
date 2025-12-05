@@ -266,7 +266,7 @@
 
 ### 🐍 **Python**
 
-1. Python Typing in 2025: Is It Worth It?
+1. 
 2. Async Python: asyncio, FastAPI, and Beyond
 3. Python Packaging Best Practices for Teams
 
