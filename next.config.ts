@@ -21,9 +21,8 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  eslint: {
-    ignoreDuringBuilds: true, // Temporarily disable ESLint during builds
-  },
+  // Turbopack configuration (Next.js 16 uses Turbopack by default)
+  turbopack: {},
   async rewrites() {
     return [];
   },
