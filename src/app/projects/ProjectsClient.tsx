@@ -5,13 +5,14 @@ import ProjectFilters from '../components/ProjectFilters';
 import Sidebar from '../components/Sidebar';
 
 interface Project {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   image?: string;
   techStack?: string[];
   github?: string;
   demo?: string;
+  url?: string;
   isNew?: boolean;
 }
 
@@ -85,15 +86,15 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
         }}
       />
       
-      <div className='grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8'>
-        <main className='lg:col-span-3 space-y-6 lg:space-y-8'>
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-12 my-10'>
+        <main className='lg:col-span-2 space-y-6 lg:space-y-8'>
           {/* Header Section */}
-          <div className='text-center lg:text-left space-y-4'>
+          <div className='space-y-4'>
             <div className="space-y-2">
-              <h1 className='text-3xl lg:text-4xl xl:text-5xl font-bold text-slate-900 leading-tight'>
+              <h1 className='text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 dark:text-white leading-tight'>
                 Projects
               </h1>
-              <p className='text-slate-600 text-lg lg:text-xl max-w-2xl lg:max-w-none'>
+              <p className='text-gray-600 dark:text-gray-400 text-lg lg:text-xl'>
                 Explore my latest web development projects and creative solutions
               </p>
             </div>
@@ -101,13 +102,13 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
           </div>
 
           {!projects || projects.length === 0 ? (
-            <div className='bg-white rounded-2xl shadow-sm p-8 text-center text-slate-500 border border-slate-200'>
-              <div className='text-slate-400 mb-4'>
+            <div className='bg-white dark:bg-gray-800/50 rounded-lg shadow-sm p-8 text-center text-gray-500 dark:text-gray-400'>
+              <div className='text-gray-400 dark:text-gray-500 mb-4'>
                 <svg className='w-16 h-16 mx-auto' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                   <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.47-.881-6.08-2.33' />
                 </svg>
               </div>
-              <p className="text-lg font-medium mb-2">No projects found</p>
+              <p className="text-lg font-medium mb-2 text-gray-900 dark:text-white">No projects found</p>
               <p className="text-sm">Please check your portfolio API or try again later.</p>
             </div>
           ) : (
@@ -120,20 +121,20 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
               />
               
               {filteredProjects.length === 0 ? (
-                <div className='bg-white rounded-2xl shadow-sm p-8 text-center text-slate-500 border border-slate-200'>
-                  <div className='text-slate-400 mb-4'>
+                <div className='bg-white dark:bg-gray-800/50 rounded-lg shadow-sm p-8 text-center text-gray-500 dark:text-gray-400'>
+                  <div className='text-gray-400 dark:text-gray-500 mb-4'>
                     <svg className='w-16 h-16 mx-auto' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                       <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
                     </svg>
                   </div>
-                  <p className="text-lg font-medium mb-2">No projects match your filters</p>
+                  <p className="text-lg font-medium mb-2 text-gray-900 dark:text-white">No projects match your filters</p>
                   <p className="text-sm mb-4">Try adjusting your search criteria or clearing the filters.</p>
                   <button
                     onClick={() => {
                       setFilteredProjects(projects);
                       setVisibleCount(4);
                     }}
-                    className='px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm hover:shadow-md font-medium'
+                    className='px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-all duration-200 shadow-sm hover:shadow-md font-medium'
                   >
                     Clear Filters
                   </button>
@@ -150,14 +151,12 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                   
                   {/* Show More Button */}
                   {hasMoreProjects && (
-                    <div className='text-center pt-8'>
+                    <div className='text-center mt-10'>
                       <button
                         onClick={handleShowMore}
-                        className='inline-flex items-center px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
+                        className='bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-6 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors inline-block cursor-pointer'
+                        type='button'
                       >
-                        <svg className='w-5 h-5 mr-3' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
-                        </svg>
                         Show More Projects ({visibleCount}/{filteredProjects.length})
                       </button>
                     </div>
@@ -168,7 +167,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
           )}
         </main>
         
-        <aside className='lg:col-span-1'>
+        <aside>
           <div className='sticky top-8'>
             <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
           </div>

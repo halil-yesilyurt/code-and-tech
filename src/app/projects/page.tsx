@@ -3,13 +3,14 @@ import { getCategories, getTags, getPopularPosts } from '@/lib/wordpress';
 import ProjectsClient from './ProjectsClient';
 
 interface Project {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   image?: string;
   techStack?: string[];
   github?: string;
   demo?: string;
+  url?: string;
   isNew?: boolean;
 }
 
@@ -70,7 +71,7 @@ const fallbackProjects: Project[] = [
     description: "A modern, high-performance tech blog that leverages a headless WordPress backend with Next.js frontend for optimal performance and SEO.",
     techStack: ["Next.js", "React", "WordPress", "TypeScript", "Tailwind CSS"],
     github: "https://github.com/halil-yesilyurt/code-and-tech",
-    demo: "https://code-and-tech.vercel.app",
+    demo: "https://code-and-tech.halilyesilyurt.com",
     isNew: true
   },
   {
@@ -163,14 +164,14 @@ export async function generateMetadata() {
       description,
       keywords: keywords.join(', '),
       alternates: {
-        canonical: 'https://code-and-tech.vercel.app/projects',
+        canonical: 'https://code-and-tech.halilyesilyurt.com/projects',
       },
       openGraph: {
         title,
         description,
         images,
         type: 'website',
-        url: 'https://code-and-tech.vercel.app/projects',
+        url: 'https://code-and-tech.halilyesilyurt.com/projects',
       },
       twitter: {
         card: images.length > 0 ? 'summary_large_image' : 'summary',

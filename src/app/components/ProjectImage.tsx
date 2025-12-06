@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const GitHubIcon = () => (
   <svg className='w-4 h-4' fill='currentColor' viewBox='0 0 24 24'>
@@ -16,7 +17,7 @@ const ExternalLinkIcon = () => (
 export default function ProjectImage({ project }: { project: unknown }) {
   const [imgError, setImgError] = useState(false);
   const [imgLoading, setImgLoading] = useState(true);
-  const { image, title, description, techStack, github, demo, isNew } = project as any;
+  const { image, title, description, techStack, github, demo, url, isNew } = project as any;
 
   // Reset loading state when image changes
   useEffect(() => {
@@ -33,12 +34,15 @@ export default function ProjectImage({ project }: { project: unknown }) {
     }
   }, [image]);
 
-  return (
-    <div className='group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-slate-100 hover:border-slate-200 animate-fade-slide-in'>
+  // Check if the card will be wrapped in a link
+  const isCardLink = url && typeof url === 'string' && url.trim() !== '';
+
+  const CardContent = (
+    <>
       {/* Image Container */}
-      <div className='relative w-full h-48 sm:h-52 lg:h-56 bg-white overflow-hidden'>
+      <div className='relative w-full h-48 sm:h-52 lg:h-56 bg-white dark:bg-gray-800 overflow-hidden'>
         {isNew && (
-          <span className='absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-lg backdrop-blur-sm'>
+          <span className='absolute top-3 left-3 bg-primary text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-lg'>
             NEW
           </span>
         )}
@@ -89,10 +93,10 @@ export default function ProjectImage({ project }: { project: unknown }) {
 
       {/* Content */}
       <div className='flex-1 flex flex-col p-5 sm:p-6'>
-        <h2 className='text-lg sm:text-xl font-bold text-slate-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight'>
+        <h2 className='text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors leading-tight'>
           {title}
         </h2>
-        <p className='text-sm sm:text-base text-slate-600 mb-4 line-clamp-3 leading-relaxed overflow-hidden'>{description}</p>
+        <p className='text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 line-clamp-3 leading-relaxed overflow-hidden'>{description}</p>
 
         {/* Tech Stack Tags */}
         {techStack && techStack.length > 0 && (
@@ -100,7 +104,7 @@ export default function ProjectImage({ project }: { project: unknown }) {
             {techStack.map((tag: string) => (
               <span
                 key={tag}
-                className='inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100 hover:bg-blue-100 transition-colors'
+                className='inline-flex items-center px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
               >
                 {tag}
               </span>
@@ -111,29 +115,92 @@ export default function ProjectImage({ project }: { project: unknown }) {
         {/* Buttons */}
         <div className='mt-auto space-y-2 sm:space-y-0 sm:flex sm:gap-3'>
           {github && (
-            <a
-              href={github}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='flex items-center justify-center w-full sm:w-auto px-4 py-2.5 rounded-xl bg-slate-50 text-slate-700 font-medium text-sm hover:bg-slate-100 transition-all duration-200 border border-slate-200 hover:border-slate-300 hover:shadow-sm group/btn'
-            >
-              <GitHubIcon />
-              <span className='ml-2'>Code</span>
-            </a>
+            isCardLink ? (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(github, '_blank', 'noopener,noreferrer');
+                }}
+                className='flex items-center justify-center w-full sm:w-auto px-4 py-2.5 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm group/btn'
+              >
+                <GitHubIcon />
+                <span className='ml-2'>Code</span>
+              </button>
+            ) : (
+              <a
+                href={github}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center justify-center w-full sm:w-auto px-4 py-2.5 rounded-md bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-medium text-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-200 border border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 hover:shadow-sm group/btn'
+              >
+                <GitHubIcon />
+                <span className='ml-2'>Code</span>
+              </a>
+            )
           )}
           {demo && (
-            <a
-              href={demo}
-              target='_blank'
-              rel='noopener noreferrer'
-              className='flex items-center justify-center w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium text-sm hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-sm hover:shadow-md group/btn'
-            >
-              <ExternalLinkIcon />
-              <span className='ml-2'>Demo</span>
-            </a>
+            isCardLink ? (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(demo, '_blank', 'noopener,noreferrer');
+                }}
+                className='flex items-center justify-center w-full sm:w-auto px-4 py-2.5 rounded-md bg-primary text-gray-900 font-medium text-sm hover:opacity-90 transition-all duration-200 shadow-sm hover:shadow-md group/btn'
+              >
+                <ExternalLinkIcon />
+                <span className='ml-2'>Demo</span>
+              </button>
+            ) : (
+              <a
+                href={demo}
+                target='_blank'
+                rel='noopener noreferrer'
+                className='flex items-center justify-center w-full sm:w-auto px-4 py-2.5 rounded-md bg-primary text-gray-900 font-medium text-sm hover:opacity-90 transition-all duration-200 shadow-sm hover:shadow-md group/btn'
+              >
+                <ExternalLinkIcon />
+                <span className='ml-2'>Demo</span>
+              </a>
+            )
           )}
         </div>
       </div>
+    </>
+  );
+
+  // If url exists, wrap the entire card in a link
+  // Check if it's an external URL (starts with http:// or https://)
+  const isExternalUrl = url && (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://')));
+  
+  if (url && typeof url === 'string' && url.trim() !== '') {
+    if (isExternalUrl) {
+      return (
+        <a 
+          href={url}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='group bg-white dark:bg-gray-800/50 rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-gray-200 dark:border-gray-700 animate-fade-slide-in cursor-pointer no-underline'
+        >
+          {CardContent}
+        </a>
+      );
+    } else {
+      return (
+        <Link 
+          href={url}
+          className='group bg-white dark:bg-gray-800/50 rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-gray-200 dark:border-gray-700 animate-fade-slide-in cursor-pointer no-underline'
+        >
+          {CardContent}
+        </Link>
+      );
+    }
+  }
+
+  // Otherwise, render as a regular div
+  return (
+    <div className='group bg-white dark:bg-gray-800/50 rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden border border-gray-200 dark:border-gray-700 animate-fade-slide-in'>
+      {CardContent}
     </div>
   );
 }
