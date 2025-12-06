@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getPosts, getCategories } from '@/lib/wordpress';
 
-const SITE_URL = 'https://code-and-tech.vercel.app';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://code-and-tech.halilyesilyurt.com";
 
 export async function GET() {
   try {
@@ -30,11 +30,11 @@ export async function GET() {
     ];
 
     const urls = [
-      ...staticPages.map((page) => `${SITE_URL}/${page}`),
-      // Blog posts with lastmod
-      ...posts.map((post: any) => ({ loc: `${SITE_URL}/${post.slug}`, lastmod: post.modified || post.date })),
-      ...projects.map((p: { id: string }) => `${SITE_URL}/projects#${p.id}`),
-      ...categories.map((cat) => `${SITE_URL}/category/${cat.slug}`),
+      ...staticPages.map((page) => `${BASE_URL}/${page}`),
+      // Blog posts with lastmod - use /blog/ prefix
+      ...posts.map((post: any) => ({ loc: `${BASE_URL}/blog/${post.slug}`, lastmod: post.modified || post.date })),
+      ...projects.map((p: { id: string }) => `${BASE_URL}/projects#${p.id}`),
+      ...categories.map((cat) => `${BASE_URL}/category/${cat.slug}`),
     ];
 
     const urlEntries = urls
@@ -56,7 +56,7 @@ export async function GET() {
     });
   } catch (e) {
     // Always return valid XML, even on error
-    const fallback = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${SITE_URL}</loc></url>\n</urlset>`;
+    const fallback = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${BASE_URL}</loc></url>\n</urlset>`;
     return new NextResponse(fallback, {
       status: 200,
       headers: {

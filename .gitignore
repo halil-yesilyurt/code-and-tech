@@ -42,3 +42,6 @@ next-env.d.ts
 
 # data storage
 /data/
+
+# Cursor editor cache files
+/assets/

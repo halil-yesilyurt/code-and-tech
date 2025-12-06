@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getPosts } from '@/lib/wordpress';
 
-const SITE_URL = 'https://code-and-tech.vercel.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://code-and-tech.halilyesilyurt.com';
 
 export async function GET() {
   // Fetch latest posts (adjust count as needed)
@@ -10,8 +10,8 @@ export async function GET() {
   const rssItems = posts.map((post: any) => `
     <item>
       <title>${escapeXml(post.title.rendered)}</title>
-      <link>${SITE_URL}/${post.slug}</link>
-      <guid>${SITE_URL}/${post.slug}</guid>
+      <link>${SITE_URL}/blog/${post.slug}</link>
+      <guid>${SITE_URL}/blog/${post.slug}</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <description><![CDATA[${post.excerpt?.rendered || ''}]]></description>
     </item>
