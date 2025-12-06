@@ -24,14 +24,14 @@ export default function Header() {
             className="fixed inset-0 bg-black/40 z-[100] transition-opacity duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <nav className="fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white shadow-2xl z-[110] flex flex-col animate-fade-slide-in transform transition-transform duration-300">
+          <nav className="fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white dark:bg-gray-800 shadow-2xl z-[110] flex flex-col animate-fade-slide-in transform transition-transform duration-300">
             <button
-              className="self-end m-4 p-2 rounded-full hover:bg-slate-100 transition cursor-pointer"
+              className="self-end m-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
               aria-label="Close menu"
               onClick={() => setMobileMenuOpen(false)}
               type="button"
             >
-              <svg className="w-7 h-7 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-7 h-7 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -45,29 +45,28 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block px-4 py-3 rounded-lg text-lg font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring cursor-pointer"
+                  className="block px-4 py-3 rounded-lg text-lg font-semibold text-gray-700 dark:text-gray-300 hover:text-primary transition-all duration-200 focus-ring cursor-pointer"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
               
-              {/* Search Link in Mobile Menu */}
-              <div className="mt-8 pt-6 border-t border-slate-200">
-                <h4 className="text-sm font-semibold text-slate-500 mb-4 px-4">Search</h4>
-                <Link
-                  href="/search"
-                  className="block px-4 py-3 rounded-lg text-lg font-semibold text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring cursor-pointer"
-                  onClick={() => setMobileMenuOpen(false)}
+              {/* Search Button in Mobile Menu for small screens */}
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setSearchOpen(true);
+                }}
+                className="min-[400px]:hidden block px-4 py-3 rounded-lg text-lg font-semibold text-gray-700 dark:text-gray-300 hover:text-primary transition-all duration-200 focus-ring cursor-pointer text-left"
                 >
                   <div className="flex items-center">
                     <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    Search Articles
+                  Search
                   </div>
-                </Link>
-              </div>
+              </button>
             </div>
           </nav>
         </>,
@@ -76,28 +75,17 @@ export default function Header() {
     : null;
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+    <header className="sticky top-0 z-50 bg-[#F3F4F6] dark:bg-[#0A202C] transition-all duration-300">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="flex items-center justify-between py-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group min-w-0">
-            <img src="/ct-logo.svg" alt="CT Logo" className="w-14 h-14 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300" />
-            <div className="truncate">
-              <h1 className="text-xl lg:text-2xl font-bold font-montserrat bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent truncate">
-                Code & Tech
-              </h1>
-              <p className="text-xs text-slate-500 font-medium truncate">Modern Tech Blog</p>
-            </div>
+          <Link href="/" className="flex items-center space-x-3 group min-w-0">
+            <span className="material-icons text-primary text-4xl" aria-hidden="true">code</span>
+            <span className="text-2xl font-bold text-gray-900 dark:text-white font-montserrat">Code & Tech Blog</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-8 text-gray-700 dark:text-gray-300">
             {[
               { href: '/blog', label: 'Blog' },
               { href: '/projects', label: 'Projects' },
@@ -107,34 +95,35 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 focus-ring cursor-pointer"
+                className="hover:text-primary transition-colors cursor-pointer"
               >
                 {item.label}
               </Link>
             ))}
-            {/* Search Icon */}
-            <div className="ml-4 pl-4 border-l border-slate-200">
-              <button
-                onClick={() => setSearchOpen(!searchOpen)}
-                className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 hover:bg-blue-100 hover:text-blue-600 transition-colors duration-200"
-                aria-label="Search"
-                title="Search"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-            </div>
           </nav>
+
+          {/* Search Icon - Hidden on very small screens, shown in hamburger menu */}
+          <div className="hidden min-[400px]:flex items-center space-x-4">
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors"
+              aria-label="Search"
+              title="Search"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+          </div>
 
           {/* Mobile Hamburger */}
           <button
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-slate-100 transition cursor-pointer z-[120]"
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer z-[120]"
             aria-label="Open menu"
             onClick={() => setMobileMenuOpen((v) => !v)}
             type="button"
           >
-            <svg className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {mobileMenuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               ) : (
@@ -146,8 +135,8 @@ export default function Header() {
 
         {/* Search Input */}
         {searchOpen && (
-          <div className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 shadow-lg z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-lg z-50">
+            <div className="container mx-auto px-4 md:px-8 py-4">
               <form 
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -162,24 +151,24 @@ export default function Header() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search articles..."
-                    className="w-full px-4 py-3 pl-12 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                    placeholder="Search articles, tutorials, and insights..."
+                    className="w-full px-4 py-3 pl-12 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md focus:ring-primary focus:border-primary text-gray-900 dark:text-gray-200 outline-none"
                     autoFocus
                   />
-                  <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium"
+                  className="bg-primary text-gray-900 font-bold py-3 px-6 rounded-md hover:opacity-90 transition-opacity cursor-pointer"
                 >
                   Search
                 </button>
                 <button
                   type="button"
                   onClick={() => setSearchOpen(false)}
-                  className="px-4 py-3 text-slate-600 hover:text-slate-800 transition-colors duration-200"
+                  className="px-4 py-3 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors duration-200"
                 >
                   Cancel
                 </button>

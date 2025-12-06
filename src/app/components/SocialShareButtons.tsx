@@ -134,19 +134,19 @@ export default function SocialShareButtons({ url, title, description, hashtags =
   ];
 
   return (
-    <div className="bg-white rounded-xl p-6 border border-slate-200">
+    <div className="bg-white dark:bg-gray-800/50 rounded-xl p-6 border border-slate-200 dark:border-gray-700">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-geist text-lg font-semibold text-slate-900">Share this article</h3>
+        <h3 className="font-geist text-lg font-semibold text-slate-900 dark:text-white">Share this article</h3>
         <button
           onClick={() => setShowPreview(!showPreview)}
-          className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+          className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
         >
           {showPreview ? 'Hide Preview' : 'Show Preview'}
         </button>
       </div>
       {/* Reading Time Display */}
       {readingTime && (
-        <div className="flex items-center mb-4 text-xs text-slate-500">
+        <div className="flex items-center mb-4 text-xs text-slate-500 dark:text-gray-400">
           <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -154,7 +154,7 @@ export default function SocialShareButtons({ url, title, description, hashtags =
         </div>
       )}
       {/* Divider */}
-      <div className="border-t border-slate-100 my-4" />
+      <div className="border-t border-slate-100 dark:border-gray-700 my-4" />
       {/* Share Preview */}
       {showPreview && (
         <div className="mb-6">
@@ -173,7 +173,7 @@ export default function SocialShareButtons({ url, title, description, hashtags =
           <button
             key={platform.name}
             onClick={() => handleShare(platform.platform)}
-            className={`w-12 h-12 rounded-lg flex items-center justify-center text-slate-600 bg-slate-100 transition-all duration-200 ${platform.color} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+            className={`w-12 h-12 rounded-lg flex items-center justify-center text-slate-600 dark:text-gray-300 bg-slate-100 dark:bg-gray-700 transition-all duration-200 ${platform.color} focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
             aria-label={`Share on ${platform.name}`}
             title={`Share on ${platform.name}`}
           >
@@ -182,7 +182,7 @@ export default function SocialShareButtons({ url, title, description, hashtags =
         ))}
         <button
           onClick={handleCopyLink}
-          className={`w-12 h-12 rounded-lg flex items-center justify-center text-slate-600 bg-slate-100 transition-all duration-200 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2`}
+          className={`w-12 h-12 rounded-lg flex items-center justify-center text-slate-600 dark:text-gray-300 bg-slate-100 dark:bg-gray-700 transition-all duration-200 hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2`}
           aria-label="Copy link"
           title="Copy link"
         >
@@ -198,7 +198,7 @@ export default function SocialShareButtons({ url, title, description, hashtags =
         </button>
         <button
           onClick={handleCopyTitleLink}
-          className={`w-12 h-12 rounded-lg flex items-center justify-center text-slate-600 bg-slate-100 transition-all duration-200 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
+          className={`w-12 h-12 rounded-lg flex items-center justify-center text-slate-600 dark:text-gray-300 bg-slate-100 dark:bg-gray-700 transition-all duration-200 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
           aria-label="Copy title and link"
           title="Copy title and link"
         >
@@ -214,10 +214,10 @@ export default function SocialShareButtons({ url, title, description, hashtags =
         </button>
       </div>
       {copied && (
-        <p className="text-sm text-green-600 mt-3 font-medium">Link copied to clipboard!</p>
+        <p className="text-sm text-green-600 dark:text-green-400 mt-3 font-medium">Link copied to clipboard!</p>
       )}
       {copiedTitleLink && (
-        <p className="text-sm text-blue-600 mt-3 font-medium">Title + link copied!</p>
+        <p className="text-sm text-blue-600 dark:text-blue-400 mt-3 font-medium">Title + link copied!</p>
       )}
     </div>
   );

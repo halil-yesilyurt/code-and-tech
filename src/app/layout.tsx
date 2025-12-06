@@ -18,10 +18,13 @@ const inter = Inter({
   weight: ['400', '500', '600', '700']
 });
 
-export const metadata = {
+export function generateMetadata() {
+  const url = "https://code-and-tech.halilyesilyurt.com";
+
+  return {
   title: 'Code & Tech | Modern Tech Blog',
   description: 'Code & Tech is your go-to source for the latest technology news, in-depth tutorials, software development guides, and expert insights on innovation, coding, and digital trends. Stay ahead in the tech world with our comprehensive resources and practical tips.',
-  metadataBase: new URL('https://code-and-tech.vercel.app'),
+    metadataBase: new URL(url),
   keywords: ['technology', 'programming', 'software development', 'AI', 'machine learning', 'web development', 'coding tutorials', 'tech news'],
   authors: [{ name: 'Halil Yesilyurt' }],
   creator: 'Halil Yesilyurt',
@@ -41,7 +44,7 @@ export const metadata = {
     title: 'Code & Tech | Modern Tech Blog',
     description: 'Discover expert tutorials, news, and resources on software development, AI, cloud, and emerging technologies.',
     type: 'website',
-    url: 'https://code-and-tech.vercel.app',
+      url: url,
     siteName: 'Code & Tech',
     locale: 'en_US',
     images: [
@@ -62,9 +65,10 @@ export const metadata = {
     images: ['/screenshot-1.png'],
   },
   alternates: {
-    canonical: 'https://code-and-tech.vercel.app',
+      canonical: url,
   },
 };
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -77,8 +81,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebPage',
-              name: metadata.title,
-              description: metadata.description,
+              name: 'Code & Tech | Modern Tech Blog',
+              description: 'Code & Tech is your go-to source for the latest technology news, in-depth tutorials, software development guides, and expert insights on innovation, coding, and digital trends. Stay ahead in the tech world with our comprehensive resources and practical tips.',
               publisher: {
                 '@type': 'Organization',
                 name: 'Code and Tech Blog',
@@ -92,7 +96,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
           />
         )}
-        <link rel="icon" href="/ct-logo.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon-code.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon-code.svg" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </head>
       <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
         {/* Skip to main content link for accessibility */}

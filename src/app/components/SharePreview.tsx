@@ -35,8 +35,8 @@ export default function SharePreview({
     switch (selectedPlatform) {
       case 'facebook':
         return (
-          <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm max-w-md">
-            <div className="relative h-48 bg-gray-200">
+          <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm max-w-md">
+            <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
               <img 
                 src={imageUrl} 
                 alt={decodedTitle}
@@ -47,17 +47,17 @@ export default function SharePreview({
               />
             </div>
             <div className="p-4">
-              <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+              <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                 {siteName}
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2 leading-tight">
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2 leading-tight">
                 {decodedTitle}
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                 {decodedDescription.length > 120 ? `${decodedDescription.substring(0, 120)}...` : decodedDescription}
               </p>
-              <div className="text-xs text-gray-500 mt-2 truncate">
-                {url}
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 truncate">
+                {url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@ export default function SharePreview({
 
       case 'twitter':
         return (
-          <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm max-w-md">
+          <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm max-w-md">
             <div className="p-4">
               <div className="flex items-start space-x-3">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -73,19 +73,19 @@ export default function SharePreview({
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-1">
-                    <span className="font-semibold text-gray-900">Code & Tech</span>
-                    <span className="text-gray-500">@haliilyesilyurt</span>
+                    <span className="font-semibold text-gray-900 dark:text-white">Code & Tech</span>
+                    <span className="text-gray-500 dark:text-gray-400">@haliilyesilyurt</span>
                   </div>
-                  <p className="text-sm text-gray-900 mt-1 leading-relaxed">
+                  <p className="text-sm text-gray-900 dark:text-white mt-1 leading-relaxed">
                     {decodedTitle}
                   </p>
                   {decodedDescription && (
-                    <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">
                       {decodedDescription.length > 100 ? `${decodedDescription.substring(0, 100)}...` : decodedDescription}
                     </p>
                   )}
-                  <div className="mt-3 border border-gray-200 rounded-lg overflow-hidden">
-                    <div className="relative h-32 bg-gray-200">
+                  <div className="mt-3 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                    <div className="relative h-32 bg-gray-200 dark:bg-gray-700">
                       <img 
                         src={imageUrl} 
                         alt={decodedTitle}
@@ -96,14 +96,14 @@ export default function SharePreview({
                       />
                     </div>
                     <div className="p-3">
-                      <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                         {siteName}
                       </div>
-                      <h4 className="text-sm font-semibold text-gray-900 leading-tight">
+                      <h4 className="text-sm font-semibold text-gray-900 dark:text-white leading-tight">
                         {decodedTitle}
                       </h4>
-                      <div className="text-xs text-gray-500 mt-1 truncate">
-                        {url}
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">
+                        {url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}
                       </div>
                     </div>
                   </div>
@@ -115,8 +115,8 @@ export default function SharePreview({
 
       case 'linkedin':
         return (
-          <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm max-w-md">
-            <div className="relative h-32 bg-gray-200">
+          <div className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden shadow-sm max-w-md">
+            <div className="relative h-32 bg-gray-200 dark:bg-gray-700">
               <img 
                 src={imageUrl} 
                 alt={decodedTitle}
@@ -127,17 +127,17 @@ export default function SharePreview({
               />
             </div>
             <div className="p-4">
-              <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">
+              <div className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1">
                 {siteName}
               </div>
-              <h3 className="text-base font-semibold text-gray-900 mb-2 leading-tight">
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-2 leading-tight">
                 {decodedTitle}
               </h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                 {decodedDescription.length > 150 ? `${decodedDescription.substring(0, 150)}...` : decodedDescription}
               </p>
-              <div className="text-xs text-gray-500 mt-2 truncate">
-                {url}
+              <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 truncate">
+                {url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}
               </div>
             </div>
           </div>
@@ -149,8 +149,8 @@ export default function SharePreview({
   };
 
   return (
-    <div className="bg-white rounded-xl p-4 sm:p-6 border border-slate-200">
-      <h3 className="font-geist text-lg font-semibold text-slate-900 mb-4">Share Preview</h3>
+    <div className="bg-white dark:bg-gray-800/50 rounded-xl p-4 sm:p-6 border border-slate-200 dark:border-gray-700">
+      <h3 className="font-geist text-lg font-semibold text-slate-900 dark:text-white mb-4">Share Preview</h3>
       
       {/* Platform Selector */}
       <div className="flex flex-wrap gap-2 mb-6">
@@ -161,7 +161,7 @@ export default function SharePreview({
             className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               selectedPlatform === platform.id
                 ? `${platform.color} text-white`
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                : 'bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-gray-600'
             }`}
           >
             {platform.name}
@@ -177,28 +177,28 @@ export default function SharePreview({
       </div>
 
       {/* Preview Info */}
-      <div className="p-4 bg-slate-50 rounded-lg">
-        <h4 className="text-sm font-semibold text-slate-900 mb-3">Preview Details</h4>
-        <div className="space-y-3 text-sm text-slate-600">
+      <div className="p-4 bg-slate-50 dark:bg-gray-700/50 rounded-lg">
+        <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-3">Preview Details</h4>
+        <div className="space-y-3 text-sm text-slate-600 dark:text-gray-400">
           <div>
-            <span className="font-medium text-slate-700">Title:</span>
-            <div className="mt-1 text-slate-800">{decodeHtmlEntities(title)}</div>
+            <span className="font-medium text-slate-700 dark:text-gray-300">Title:</span>
+            <div className="mt-1 text-slate-800 dark:text-gray-200">{decodeHtmlEntities(title)}</div>
           </div>
           {description && (
             <div>
-              <span className="font-medium text-slate-700">Description:</span>
-              <div className="mt-1 text-slate-800 leading-relaxed">
+              <span className="font-medium text-slate-700 dark:text-gray-300">Description:</span>
+              <div className="mt-1 text-slate-800 dark:text-gray-200 leading-relaxed">
                 {stripHtml(decodeHtmlEntities(description))}
               </div>
             </div>
           )}
           <div>
-            <span className="font-medium text-slate-700">URL:</span>
-            <div className="mt-1 text-slate-800 break-all">{url}</div>
+            <span className="font-medium text-slate-700 dark:text-gray-300">URL:</span>
+            <div className="mt-1 text-slate-800 dark:text-gray-200 break-all">{url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}</div>
           </div>
           <div>
-            <span className="font-medium text-slate-700">Image:</span>
-            <div className="mt-1 text-slate-800">{featuredImage ? 'Custom image' : 'Default image'}</div>
+            <span className="font-medium text-slate-700 dark:text-gray-300">Image:</span>
+            <div className="mt-1 text-slate-800 dark:text-gray-200">{featuredImage ? 'Custom image' : 'Default image'}</div>
           </div>
         </div>
       </div>

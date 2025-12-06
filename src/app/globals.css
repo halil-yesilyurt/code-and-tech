@@ -1,10 +1,26 @@
 @import 'tailwindcss';
 
+@theme {
+  --color-primary: #F5B740;
+  --color-background-light: #F3F4F6;
+  --color-background-dark: #0A202C;
+  --radius-default: 0.5rem;
+}
+
+/* Custom utility classes for primary color */
+.text-primary {
+  color: #F5B740;
+}
+
+.bg-primary {
+  background-color: #F5B740;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  --primary: #3b82f6;
-  --primary-foreground: #ffffff;
+  --primary: #F5B740;
+  --primary-foreground: #1f2937;
   --secondary: #f1f5f9;
   --secondary-foreground: #475569;
   --muted: #f8fafc;
@@ -15,8 +31,8 @@
   --destructive-foreground: #ffffff;
   --border: #e2e8f0;
   --input: #e2e8f0;
-  --ring: #3b82f6;
-  --radius: 0.75rem;
+  --ring: #F5B740;
+  --radius: 0.5rem;
   --font-geist-sans: var(--font-geist-sans);
 }
 
@@ -29,10 +45,10 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f172a;
-    --foreground: #f8fafc;
-    --primary: #3b82f6;
-    --primary-foreground: #ffffff;
+    --background: #0A202C;
+    --foreground: #d1d5db;
+    --primary: #F5B740;
+    --primary-foreground: #1f2937;
     --secondary: #1e293b;
     --secondary-foreground: #cbd5e1;
     --muted: #1e293b;
@@ -43,7 +59,7 @@
     --destructive-foreground: #ffffff;
     --border: #334155;
     --input: #334155;
-    --ring: #3b82f6;
+    --ring: #F5B740;
   }
 }
 
@@ -52,8 +68,8 @@
 }
 
 body {
-  background: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background: #F3F4F6;
+  color: #1f2937;
   font-family:
     var(--font-inter),
     system-ui,
@@ -61,6 +77,13 @@ body {
     sans-serif;
   line-height: 1.6;
   user-select: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0A202C;
+    color: #d1d5db;
+  }
 }
 
 html,
@@ -219,6 +242,66 @@ body {
   animation: fade-slide-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
+/* Hero Slider Animations */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.animate-slide-up-delay {
+  animation: slide-up 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.animate-slide-up-delay-2 {
+  animation: slide-up 0.8s ease-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.8s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
 /* Remove or override global heading reset */
 /* h1, h2, h3, h4, h5, h6 {
   font-size: unset;
@@ -230,28 +313,37 @@ body {
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
-  color: #0f172a;
+  color: #1f2937;
 }
 .prose h2 {
   font-size: 2rem;
   font-weight: 700;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
-  color: #0f172a;
+  color: #1f2937;
 }
 .prose h3 {
   font-size: 1.5rem;
   font-weight: 700;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
-  color: #0f172a;
+  color: #1f2937;
 }
 .prose h4 {
   font-size: 1.25rem;
   font-weight: 600;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
-  color: #0f172a;
+  color: #1f2937;
+}
+
+@media (prefers-color-scheme: dark) {
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    color: #f9fafb;
+  }
 }
 
 /* Global error handling styles */

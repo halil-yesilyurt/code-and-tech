@@ -19,11 +19,11 @@ export default function InterviewArticlesGrid({ posts }: { posts: unknown[] }) {
         ))}
       </div>
       {hasMore && (
-        <div className="flex justify-center mt-8">
+        <div className='text-center mt-10'>
           <button
-            type="button"
             onClick={() => setVisible((v) => v + LOAD_MORE)}
-            className="px-6 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-all duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
+            className='bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-6 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors inline-block cursor-pointer'
+            type='button'
           >
             Show More
           </button>

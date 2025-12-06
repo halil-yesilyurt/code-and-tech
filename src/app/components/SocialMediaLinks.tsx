@@ -60,11 +60,11 @@ export default function SocialMediaLinks({ variant = 'footer', className = '' }:
 
   const baseClasses = variant === 'header' 
     ? 'flex items-center space-x-2' 
-    : 'flex flex-wrap space-x-4 justify-center md:justify-start';
+    : 'flex flex-wrap space-x-4 justify-center';
 
   const linkClasses = variant === 'header'
     ? 'w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 hover:bg-blue-100 hover:text-blue-600 transition-colors duration-200'
-    : 'w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600 hover:bg-blue-100 hover:text-blue-600 transition-colors duration-200';
+    : 'hover:text-primary transition-colors';
 
   return (
     <div className={`${baseClasses} ${className}`}>

@@ -3,67 +3,18 @@ import SocialMediaLinks from './SocialMediaLinks';
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-slate-200 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col md:grid md:grid-cols-3 gap-8 items-center md:items-start text-center md:text-left">
-          {/* Brand Section */}
-          <div className="md:col-span-2 min-w-0 flex flex-col items-center md:items-start">
-            <div className="flex flex-wrap items-center space-x-2 mb-4 min-w-0 justify-center md:justify-start">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm font-montserrat">CT</span>
-              </div>
-              <div className="truncate">
-                <h3 className="text-lg font-bold font-montserrat bg-gradient-to-r from-slate-900 to-slate-600 bg-clip-text text-transparent truncate">
-                  Code & Tech
-                </h3>
-                <p className="text-xs text-slate-500 truncate">Modern Tech Blog</p>
-              </div>
-            </div>
-            <p className="text-slate-600 mb-6 max-w-md">
-              Your go-to destination for the latest insights in technology, development, and innovation. 
-              Stay ahead with expert analysis and practical tutorials.
-            </p>
-            <SocialMediaLinks variant="footer" />
-          </div>
-
-          {/* Footer Navigation Links */}
-          <div className="flex flex-col items-center md:items-start">
-            <h4 className="font-semibold text-slate-900 mb-4">Links</h4>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/blog" className="text-slate-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">Blog</Link>
-              </li>
-              <li>
-                <Link href="/projects" className="text-slate-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">Projects</Link>
-              </li>
-              <li>
-                <Link href="/interviews" className="text-slate-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">Interviews</Link>
-              </li>
-
-              <li>
-                <Link href="/contact" className="text-slate-600 hover:text-blue-600 transition-colors duration-200 cursor-pointer">Contact</Link>
-              </li>
-            </ul>
-          </div>
+    <footer className="text-center py-10 border-t border-gray-200 dark:border-gray-800 mt-12 bg-[#F3F4F6] dark:bg-[#0A202C]">
+      <div className="container mx-auto px-4 md:px-8">
+        <nav className="flex justify-center space-x-6 mb-6 text-gray-600 dark:text-gray-400">
+          <Link href="/blog" className="hover:text-primary transition-colors cursor-pointer">Blog</Link>
+          <Link href="/projects" className="hover:text-primary transition-colors cursor-pointer">Projects</Link>
+          <Link href="/interviews" className="hover:text-primary transition-colors cursor-pointer">Interviews</Link>
+          <Link href="/contact" className="hover:text-primary transition-colors cursor-pointer">Contact</Link>
+        </nav>
+        <div className="flex justify-center space-x-6 mb-6 text-gray-500 dark:text-gray-400">
+          <SocialMediaLinks variant="footer" />
         </div>
-
-        {/* Bottom Section */}
-        <div className="border-t border-slate-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-center">
-          <p className="text-slate-600 text-sm truncate mb-2 md:mb-0">
-            © {new Date().getFullYear()} Code & Tech. All rights reserved.
-          </p>
-          <div className="flex flex-wrap space-x-6 mt-2 md:mt-0 justify-center md:justify-end">
-            <Link href="/privacy-policy" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200 cursor-pointer">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200 cursor-pointer">
-              Terms of Service
-            </Link>
-            <Link href="/cookie-policy" className="text-slate-600 hover:text-blue-600 text-sm transition-colors duration-200 cursor-pointer">
-              Cookie Policy
-            </Link>
-          </div>
-        </div>
+        <p className="text-sm text-gray-500 dark:text-gray-500">© {new Date().getFullYear()} Code & Tech Blog. All rights reserved.</p>
       </div>
     </footer>
   );

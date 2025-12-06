@@ -95,20 +95,20 @@ function NewsletterForm() {
         name="EMAIL"
         required
         placeholder="Your email address"
-        className="rounded-lg px-3 py-2 text-slate-900 bg-white border-2 border-blue-400 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder:text-blue-300"
+        className="rounded-md px-3 py-2 text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-400"
         value={email}
         onChange={e => setEmail(e.target.value)}
         disabled={status === "loading" || status === "success"}
       />
       <button
         type="submit"
-        className="w-full bg-white text-blue-600 font-semibold py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors duration-200"
+        className="w-full bg-primary text-gray-900 font-semibold py-2 px-4 rounded-md hover:opacity-90 transition-opacity"
         disabled={status === "loading" || status === "success"}
       >
         {status === "loading" ? "Subscribing..." : status === "success" ? "Subscribed" : "Subscribe"}
       </button>
       {message && (
-        <div className={`text-sm mt-2 ${status === "success" ? "text-green-200" : "text-red-200"}`}>{message}</div>
+        <div className={`text-sm mt-2 ${status === "success" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{message}</div>
       )}
     </form>
   );
@@ -139,84 +139,57 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
   
   return (
     <aside className="space-y-6">
-      {/* Popular Posts */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center mb-4">
-          <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mr-3"></div>
-          <h3 className="text-lg font-bold text-slate-900">Random Posts</h3>
-        </div>
+      {/* Random Posts */}
+      <div className="mb-10">
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Random Posts</h2>
         <div className="space-y-4">
           {popularPosts.map((post, index) => (
             <Link 
               key={post.id} 
               href={`/${post.slug}`} 
-              className="group block"
+              className="flex items-center p-3 border border-teal-500/50 rounded-lg hover:bg-teal-500/10 dark:hover:bg-teal-500/20 transition-colors"
             >
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white text-sm font-bold">
-                  {index + 1}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors duration-200 line-clamp-3">
-                    {post.title.rendered}
-                  </h4>
-                  <div className="flex items-center justify-between mt-1">
-                    {post.views !== undefined && (
-                      <div className="flex items-center text-xs text-slate-400">
-                        <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        {formatViewCount(post.views)}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
+              <span className="flex items-center justify-center w-8 h-8 bg-primary text-gray-900 font-bold rounded-full mr-4 flex-shrink-0">
+                {index + 1}
+              </span>
+              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                {decodeHtmlEntities(post.title.rendered)}
+              </span>
             </Link>
           ))}
         </div>
         <Link 
           href="/blog" 
-          className="inline-flex items-center mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-semibold shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+          className="w-full mt-6 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors inline-block text-center"
         >
           View All Posts
-          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
         </Link>
       </div>
 
       {/* Categories */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <div className="flex items-center mb-4">
-          <svg className="w-5 h-5 text-slate-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-          <h3 className="text-lg font-bold text-slate-900">Categories</h3>
-        </div>
+      <div>
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Categories</h2>
         <div className="flex flex-wrap gap-2">
           {randomCategories.map((category) => (
             <Link
               key={category.id}
               href={`/category/${decodeHtmlEntities(category.slug)}`}
-              className="px-3 py-1 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-xs font-semibold hover:from-blue-200 hover:to-purple-200 transition-all duration-200 shadow-sm"
+              className="bg-teal-100 dark:bg-teal-900/80 text-teal-800 dark:text-teal-200 py-1.5 px-4 rounded-full text-sm font-medium hover:opacity-80 transition-opacity"
             >
               #{decodeHtmlEntities(category.slug)}
             </Link>
           ))}
-          <Link href="/categories" className="px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-semibold shadow-md hover:from-blue-700 hover:to-purple-700 transition-all duration-200 ml-2">All Categories</Link>
         </div>
       </div>
 
-      {/* Newsletter Signup (Mailchimp) */}
-      <div className="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl p-6 text-white">
+      {/* Newsletter Signup (Mailchimp) - Keep existing functionality */}
+      <div className="bg-teal-700/20 dark:bg-teal-900/40 rounded-lg p-6">
         <div className="text-center">
-          <svg className="w-8 h-8 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-8 h-8 mx-auto mb-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
-          <h3 className="text-lg font-bold mb-2">Subscribe to Newsletter</h3>
-          <p className="text-blue-100 text-sm mb-4">Get the latest blog posts delivered to your inbox</p>
+          <h3 className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Subscribe to Newsletter</h3>
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">Get the latest blog posts delivered to your inbox</p>
           <NewsletterForm />
         </div>
       </div>
