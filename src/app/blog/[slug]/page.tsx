@@ -29,11 +29,16 @@ export async function generateStaticParams() {
 // Generate metadata for each post
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params;
+  const baseUrl = "https://code-and-tech.halilyesilyurt.com";
   const post = await getPostBySlug(slug);
   
   if (!post) {
     return {
       title: "Post Not Found",
+      metadataBase: new URL(baseUrl),
+      alternates: {
+        canonical: `${baseUrl}/blog/${slug}`,
+      },
     };
   }
 
@@ -46,12 +51,13 @@ export async function generateMetadata({ params }: PostPageProps) {
   const seoDescription = `${excerpt} | Read in-depth analysis, coding tutorials, and expert insights on Code & Tech.`;
 
   return {
+    metadataBase: new URL(baseUrl),
     title: post.title.rendered,
     description: seoDescription,
     keywords: (post._embedded as any)?.['wp:term']?.[0]?.map((tag: any) => tag.name) || [],
     authors: post._embedded?.author?.map(author => author.name) || ['Halil Yesilyurt'],
     alternates: {
-      canonical: `https://code-and-tech.vercel.app/${slug}`,
+      canonical: `${baseUrl}/blog/${slug}`,
     },
     openGraph: {
       title: post.title.rendered,

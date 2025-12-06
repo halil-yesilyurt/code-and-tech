@@ -46,7 +46,7 @@ export default async function InterviewsPage({ searchParams }: { searchParams: P
       <main className="lg:col-span-3 space-y-12">
         {/* Header */}
         <header className="mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">Interviews</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 tracking-tight">Interviews</h1>
           <p className="text-lg text-slate-600">Insights, preparation tips, and real-world experiences to help you ace your tech interviews.</p>
         </header>
 

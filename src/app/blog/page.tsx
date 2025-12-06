@@ -52,23 +52,19 @@ export default async function PostsPage({ searchParams }: { searchParams: Promis
   // Featured only on first page, already defined above
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-      <main className="lg:col-span-3 space-y-12">
-        {/* Header */}
-        <header className="mb-10">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">Blog</h1>
-          <p className="text-lg text-slate-600">Insights, tutorials, and the latest in tech—curated for you.</p>
-        </header>
-
-        {/* Featured section removed */}
+    <main className="grid grid-cols-1 lg:grid-cols-3 gap-12 my-10">
+      <div className="lg:col-span-2">
+        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Latest Articles</h2>
         <BlogPostList posts={pagePosts} />
-        <BlogPagination currentPage={currentPage} totalPages={totalPages} />
-      </main>
-      <aside className="lg:col-span-1">
+        <div className="mt-10">
+          <BlogPagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
+      </div>
+      <aside>
         <div className="sticky top-8">
           <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
         </div>
       </aside>
-    </div>
+    </main>
   );
 } 

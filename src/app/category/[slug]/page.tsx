@@ -39,12 +39,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const popularPosts = allPosts.slice(0, 3);
 
   return (
-    <div className='grid grid-cols-1 lg:grid-cols-4 gap-8'>
-      <main className='lg:col-span-3'>
-        <div className='bg-white rounded-2xl shadow-sm p-6 md:p-8'>
+    <div className='grid grid-cols-1 lg:grid-cols-3 gap-12 my-10'>
+      <main className='lg:col-span-2'>
+        <div className='bg-white dark:bg-gray-800/50 rounded-lg shadow-sm p-6 md:p-8'>
           <header className='mb-8'>
-            <h1 className='font-geist text-3xl md:text-4xl font-bold text-slate-900 mb-4'>Category: {decodeHtmlEntities(category.name)}</h1>
-            <p className='font-montserrat text-slate-600'>
+            <h1 className='font-geist text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4'>Category: {decodeHtmlEntities(category.name)}</h1>
+            <p className='font-montserrat text-gray-600 dark:text-gray-400'>
               {postsInCategory.length} post{postsInCategory.length !== 1 ? 's' : ''} in this category
             </p>
           </header>
@@ -58,7 +58,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             </div>
           ) : (
             <div className='text-center py-12'>
-              <div className='text-slate-400 mb-4'>
+              <div className='text-gray-400 dark:text-gray-500 mb-4'>
                 <svg className='w-16 h-16 mx-auto' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                   <path
                     strokeLinecap='round'
@@ -68,15 +68,15 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                   />
                 </svg>
               </div>
-              <h3 className='font-geist text-xl font-semibold text-slate-900 mb-2'>No posts found</h3>
-              <p className='font-montserrat text-slate-600'>No posts found in this category.</p>
+              <h3 className='font-geist text-xl font-semibold text-gray-900 dark:text-white mb-2'>No posts found</h3>
+              <p className='font-montserrat text-gray-600 dark:text-gray-400'>No posts found in this category.</p>
             </div>
           )}
         </div>
       </main>
 
       {/* Sidebar */}
-      <aside className='lg:col-span-1'>
+      <aside>
         <div className='sticky top-8'>
           <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
         </div>
