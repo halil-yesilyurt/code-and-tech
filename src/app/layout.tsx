@@ -19,7 +19,7 @@ const inter = Inter({
 });
 
 export function generateMetadata() {
-  const url = "https://code-and-tech.halilyesilyurt.com";
+  const url = process.env.NEXT_PUBLIC_SITE_URL || "https://code-and-tech.halilyesilyurt.com";
 
   return {
   title: 'Code & Tech | Modern Tech Blog',

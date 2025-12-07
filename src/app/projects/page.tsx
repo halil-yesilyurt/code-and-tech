@@ -151,6 +151,7 @@ export default async function ProjectsPage() {
 
 export async function generateMetadata() {
   try {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://code-and-tech.halilyesilyurt.com';
     // Try external API first, fallback to local data
     const res = await fetch('https://halilyesilyurt.com/api/projects');
     const projects = res.ok ? await res.json() : fallbackProjects;
@@ -164,14 +165,14 @@ export async function generateMetadata() {
       description,
       keywords: keywords.join(', '),
       alternates: {
-        canonical: 'https://code-and-tech.halilyesilyurt.com/projects',
+        canonical: `${baseUrl}/projects`,
       },
       openGraph: {
         title,
         description,
         images,
         type: 'website',
-        url: 'https://code-and-tech.halilyesilyurt.com/projects',
+        url: `${baseUrl}/projects`,
       },
       twitter: {
         card: images.length > 0 ? 'summary_large_image' : 'summary',

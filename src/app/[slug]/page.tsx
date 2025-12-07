@@ -4,10 +4,11 @@ import ArticleCard from '../components/ArticleCard';
 import Sidebar from '../components/Sidebar';
 import BlogPostLayout from '../components/BlogPostLayout';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 // Generate metadata for dynamic pages (posts, categories, pages)
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const baseUrl = "https://code-and-tech.halilyesilyurt.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://code-and-tech.halilyesilyurt.com";
   const { slug } = await params;
   
   // Try to fetch a post first
@@ -189,7 +190,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
               </h1>
             </header>
             <article className="font-montserrat prose prose-lg max-w-none prose-headings:font-geist prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:opacity-80 prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-800 dark:prose-code:text-gray-200 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100">
-              <div dangerouslySetInnerHTML={{ __html: content.content.rendered }} />
+              <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(content.content.rendered) }} />
             </article>
           </div>
         </main>

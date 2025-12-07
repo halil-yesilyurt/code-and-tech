@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { getFeaturedImageUrl, decodeHtmlEntities, stripHtml } from '@/lib/wordpress';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://code-and-tech.halilyesilyurt.com';
+
 interface SharePreviewProps {
   url: string;
   title: string;
@@ -57,7 +59,7 @@ export default function SharePreview({
                 {decodedDescription.length > 120 ? `${decodedDescription.substring(0, 120)}...` : decodedDescription}
               </p>
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 truncate">
-                {url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}
+                {url.replace(/https:\/\/code-and-tech\.vercel\.app/g, SITE_URL)}
               </div>
             </div>
           </div>
@@ -103,7 +105,7 @@ export default function SharePreview({
                         {decodedTitle}
                       </h4>
                       <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 truncate">
-                        {url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}
+                        {url.replace(/https:\/\/code-and-tech\.vercel\.app/g, SITE_URL)}
                       </div>
                     </div>
                   </div>
@@ -137,7 +139,7 @@ export default function SharePreview({
                 {decodedDescription.length > 150 ? `${decodedDescription.substring(0, 150)}...` : decodedDescription}
               </p>
               <div className="text-xs text-gray-500 dark:text-gray-400 mt-2 truncate">
-                {url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}
+                {url.replace(/https:\/\/code-and-tech\.vercel\.app/g, SITE_URL)}
               </div>
             </div>
           </div>
@@ -194,7 +196,7 @@ export default function SharePreview({
           )}
           <div>
             <span className="font-medium text-slate-700 dark:text-gray-300">URL:</span>
-            <div className="mt-1 text-slate-800 dark:text-gray-200 break-all">{url.replace('https://code-and-tech.vercel.app', 'https://code-and-tech.halilyesilyurt.com')}</div>
+            <div className="mt-1 text-slate-800 dark:text-gray-200 break-all">{url.replace(/https:\/\/code-and-tech\.vercel\.app/g, SITE_URL)}</div>
           </div>
           <div>
             <span className="font-medium text-slate-700 dark:text-gray-300">Image:</span>

@@ -15,6 +15,17 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [];
   },
+  // Configure webpack to handle server-only modules
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Don't bundle jsdom for client-side
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        jsdom: false,
+      };
+    }
+    return config;
+  },
 };
 
 export default nextConfig;

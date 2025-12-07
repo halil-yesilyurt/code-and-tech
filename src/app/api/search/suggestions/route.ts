@@ -6,8 +6,16 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get('q');
 
-    if (!query || query.length < 2) {
-      return NextResponse.json({ suggestions: [] });
+    // Input validation: check length and sanitize
+    if (!query || query.length < 2 || query.length > 100) {
+      return NextResponse.json({ suggestions: [] }, { status: 400 });
+    }
+
+    // Sanitize query: remove potentially dangerous characters
+    const sanitizedQuery = query.trim().replace(/[<>]/g, '');
+    
+    if (sanitizedQuery.length < 2) {
+      return NextResponse.json({ suggestions: [] }, { status: 400 });
     }
 
     // Fetch data for suggestions
@@ -17,7 +25,7 @@ export async function GET(request: NextRequest) {
       getTags()
     ]);
 
-    const searchTerm = query.toLowerCase();
+    const searchTerm = sanitizedQuery.toLowerCase();
     const suggestions: Array<{
       type: 'post' | 'category' | 'tag';
       title: string;

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 
 interface SearchBarWithAutocompleteProps {
@@ -245,7 +246,7 @@ export default function SearchBarWithAutocomplete({
                     {suggestion.excerpt && (
                       <div 
                         className="text-sm text-slate-600 mt-1 line-clamp-2"
-                        dangerouslySetInnerHTML={{ __html: suggestion.excerpt }}
+                        dangerouslySetInnerHTML={{ __html: sanitizeHtml(suggestion.excerpt) }}
                       />
                     )}
                     <div className="text-xs text-slate-400 mt-1 capitalize">

@@ -5,6 +5,7 @@ import Breadcrumbs from './Breadcrumbs';
 import SocialShareButtons from './SocialShareButtons';
 import { getFeaturedImageUrl, WordPressPost, WordPressTag, WordPressCategory, decodeHtmlEntities, calculateReadingTime, stripHtml } from '@/lib/wordpress';
 import Image from 'next/image';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 interface BlogPostLayoutProps {
   post: WordPressPost;
@@ -101,7 +102,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
               </header>
               {/* Article Content */}
               <div className="font-montserrat prose prose-lg max-w-none prose-headings:font-geist prose-headings:font-bold prose-headings:text-gray-900 dark:prose-headings:text-white prose-h1:text-4xl prose-h1:mb-6 prose-h2:text-3xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-3 prose-h4:text-xl prose-h4:mt-6 prose-h4:mb-2 prose-p:text-gray-700 dark:prose-p:text-gray-300 prose-p:leading-relaxed prose-a:text-primary prose-a:no-underline hover:prose-a:opacity-80 prose-strong:text-gray-900 dark:prose-strong:text-white prose-strong:font-semibold prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-gray-600 dark:prose-blockquote:text-gray-400 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-gray-800 dark:prose-code:text-gray-200 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100">
-                <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
+                <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(decodedContent) }} />
               </div>
               
               {/* Social Share Buttons */}

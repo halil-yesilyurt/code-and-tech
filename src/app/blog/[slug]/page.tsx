@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 // Generate metadata for each post
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params;
-  const baseUrl = "https://code-and-tech.halilyesilyurt.com";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://code-and-tech.halilyesilyurt.com";
   const post = await getPostBySlug(slug);
   
   if (!post) {
