@@ -6,144 +6,200 @@
 [![Code Size](https://img.shields.io/github/languages/code-size/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech)
 [![Top Language](https://img.shields.io/github/languages/top/halil-yesilyurt/code-and-tech.svg)](https://github.com/halil-yesilyurt/code-and-tech)
 
-A modern, high-performance tech blog built with Next.js and headless WordPress. Designed for developers and tech enthusiasts, it features a beautiful UI, blazing-fast performance, and a fully decoupled content management experience.
-
+A modern, high-performance tech blog built with Next.js 16 and headless WordPress. Designed for developers and tech enthusiasts, it offers fast performance, clean UI, and fully decoupled content management.
 
 ## 🚀 Live Demo
 
-[View the Live Site](https://code-and-tech.vercel.app/)
-
+| Layer             | URL                                                                                                        |
+| ----------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Frontend**      | [https://code-and-tech.halilyesilyurt.com](https://code-and-tech.halilyesilyurt.com)                       |
+| **WordPress API** | [https://code-and-tech-wp.halilyesilyurt.com/wp-json](https://code-and-tech-wp.halilyesilyurt.com/wp-json) |
 
 ## 📖 Project Overview
 
-**Code & Tech** is a modern, high-performance tech blog that leverages a headless WordPress backend and a Next.js frontend. It is designed for developers and tech enthusiasts, providing a beautiful, responsive UI, fast performance, and a fully decoupled content management experience. Content is managed in WordPress (hosted on InfinityFree or similar), while the frontend is deployed on Vercel for optimal speed and scalability.
+**Code & Tech** combines:
+
+- A **WordPress backend** for content management and editorial workflow
+- A **Next.js frontend** for modern, fast UI with optimal performance
+- Full **API-driven architecture** for complete decoupling
+
+You manage posts through WordPress, and every published article automatically appears on the frontend with optimized performance, SEO, and beautiful presentation.
 
 ## 🖼️ Screenshots
 
-Here are some screenshots of the Code & Tech blog:
-
 **Homepage**
 
-![Homepage](./public/screenshot-1.png)
+<div align="center">
 
-**Blog Page**
+![Homepage](./public/main-page.webp)
 
-![Blog Page](./public/screenshot-2.png)
+</div>
 
-**Projects Page**
+**Blog Listing Page**
 
-![Blog Page](./public/screenshot-3.png)
+<div align="center">
 
-**Interviews Page**
+![Blog Listing Page](./public/blog.webp)
 
-![Interviews Page](./public/screenshot-4.png)
+</div>
 
-**Contact Page**
+**Single Post Page**
 
-![Contact Page](./public/screenshot-5.png)
+<div align="center">
 
-## ✨ Features
+![Single Post Page](./public/post.webp)
 
-- **Headless Architecture:** Decoupled WordPress backend and Next.js frontend for flexibility and performance.
-- **Static Site Generation (SSG) & Server-Side Rendering (SSR):** Combines SSG for most pages and SSR for dynamic content, ensuring fast load times and great SEO.
-- **SEO Optimized:** Automatic meta tags, Open Graph, Twitter cards, sitemaps, and structured data for maximum discoverability.
-- **Responsive Design:** Fully mobile-friendly and accessible, with a modern UI built using Tailwind CSS.
-- **WordPress Backend:** Content managed via the WordPress dashboard, supporting posts, categories, tags, and custom fields.
-- **Advanced Search:** Full-text search for articles, tutorials, and insights.
-- **Category & Tag Filtering:** Easily browse posts by category or tag, with deep linking.
-- **Author Pages:** Dedicated author profiles with bio and post listings.
-- **Contact Form:** Modern, validated contact form with email integration and spam protection.
-- **View Tracking:** Tracks post popularity and displays trending articles.
-- **Rate Limiting:** Built-in API rate limiting for spam protection.
-- **Newsletter Signup:** Integrated newsletter form for audience growth.
-- **Modern UI/UX:** Animations, gradients, and a clean, professional look.
+</div>
+
+**Interviews Section**
+
+<div align="center">
+
+![Interviews Section](./public/interviews.webp)
+
+</div>
+
+**Category Page**
+
+<div align="center">
+
+![Category Page](./public/category.webp)
+
+</div>
+
+## ✨ Key Features
+
+### Core Features
+
+- ⚡ **Headless Architecture:** Fully decoupled WordPress backend and Next.js frontend
+- 🚀 **SSG & SSR:** Combines Static Site Generation for pages and Server-Side Rendering for dynamic content
+- 📈 **SEO Optimized:** Automatic meta tags, Open Graph, Twitter cards, sitemaps, RSS feed, and structured data
+- 🎨 **Responsive Design:** Modern UI built with Tailwind CSS 4, fully mobile-friendly
+- ⚛️ **Production-Ready:** Optimized for Vercel deployment with edge caching
+
+### Content Management
+
+- Built on **standard WordPress** features:
+  - Posts
+  - Categories
+  - Tags
+- ✅ **No ACF required**
+- ✅ **No custom post types needed**
+- **Interviews** → simply a category named "Interviews"
+- **Advanced Search:** Full-text search with autocomplete suggestions
+- **Category & Tag Filtering:** Easy browsing with deep linking
+
+### User Experience
+
+- 🎯 **Hero Slider:** Dynamic homepage carousel showcasing featured articles
+- 📁 **Projects Showcase:** Curated portfolio section with dedicated API, separate from WordPress
+- 🎤 **Interviews Section:** Dedicated page filtering posts from "Interviews" category
+- 👤 **Author Pages:** Author profiles with bio and post listings
+- 📧 **Contact Form:** Modern, validated form with email integration via Resend
+- 📬 **Newsletter Signup:** Integrated newsletter form for audience growth
+- 🔗 **Social Sharing:** Share articles on Twitter, LinkedIn, and Facebook
+
+### Technical Features
+
+- 🔒 **Rate Limiting:** Built-in API rate limiting for spam protection
+- 🛡️ **Error Boundaries:** Graceful error handling with React Error Boundaries
+- ⏳ **Loading States:** Skeleton screens and loading indicators
+- 🖼️ **Optimized Images:** Smart image loading with fallback states and lazy loading
+- 📊 **Structured Data:** JSON-LD for articles and organization
+- ✨ **Modern UI/UX:** Smooth animations, gradients, and clean design
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **Framework:** Next.js 13+ (App Router), React 18
-- **Styling:** Tailwind CSS, custom CSS modules
-- **Data Fetching:** Native `fetch` API, ISR/SSR, SWR (optional)
+
+- **Framework:** Next.js 16 (App Router + Turbopack), React 19
+- **Styling:** Tailwind CSS 4, custom CSS modules
+- **Fonts:** Geist Sans, Montserrat, Inter
+- **Data Fetching:** Native `fetch` API with ISR/SSR
 - **State Management:** React hooks, local state
 - **Forms & Validation:** React, custom validation, server-side validation
-- **Deployment:** Vercel 
+- **Email Service:** Resend API
+- **Deployment:** Vercel
 
 ### Backend
-- **CMS:** Headless WordPress
+
+- **CMS:** Headless WordPress (self-hosted VPS or any hosting provider)
 - **API:** WordPress REST API
-- **Plugins:**
-  - Advanced Custom Fields (ACF)
-  - JWT Authentication for WP REST API (for login)
 
+#### Optional Plugins
 
-## 🗂️ Project Structure
+- **JWT Authentication for WP REST API** – only if you need authenticated endpoints
+- **WPS Hide Login** – for custom WordPress login URL security
 
-```
+> ✨ **Note:** Project runs perfectly with vanilla WordPress—no plugins required for basic functionality.
+
+## 🧱 Project Structure
+
+```bash
 code-and-tech/
-  ├── build.js
-  ├── data/
-  ├── docs/           # Documentation (PRD, tech stack, setup guides, etc.)
-  ├── public/         # Static assets (images, icons, etc.)
-  ├── scripts/
+  ├── build.js         # Custom build script (wraps next build, disables telemetry)
+  ├── docs/            # Documentation (PRD, tech stack, setup guides, etc.)
+  ├── public/          # Static assets (images, icons, screenshots, etc.)
   ├── src/
-  │   ├── app/        # Next.js app directory (pages, components, API routes)
-  │   ├── lib/        # Utilities (WordPress API, rate limiting, etc.)
+  │   ├── app/         # Next.js app directory (pages, components, API routes)
+  │   │   ├── api/     # Next.js API routes (projects, search suggestions)
+  │   │   ├── blog/    # Blog pages and components
+  │   │   ├── components/  # Reusable React components
+  │   │   ├── projects/    # Projects showcase
+  │   │   ├── interviews/  # Interviews section (category-based)
+  │   │   └── ...      # Other pages (contact, categories, search, etc.)
+  │   └── lib/         # Utilities (WordPress API client, rate limiting)
   ├── package.json
   ├── tsconfig.json
-  └── ...
+  └── next.config.ts
 ```
 
-## 🔒 Security & Best Practices
+## 🧠 Pages Overview
 
-- Hide `/wp-admin` with a custom path (WPS Hide Login)
-- Secure API with JWT (block unauthorized access)
-- Use environment variables for API URLs and secrets
-- Optimize images with Next.js `Image` component
-- Implement ISR for incremental updates
-- Keep WordPress/plugins up to date
-- Use strong passwords and enable 2FA if possible
-- Disable XML-RPC
-- Rate limit API endpoints
-- Never expose sensitive credentials in the frontend
-
-## 🏠 Pages & User Flow
-
-| Path         | Purpose                                                      |
-|--------------|--------------------------------------------------------------|
-| `/`          | Home: Featured/latest blog posts, search, categories         |
-| `/blog`      | All blog posts (with filter/sort by category, tag)           |
-| `/about`     | Info about you, your experience, your goals                  |
-| `/categories`| List of post categories with post counts                     |
-| `/contact`   | Email form, social links, GitHub, etc.                       |
-| `/projects`  | Highlight personal dev projects                              |
-| `/interview` | Q&A with tech leaders (video + transcript)                   |
+| Route              | Purpose                                                |
+| ------------------ | ------------------------------------------------------ |
+| `/`                | Homepage: Hero slider, featured posts, latest articles |
+| `/blog`            | All blog posts with filters and pagination             |
+| `/blog/[slug]`     | Individual blog post with reading time, share buttons  |
+| `/projects`        | Portfolio/projects showcase with tech stack tags       |
+| `/interviews`      | Dedicated interviews section (category-based)          |
+| `/categories`      | List of post categories with post counts               |
+| `/category/[slug]` | Posts filtered by category                             |
+| `/search`          | Full-text search with autocomplete and filters         |
+| `/contact`         | Contact form with email integration and social links   |
+| `/[slug]`          | Dynamic WordPress pages (About, etc.)                  |
 
 ## 📦 Prerequisites
 
 - **Node.js** v18.x or higher
 - **npm**, **yarn**, or **pnpm**
-- **WordPress** (local or remote instance)
-- **Required WordPress Plugins** (see above)
+- **WordPress** (self-hosted, VPS, or managed hosting—any provider works)
+- **Resend Account** (for contact form emails)
 
 ## ⚡ Installation & Setup
 
 ### 1. Backend (WordPress) Setup
 
-1. Ensure your WordPress site is running (locally or remotely).
-2. Install and activate the required plugins:
-   - Advanced Custom Fields (ACF)
-   - JWT Authentication for WP REST API
-3. Set Permalinks to "Post name" in WordPress settings for clean URLs.
-4. Configure ACF fields and custom post types as needed.
+1. Set up your WordPress site (locally, VPS, managed hosting—your choice).
+2. Set Permalinks to **"Post name"** in WordPress Settings → Permalinks for clean URLs.
+3. **(Optional)** Install plugins for enhanced functionality:
+   - **JWT Authentication for WP REST API** – only if you need authenticated API calls
+   - **WPS Hide Login** – only if you want to hide `/wp-admin`
+4. Create your content using standard posts, categories, and tags:
+   - For interviews, create an **"Interviews"** category and assign posts to it
+   - No custom post types or ACF fields are required
 
 ### 2. Frontend Setup
 
-1. Clone the repository:
+1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/halil-yesilyurt/code-and-tech
    cd code-and-tech
    ```
-2. Install dependencies:
+
+2. **Install dependencies:**
+
    ```bash
    npm install
    # or
@@ -151,99 +207,150 @@ code-and-tech/
    # or
    pnpm install
    ```
-3. Copy the example environment file and configure it:
+
+3. **Configure environment variables:**
    ```bash
    cp env.example .env.local
    # Edit .env.local with your WordPress API endpoint and other secrets
    ```
 
+---
+
 ## 🔑 Environment Variables
 
-Create a `.env.local` file in the root directory. Example:
+Create a `.env.local` file in the root directory:
 
 ```env
-# WordPress REST API Endpoint (server-side)
-WORDPRESS_API_URL="https://your-wordpress-site.com/wp-json"
+# WordPress REST API Endpoints (required)
+WORDPRESS_API_URL="https://code-and-tech-wp.halilyesilyurt.com/wp-json"
+NEXT_PUBLIC_WORDPRESS_API_URL="https://code-and-tech-wp.halilyesilyurt.com/wp-json"
 
-# WordPress REST API Endpoint (client-side)
-NEXT_PUBLIC_WORDPRESS_API_URL="https://your-wordpress-site.com/wp-json"
+# Resend email service (required for contact form)
+RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+RESEND_FROM_EMAIL="noreply@code-and-tech.halilyesilyurt.com"
 
-# WordPress authentication (optional)
+# Contact email destination (required)
+CONTACT_EMAIL="your-email@example.com"
+
+# WordPress authentication (optional - only needed for authenticated API calls)
 WORDPRESS_JWT_SECRET="your-jwt-secret"
 WORDPRESS_USERNAME="your-wp-username"
 WORDPRESS_PASSWORD="your-wp-application-password"
 
-# Resend email service
-RESEND_API_KEY="re_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-RESEND_FROM_EMAIL="noreply@example.com"
-
-# Contact email destination
-CONTACT_EMAIL="your-email@example.com"
-
-# Google verification / analytics
+# Google verification / analytics (optional)
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 NEXT_PUBLIC_GA_ID="G-XXXXXXXXXX"
 ```
 
-- `WORDPRESS_API_URL` / `NEXT_PUBLIC_WORDPRESS_API_URL`: Base URLs for your WordPress REST API (server & client)
-- `WORDPRESS_JWT_SECRET`, `WORDPRESS_USERNAME`, `WORDPRESS_PASSWORD`: Credentials for JWT-protected WordPress endpoints (optional)
-- `RESEND_API_KEY`, `RESEND_FROM_EMAIL`: Resend email-service credentials
-- `CONTACT_EMAIL`: Destination address for contact-form submissions
-- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`: Google Search Console verification code
+### Environment Variables Explained
+
+**Required:**
+
+- `WORDPRESS_API_URL` / `NEXT_PUBLIC_WORDPRESS_API_URL`: Your WordPress REST API base URL
+- `RESEND_API_KEY`, `RESEND_FROM_EMAIL`: Resend email service credentials
+- `CONTACT_EMAIL`: Destination address for contact form submissions
+
+**Optional:**
+
+- `WORDPRESS_JWT_SECRET`, `WORDPRESS_USERNAME`, `WORDPRESS_PASSWORD`: Only for JWT-protected endpoints
+- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`: Google Search Console verification
 - `NEXT_PUBLIC_GA_ID`: Google Analytics / GA4 measurement ID
-
-## 🏃 Running the Application
-
-- **Development:**
-  ```bash
-  npm run dev
-  # Starts the dev server at http://localhost:3000
-  ```
-- **Build:**
-  ```bash
-  npm run build
-  # Runs a custom build.js script, which wraps 'next build' and disables Next.js telemetry for production builds.
-  ```
-- **Start:**
-  ```bash
-  npm run start
-  # Starts the production server
-  ```
 
 ---
 
+## 🏃 Running the Application
+
+**Development:**
+
+```bash
+npm run dev
+# Starts the dev server at http://localhost:3000
+```
+
+**Build:**
+
+```bash
+npm run build
+# Runs a custom build.js script (wraps 'next build', disables telemetry)
+```
+
+**Start:**
+
+```bash
+npm run start
+# Starts the production server
+```
+
+> **Note:** WordPress must be running independently and accessible via the configured API URL.
+
 ## 🚀 Deployment
 
-- **Vercel:**
-  - Push your repo to GitHub.
-  - Import into Vercel and set environment variables in the dashboard.
-  - Deploy!
+### Vercel (Recommended)
 
-Deployment is designed and tested for Vercel. For other platforms, custom configuration may be required.
+1. Push your repository to GitHub
+2. Import the project into [Vercel](https://vercel.com)
+3. Set environment variables in the Vercel dashboard:
+   - Add all variables from your `.env.local` file
+   - Make sure to use your actual WordPress API URL
+4. Deploy!
 
+**Benefits:**
+
+- ✅ Incremental Static Regeneration (ISR)
+- ✅ Automatic builds on push
+- ✅ Fast edge caching
+- ✅ Zero-config deployment
+
+The project is designed and optimized for Vercel. For other platforms (Netlify, Railway, etc.), custom configuration may be required.
+
+## 🔄 Migration Notes
+
+If you're upgrading from an earlier version of Code & Tech:
+
+✔ **Update `.env.local`** with your own WordPress URLs  
+✔ **Plugins are now optional** – blog works with vanilla WordPress  
+✔ **API structure unchanged** – only base URL needs updating
+
+> ✅ No breaking API changes.
+
+## 💡 Suggestions for Customization
+
+- **Projects API:** Replace with your own external data source or connect to a portfolio API
+- **Custom Post Types:** Add via ACF or CPT UI plugin if you need more content types
+- **JWT Protection:** Add JWT authentication for admin-only features or protected content
+- **Styling:** Personalize colors, fonts, and spacing using Tailwind configuration
+- **Analytics:** Add custom tracking, heatmaps, or conversion tools
+- **Comments:** Integrate Disqus, Commento, or custom comment system
 
 ## 🧑‍💻 Contributing
 
 Contributions are welcome! To contribute:
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/your-feature`)
 3. Make your changes and commit (`git commit -m 'Add feature'`)
 4. Push to your fork (`git push origin feature/your-feature`)
 5. Open a Pull Request on GitHub
 
+Feel free to open PRs, report issues, or suggest features!
 
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+MIT License — do whatever you want responsibly 🎯
 
 ## 🙏 Acknowledgments
 
-- **Next.js Team** for the React framework
-- **WordPress Community** for the CMS
-- **Tailwind CSS** for the styling framework
-- **Vercel** for hosting
-- All open-source contributors
+- **Next.js Team** for the incredible React framework
+- **WordPress Community** for the powerful CMS
+- **Tailwind CSS** for the utility-first styling framework
+- **Vercel** for seamless hosting and deployment
+- **Resend** for reliable email delivery
+- All open-source contributors who make projects like this possible
 
+---
 
-**Happy coding! 🚀**
+**Built with ❤️ by [Halil Yesilyurt](https://halilyesilyurt.com)**
+
+**Happy Coding! 🚀**
