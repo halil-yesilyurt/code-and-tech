@@ -1,4 +1,10 @@
 User-agent: *
-Allow: /
+Disallow: /wp-json/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /?rest_route=
+Disallow: /*?rest_route=*
+Disallow: /xmlrpc.php
+
 
 Sitemap: https://code-and-tech.halilyesilyurt.com/sitemap.xml
