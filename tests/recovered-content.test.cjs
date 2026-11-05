@@ -66,3 +66,6 @@ assert(aliasSource.includes('permanentRedirect('), 'Legacy aliases should redire
 assert(aliasSource.includes('/blog/'), 'Article aliases should target canonical blog paths');
 assert(aliasSource.includes('/category/'), 'Category aliases should target canonical category paths');
 assert(aliasSource.indexOf('permanentRedirect(') < aliasSource.indexOf('  try {'), 'Redirects must propagate before catch');
+
+assert(aliasSource.includes('if (!(await getPageBySlug(requestedSlug)))'), 'Unknown routes require a pre-render notFound guard');
+assert(aliasSource.includes('  // An unknown route should not advertise itself as an indexable page.\n  notFound();'), 'Unknown metadata must not emit an indexable canonical');
