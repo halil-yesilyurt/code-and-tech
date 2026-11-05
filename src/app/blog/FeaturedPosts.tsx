@@ -38,7 +38,7 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
             </time>
           </div>
           <h2 className='text-2xl font-bold text-slate-900 mb-2'>
-            <Link href={`/${post.slug}`} className='hover:underline'>
+            <Link href={`/blog/${post.slug}`} className='hover:underline'>
               {decodeHtmlEntities(post.title.rendered)}
             </Link>
           </h2>
@@ -62,7 +62,7 @@ export default function FeaturedPosts({ posts }: { posts: Post[] }) {
           </div>
           <div className='mt-4'>
             <Link
-              href={`/${post.slug}`}
+              href={`/blog/${post.slug}`}
               className='inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-colors duration-200 group'
             >
               Read Article
