@@ -113,7 +113,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
               {postsInCategory.length > 0 ? (
                 <div className="space-y-8">
                   {postsInCategory.map((post: { id: number }) => (
-                    <ArticleCard key={post.id} post={post} linkBase="/" />
+                    <ArticleCard key={post.id} post={post} linkBase="/blog/" />
                   ))}
                 </div>
               ) : (
