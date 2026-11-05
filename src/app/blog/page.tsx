@@ -1,7 +1,8 @@
 import React from 'react';
 export const metadata = {
   title: 'Blog | Code & Tech',
-  description: 'Latest articles, insights and tutorials on software development, AI, cloud and more at Code & Tech.'
+  description: 'Latest articles, insights and tutorials on software development, AI, cloud and more at Code & Tech.',
+  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/blog' }
 };
 import { getPosts, getCategories, getTags, getPopularPosts, decodeHtmlEntities } from '@/lib/wordpress';
 import Sidebar from '../components/Sidebar';
