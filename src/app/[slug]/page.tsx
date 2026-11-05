@@ -1,5 +1,5 @@
 import { getPostBySlug, getPageBySlug, getCategories, getPosts, getTags, getAuthorInfo, decodeHtmlEntities, stripHtml, getFeaturedImageUrl } from '@/lib/wordpress';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import ArticleCard from '../components/ArticleCard';
 import Sidebar from '../components/Sidebar';
 import BlogPostLayout from '../components/BlogPostLayout';
@@ -73,6 +73,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
+  // A recovered post has one public URL. Redirect legacy root-slug links before
+  // entering the error boundary: Next.js redirects throw control-flow signals.
+  const { slug } = await params;
+  if (await getPostBySlug(slug)) {
+    permanentRedirect(`/blog/${slug}`);
+  }
+
   try {
     const { slug } = await params;
 
