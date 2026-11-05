@@ -50,3 +50,10 @@ assert(wordpressSource.includes('.map(withCanonicalArticleLinks)'),
 assert(posts.some(post => post.content.rendered.includes('https://code-and-tech.vercel.app/')),
   'The original source archive must remain preserved without in-place rewrites');
 console.log('Legacy link normalization contract passed, original backup preserved');
+
+// Previously published root-slug aliases must not serve duplicate indexable pages.
+const legacyRoute = fs.readFileSync(path.join(__dirname, '../src/app/[slug]/page.tsx'), 'utf8');
+assert(legacyRoute.includes("import { notFound, permanentRedirect } from 'next/navigation'"));
+assert(legacyRoute.includes('permanentRedirect(`/blog/${slug}`)'), 'Legacy article routes must redirect permanently to the canonical URL');
+assert(legacyRoute.indexOf('permanentRedirect(`/blog/${slug}`)') < legacyRoute.indexOf('  try {'), 'Redirect must occur outside catch that converts Next.js control flow to 404');
+console.log('Legacy root-slug redirect contract passed');
