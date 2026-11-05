@@ -21,3 +21,14 @@ test('indexable blog and category archives have self canonicals', () => {
   assert.ok(blog.includes("alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/blog' }"));
   assert.ok(categories.includes("alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/categories' }"));
 });
+
+test('every public static sitemap route has an explicit canonical', () => {
+  for (const slug of ['terms', 'privacy-policy', 'cookie-policy']) {
+    assert.ok(read('src/app/' + slug + '/page.tsx').includes(
+      "alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/" + slug + "' }"
+    ), slug + ' requires a self canonical');
+  }
+  assert.ok(read('src/app/contact/layout.tsx').includes(
+    "alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/contact' }"
+  ), 'contact is a client component and uses server layout metadata');
+});
