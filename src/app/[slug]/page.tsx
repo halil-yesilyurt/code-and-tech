@@ -1,5 +1,5 @@
 import { getPostBySlug, getPageBySlug, getCategories, getPosts, getTags, getAuthorInfo, decodeHtmlEntities, stripHtml, getFeaturedImageUrl } from '@/lib/wordpress';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect } from 'next/navigation';
 import ArticleCard from '../components/ArticleCard';
 import Sidebar from '../components/Sidebar';
 import BlogPostLayout from '../components/BlogPostLayout';
@@ -73,6 +73,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Redirect legacy root slugs to their existing canonical routes before the
+  // catch block, so Next.js can propagate the permanent redirect response.
+  const requestedSlug = (await params).slug;
+  const categoriesForRedirect = await getCategories();
+  if (categoriesForRedirect.some(category => category.slug === requestedSlug)) {
+    permanentRedirect(`/category/${requestedSlug}`);
+  }
+  if (await getPostBySlug(requestedSlug)) {
+    permanentRedirect(`/blog/${requestedSlug}`);
+  }
   try {
     const { slug } = await params;
 
@@ -113,7 +123,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
               {postsInCategory.length > 0 ? (
                 <div className="space-y-8">
                   {postsInCategory.map((post: { id: number }) => (
-                    <ArticleCard key={post.id} post={post} linkBase="/" />
+                    <ArticleCard key={post.id} post={post} linkBase="/blog/" />
                   ))}
                 </div>
               ) : (

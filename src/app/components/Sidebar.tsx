@@ -146,7 +146,7 @@ export default function Sidebar({ popularPosts, tags, categories }: { popularPos
           {popularPosts.map((post, index) => (
             <Link 
               key={post.id} 
-              href={`/${post.slug}`} 
+              href={`/blog/${post.slug}`} 
               className="flex items-center p-3 border border-teal-500/50 rounded-lg hover:bg-teal-500/10 dark:hover:bg-teal-500/20 transition-colors"
             >
               <span className="flex items-center justify-center w-8 h-8 bg-primary text-gray-900 font-bold rounded-full mr-4 flex-shrink-0">

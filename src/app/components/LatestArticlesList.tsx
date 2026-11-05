@@ -17,7 +17,7 @@ export default function LatestArticlesList({ posts }: { posts: unknown[] }) {
           const p = post as { id: number };
           return (
             <div key={p.id} style={{ animationDelay: `${i * 60}ms` }} className='animate-fade-slide-in'>
-              <ArticleCard post={post} linkBase='/' />
+              <ArticleCard post={post} linkBase='/blog/' />
             </div>
           );
         })}

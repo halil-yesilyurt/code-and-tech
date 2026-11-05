@@ -55,7 +55,7 @@ export default async function PostsPage({ searchParams }: { searchParams: Promis
   return (
     <main className="grid grid-cols-1 lg:grid-cols-3 gap-12 my-10">
       <div className="lg:col-span-2">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Latest Articles</h2>
+        <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Latest Articles</h1>
         <BlogPostList posts={pagePosts} />
         <div className="mt-10">
           <BlogPagination currentPage={currentPage} totalPages={totalPages} />

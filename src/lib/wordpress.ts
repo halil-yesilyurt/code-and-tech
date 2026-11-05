@@ -2,6 +2,32 @@
 // This will replace the sample data with real WordPress content
 
 import he from 'he';
+import recoveredPosts from '@/content/recovered-posts.json';
+import recoveredTaxonomies from '@/content/recovered-taxonomies.json';
+
+const archivedPosts = recoveredPosts as WordPressPost[];
+const archivedCategories = recoveredTaxonomies.categories as WordPressCategory[];
+const archivedTags = recoveredTaxonomies.tags as WordPressTag[];
+
+const archiveSlugs = new Set(archivedPosts.map(post => post.slug));
+
+/**
+ * Preserve the archived HTML source, but repair links to recovered articles at
+ * the display boundary. An old Vercel hostname served root-slug aliases; the
+ * public canonical URL is /blog/<slug>. Unknown links are left untouched.
+ */
+function withCanonicalArticleLinks(post: WordPressPost): WordPressPost {
+  const normalized = post.content.rendered.replace(
+    /(href\s*=\s*["'])https:\/\/code-and-tech\.vercel\.app\/([a-z0-9-]+)(["'])/gi,
+    (original, prefix: string, slug: string, quote: string) =>
+      archiveSlugs.has(slug) ? prefix + '/blog/' + slug + quote : original,
+  );
+  return normalized === post.content.rendered
+    ? post
+    : { ...post, content: { ...post.content, rendered: normalized } };
+}
+
+
 
 export interface WordPressPost {
   id: number;
@@ -106,70 +132,15 @@ export interface WordPressTag {
   meta: Record<string, unknown>[];
 }
 
-// Get WordPress API URL from environment variables
-const WORDPRESS_API_URL = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
-
-// Fallback to sample data if WordPress API is not configured
-const USE_SAMPLE_DATA = !WORDPRESS_API_URL;
-
-// Helper to safely parse JSON and log errors
-async function safeJsonParse(response: Response, context: string) {
-  try {
-    return await response.json();
-  } catch (err) {
-    const text = await response.text();
-    console.error(`[WordPress API] Failed to parse JSON in ${context}. Response text:`, text);
-    throw err;
-  }
-}
+// Archive-backed content: no WordPress server or API credentials are required.
 
 /**
  * Fetch posts from WordPress REST API with embedded content
  * Falls back to sample data if WordPress is not configured
  */
 export async function getPosts(page: number = 1, perPage: number = 10): Promise<WordPressPost[]> {
-  if (USE_SAMPLE_DATA) {
-    // Return sample data for development
-    return getSamplePosts().map((post) => ({
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    }));
-  }
-  try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?_embed&page=${page}&per_page=${perPage}&status=publish`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 },
-    });
-    if (!response.ok) {
-      const text = await response.text();
-      console.warn('WordPress API error, falling back to sample data:', response.status, text);
-      return getSamplePosts().map((post) => ({
-        ...post,
-        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-      }));
-    }
-    const posts: WordPressPost[] = await safeJsonParse(response, 'getPosts');
-    return posts.map((post) => ({
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    }));
-  } catch (error) {
-    console.error('Error fetching posts from WordPress:', error);
-    return getSamplePosts().map((post) => ({
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    }));
-  }
+  const offset = Math.max(0, page - 1) * perPage;
+  return archivedPosts.slice(offset, offset + perPage).map(withCanonicalArticleLinks);
 }
 
 /**
@@ -177,90 +148,15 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
  * Falls back to sample data if WordPress is not configured
  */
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
-  if (USE_SAMPLE_DATA) {
-    const post = getSamplePostBySlug(slug);
-    return post
-      ? {
-          ...post,
-          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-        }
-      : null;
-  }
-
-  try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?slug=${slug}&_embed&status=publish`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 },
-    });
-
-    if (!response.ok) {
-      console.warn('WordPress API error, falling back to sample data:', response.status);
-      const post = getSamplePostBySlug(slug);
-      return post
-        ? {
-            ...post,
-            title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-            excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-            content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-          }
-        : null;
-    }
-
-    const posts: WordPressPost[] = await safeJsonParse(response, 'getPostBySlug');
-    const post = posts.length > 0 ? posts[0] : null;
-    return post
-      ? {
-          ...post,
-          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-        }
-      : null;
-  } catch (error) {
-    console.error('Error fetching post by slug:', error);
-    const post = getSamplePostBySlug(slug);
-    return post
-      ? {
-          ...post,
-          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-        }
-      : null;
-  }
+  const post = archivedPosts.find(post => post.slug === slug);
+  return post ? withCanonicalArticleLinks(post) : null;
 }
 
 /**
  * Fetch all post slugs for static generation
  */
 export async function getAllPostSlugs(): Promise<string[]> {
-  if (USE_SAMPLE_DATA) {
-    return ['getting-started-with-nextjs', 'future-of-headless-cms', 'building-scalable-apis-nodejs'];
-  }
-
-  try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?per_page=100&status=publish&_fields=slug`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 },
-    });
-
-    if (!response.ok) {
-      console.warn('WordPress API error, falling back to sample slugs');
-      return ['getting-started-with-nextjs', 'future-of-headless-cms', 'building-scalable-apis-nodejs'];
-    }
-
-    const posts: { slug: string }[] = await safeJsonParse(response, 'getAllPostSlugs');
-    return posts.map((post) => post.slug);
-  } catch (error) {
-    console.error('Error fetching post slugs:', error);
-    return ['getting-started-with-nextjs', 'future-of-headless-cms', 'building-scalable-apis-nodejs'];
-  }
+  return archivedPosts.map(post => post.slug);
 }
 
 /**
@@ -478,95 +374,15 @@ function getSamplePostBySlug(slug: string): WordPressPost | null {
 }
 
 export async function getPageBySlug(slug: string) {
-  // Use the configured WordPress URL instead of a hard-coded domain
-  if (!WORDPRESS_API_URL) {
-    console.warn('WORDPRESS_API_URL is not set – returning null for getPageBySlug');
-    return null;
-  }
-  const apiUrl = `${WORDPRESS_API_URL}/wp/v2/pages?slug=${slug}`;
-  const res = await fetch(apiUrl, { next: { revalidate: 60 } });
-  if (!res.ok) {
-    console.error('Failed to fetch page:', res.status, await res.text());
-    return null;
-  }
-  const pages = await safeJsonParse(res, 'getPageBySlug');
-  return pages.length > 0 ? pages[0] : null;
+  return null as any; // Archived WordPress pages are not served by the retired API.
 }
 
 export async function getTags(): Promise<WordPressTag[]> {
-  if (USE_SAMPLE_DATA) {
-    return [
-      { id: 1, count: 10, description: '', link: '', name: 'Technology', slug: 'technology', taxonomy: 'post_tag', meta: [] },
-      { id: 2, count: 8, description: '', link: '', name: 'Productivity', slug: 'productivity', taxonomy: 'post_tag', meta: [] },
-      { id: 3, count: 5, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'post_tag', meta: [] },
-      { id: 4, count: 4, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'post_tag', meta: [] },
-      { id: 5, count: 3, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'post_tag', meta: [] },
-      { id: 6, count: 2, description: '', link: '', name: 'Reviews', slug: 'reviews', taxonomy: 'post_tag', meta: [] },
-    ].map((tag) => ({
-      ...tag,
-      name: decodeHtmlEntities(tag.name),
-      slug: decodeHtmlEntities(tag.slug),
-    }));
-  }
-  try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/tags?per_page=20`, {
-      headers: { 'Content-Type': 'application/json' },
-      next: { revalidate: 60 },
-    });
-    if (!response.ok) {
-      const text = await response.text();
-      console.warn('WordPress API error fetching tags, falling back to sample data:', response.status, text);
-      return [];
-    }
-    const tags: WordPressTag[] = await safeJsonParse(response, 'getTags');
-    return tags.map((tag) => ({
-      ...tag,
-      name: decodeHtmlEntities(tag.name),
-      slug: decodeHtmlEntities(tag.slug),
-    }));
-  } catch (error) {
-    console.error('Error fetching tags from WordPress:', error);
-    return [];
-  }
+  return archivedTags;
 }
 
 export async function getCategories(): Promise<WordPressCategory[]> {
-  // console.log('WORDPRESS_API_URL:', WORDPRESS_API_URL, 'USE_SAMPLE_DATA:', USE_SAMPLE_DATA);
-  if (USE_SAMPLE_DATA) {
-    return [
-      { id: 1, count: 10, description: '', link: '', name: 'Frontend', slug: 'frontend', taxonomy: 'category', meta: [], parent: 0 },
-      { id: 2, count: 8, description: '', link: '', name: 'Backend', slug: 'backend', taxonomy: 'category', meta: [], parent: 0 },
-      { id: 3, count: 5, description: '', link: '', name: 'Dev Tools', slug: 'dev-tools', taxonomy: 'category', meta: [], parent: 0 },
-      { id: 4, count: 4, description: '', link: '', name: 'Performance', slug: 'performance', taxonomy: 'category', meta: [], parent: 0 },
-      { id: 5, count: 3, description: '', link: '', name: 'AI', slug: 'ai', taxonomy: 'category', meta: [], parent: 0 },
-      { id: 6, count: 2, description: '', link: '', name: 'Tutorials', slug: 'tutorials', taxonomy: 'category', meta: [], parent: 0 },
-    ].map((cat) => ({
-      ...cat,
-      name: decodeHtmlEntities(cat.name),
-      slug: decodeHtmlEntities(cat.slug),
-    }));
-  }
-  try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/categories?per_page=100`, {
-      headers: { 'Content-Type': 'application/json' },
-      next: { revalidate: 60 },
-    });
-    if (!response.ok) {
-      const text = await response.text();
-      console.warn('WordPress API error fetching categories:', response.status, text);
-      return [];
-    }
-    const categories: WordPressCategory[] = await safeJsonParse(response, 'getCategories');
-    // console.log('Fetched categories:', categories);
-    return categories.map((cat) => ({
-      ...cat,
-      name: decodeHtmlEntities(cat.name),
-      slug: decodeHtmlEntities(cat.slug),
-    }));
-  } catch (error) {
-    console.error('Error fetching categories from WordPress:', error);
-    return [];
-  }
+  return archivedCategories;
 }
 
 export function decodeHtmlEntities(str: string) {
@@ -578,75 +394,10 @@ export function decodeHtmlEntities(str: string) {
  * Falls back to sample data if WordPress is not configured
  */
 export async function searchPosts(query: string, page: number = 1, perPage: number = 10): Promise<WordPressPost[]> {
-  if (USE_SAMPLE_DATA) {
-    // Simple search in sample data (title, excerpt, content)
-    const q = query.toLowerCase();
-    return getSamplePosts()
-      .filter(
-        (post) =>
-          post.title.rendered.toLowerCase().includes(q) ||
-          post.excerpt.rendered.toLowerCase().includes(q) ||
-          post.content.rendered.toLowerCase().includes(q)
-      )
-      .map((post) => ({
-        ...post,
-        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-      }));
-  }
-
-  try {
-    const response = await fetch(
-      `${WORDPRESS_API_URL}/wp/v2/posts?_embed&search=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}&status=publish`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        next: { revalidate: 60 },
-      }
-    );
-
-    if (!response.ok) {
-      console.warn('WordPress API error, falling back to sample data:', response.status);
-      return getSamplePosts()
-        .filter(
-          (post) =>
-            post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
-            post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
-            post.content.rendered.toLowerCase().includes(query.toLowerCase())
-        )
-        .map((post) => ({
-          ...post,
-          title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-          excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-          content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-        }));
-    }
-
-    const posts: WordPressPost[] = await safeJsonParse(response, 'searchPosts');
-    return posts.map((post) => ({
-      ...post,
-      title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-      excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-      content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-    }));
-  } catch (error) {
-    console.error('Error searching posts from WordPress:', error);
-    return getSamplePosts()
-      .filter(
-        (post) =>
-          post.title.rendered.toLowerCase().includes(query.toLowerCase()) ||
-          post.excerpt.rendered.toLowerCase().includes(query.toLowerCase()) ||
-          post.content.rendered.toLowerCase().includes(query.toLowerCase())
-      )
-      .map((post) => ({
-        ...post,
-        title: { ...post.title, rendered: decodeHtmlEntities(post.title.rendered) },
-        excerpt: { ...post.excerpt, rendered: decodeHtmlEntities(post.excerpt.rendered) },
-        content: { ...post.content, rendered: decodeHtmlEntities(post.content.rendered) },
-      }));
-  }
+  const term = query.trim().toLowerCase();
+  const results = archivedPosts.filter(post => !term || [post.title.rendered, post.excerpt.rendered, post.content.rendered].some(value => value.toLowerCase().includes(term)));
+  const offset = Math.max(0, page - 1) * perPage;
+  return results.slice(offset, offset + perPage).map(withCanonicalArticleLinks);
 }
 
 /**
@@ -669,28 +420,7 @@ export async function getPopularPosts(limit: number = 10): Promise<WordPressPost
  * Falls back to sample data count if WordPress is not configured
  */
 export async function getTotalPublishedPostsCount(): Promise<number> {
-  if (USE_SAMPLE_DATA) {
-    return getSamplePosts().length;
-  }
-  try {
-    const response = await fetch(`${WORDPRESS_API_URL}/wp/v2/posts?per_page=1&status=publish`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      next: { revalidate: 60 },
-    });
-    if (!response.ok) {
-      const text = await response.text();
-      console.warn('WordPress API error, falling back to sample data:', response.status, text);
-      return getSamplePosts().length;
-    }
-    // The total count is in the X-WP-Total header
-    const total = response.headers.get('X-WP-Total');
-    return total ? parseInt(total, 10) : 0;
-  } catch (error) {
-    console.error('Error fetching total published posts count from WordPress:', error);
-    return getSamplePosts().length;
-  }
+  return archivedPosts.length;
 }
 
 // View tracking was removed; keep the function for legacy imports but make it a no-op.
