@@ -5,7 +5,7 @@ import SearchResultHighlight from './SearchResultHighlight';
 
 export default function ArticleCard({ 
   post, 
-  linkBase = '/', 
+  linkBase = '/blog/', 
   searchQuery = '' 
 }: { 
   post: unknown, 
