@@ -1,6 +1,7 @@
 export const metadata = {
   title: 'Cookie Policy | Code & Tech',
-  description: 'Understand how Code & Tech uses cookies and how you can manage them.'
+  description: 'Understand how Code & Tech uses cookies and how you can manage them.',
+  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/cookie-policy' }
 };
 
 export default function CookiePolicy() {
