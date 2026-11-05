@@ -1,6 +1,7 @@
 export const metadata = {
   title: 'Terms of Service | Code & Tech',
-  description: 'Read the Terms of Service for using the Code & Tech website.'
+  description: 'Read the Terms of Service for using the Code & Tech website.',
+  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/terms' }
 };
 
 export default function TermsOfService() {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getPosts, getCategories } from '@/lib/wordpress';
+import { getPosts } from '@/lib/wordpress';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://code-and-tech.halilyesilyurt.com";
 
@@ -8,13 +8,6 @@ export async function GET() {
     // Fetch latest 100 blog posts (adjust per needs)
     const posts = await getPosts(1, 100).catch(() => []);
 
-    // Fetch all projects
-    const res = await fetch('https://halilyesilyurt.com/api/projects').catch(() => null);
-    const projects = res && res.ok ? await res.json() : [];
-
-    // Fetch all categories
-    const categories = await getCategories().catch(() => []);
-
     // Build sitemap entries
     const staticPages = [
       '',
@@ -22,19 +15,15 @@ export async function GET() {
       'projects',
       'categories',
       'contact',
-      'search',
       'terms',
       'privacy-policy',
       'cookie-policy',
-      'admin/views',
     ];
 
     const urls = [
       ...staticPages.map((page) => `${BASE_URL}/${page}`),
       // Blog posts with lastmod - use /blog/ prefix
       ...posts.map((post: any) => ({ loc: `${BASE_URL}/blog/${post.slug}`, lastmod: post.modified || post.date })),
-      ...projects.map((p: { id: string }) => `${BASE_URL}/projects#${p.id}`),
-      ...categories.map((cat) => `${BASE_URL}/category/${cat.slug}`),
     ];
 
     const urlEntries = urls

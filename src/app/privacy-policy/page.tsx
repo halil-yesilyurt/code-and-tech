@@ -1,6 +1,7 @@
 export const metadata = {
   title: 'Privacy Policy | Code & Tech',
-  description: 'Learn how Code & Tech collects and handles your personal information.'
+  description: 'Learn how Code & Tech collects and handles your personal information.',
+  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/privacy-policy' }
 };
 
 export default function PrivacyPolicy() {
