@@ -193,7 +193,7 @@ export default async function SearchPage({
                   <ArticleCard 
                     key={post.id} 
                     post={post} 
-                    linkBase="/" 
+                    linkBase="/blog/" 
                     searchQuery={query}
                   />
                 ))}
