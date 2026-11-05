@@ -1,0 +1,12 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const posts = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/content/recovered-posts.json'), 'utf8'));
+const tax = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/content/recovered-taxonomies.json'), 'utf8'));
+assert.equal(posts.length, 45);
+assert.equal(new Set(posts.map(post => post.slug)).size, posts.length);
+assert(posts.every(post => post.status === 'publish' && post.content.rendered.trim() && post.slug));
+assert(posts.every(post => post.link === 'https://code-and-tech.halilyesilyurt.com/blog/' + post.slug));
+assert(posts.every(post => !['Hello world!', 'Sample Page'].includes(post.title.rendered)));
+assert(tax.categories.length > 0 && tax.tags.length > 0);
+console.log('Recovery data contract passed: 45 published posts and taxonomies');
