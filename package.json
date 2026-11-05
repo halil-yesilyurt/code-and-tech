@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "node build.js",
+    "build": "npm run test:recovery && node build.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:recovery": "node tests/recovered-content.test.cjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
