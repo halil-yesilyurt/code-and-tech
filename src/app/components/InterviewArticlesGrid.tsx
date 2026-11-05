@@ -14,7 +14,7 @@ export default function InterviewArticlesGrid({ posts }: { posts: unknown[] }) {
       <div className="flex flex-wrap -mx-4">
         {visiblePosts.map((post: any, idx: number) => (
           <div key={post.id} className="w-full md:w-1/2 px-4 mb-8 animate-fade-slide-in" style={{ animationDelay: `${idx * 60}ms` }}>
-            <ArticleCard post={post} linkBase="/" />
+            <ArticleCard post={post} linkBase="/blog/" />
           </div>
         ))}
       </div>

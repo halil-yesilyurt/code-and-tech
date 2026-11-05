@@ -113,7 +113,7 @@ export default function HeroSlider({ posts }: HeroSliderProps) {
                 </p>
                 <Link 
                   key={`link-${animationKey}`}
-                  href={`/${post.slug}`}
+                  href={`/blog/${post.slug}`}
                   className={`inline-block bg-primary text-gray-900 font-bold py-2 px-6 rounded-md hover:opacity-90 transition-all duration-300 hover:scale-105 ${isActive ? 'animate-slide-up-delay-2' : ''}`}
                 >
                   Read Article

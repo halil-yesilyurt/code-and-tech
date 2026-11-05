@@ -127,7 +127,7 @@ export default function BlogPostLayout({ post, author, tags, posts, categories, 
                     {posts.filter((p: WordPressPost) => p.slug !== post.slug).slice(0, 3).map((p: WordPressPost) => (
                       <li key={p.id} className="flex items-center">
                         <span className="text-primary font-bold mr-2">&bull;</span>
-                        <Link href={`/${p.slug}`} className="block font-montserrat text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-primary transition-colors duration-200 uppercase tracking-wide">
+                        <Link href={`/blog/${p.slug}`} className="block font-montserrat text-sm font-semibold text-gray-800 dark:text-gray-200 hover:text-primary transition-colors duration-200 uppercase tracking-wide">
                           {p.title.rendered}
                         </Link>
                       </li>
