@@ -1,10 +1,20 @@
-import { getPostBySlug, getPageBySlug, getCategories, getPosts, getTags, getAuthorInfo, decodeHtmlEntities, stripHtml, getFeaturedImageUrl } from '@/lib/wordpress';
+import { getPostBySlug, getPageBySlug, getAllPostSlugs, getCategories, getPosts, getTags, getAuthorInfo, decodeHtmlEntities, stripHtml, getFeaturedImageUrl } from '@/lib/wordpress';
 import { notFound, permanentRedirect } from 'next/navigation';
 import ArticleCard from '../components/ArticleCard';
 import Sidebar from '../components/Sidebar';
 import BlogPostLayout from '../components/BlogPostLayout';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { sanitizeHtml } from '@/lib/sanitize';
+
+// Only archived post and category aliases are valid at the site root.
+// Unknown root slugs should be rejected by the router with a real HTTP 404.
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const [postSlugs, categories] = await Promise.all([getAllPostSlugs(), getCategories()]);
+  return [...new Set([...postSlugs, ...categories.map(category => category.slug)])]
+    .map(slug => ({ slug }));
+}
 
 // Generate metadata for dynamic pages (posts, categories, pages)
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
