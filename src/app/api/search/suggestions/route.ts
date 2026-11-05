@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
           title: post.title.rendered,
           slug: post.slug,
           excerpt: post.excerpt?.rendered,
-          url: `/${post.slug}`
+          url: `/blog/${post.slug}`
         });
       }
     });
