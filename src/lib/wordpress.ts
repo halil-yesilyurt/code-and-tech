@@ -9,6 +9,25 @@ const archivedPosts = recoveredPosts as WordPressPost[];
 const archivedCategories = recoveredTaxonomies.categories as WordPressCategory[];
 const archivedTags = recoveredTaxonomies.tags as WordPressTag[];
 
+const archiveSlugs = new Set(archivedPosts.map(post => post.slug));
+
+/**
+ * Preserve the archived HTML source, but repair links to recovered articles at
+ * the display boundary. An old Vercel hostname served root-slug aliases; the
+ * public canonical URL is /blog/<slug>. Unknown links are left untouched.
+ */
+function withCanonicalArticleLinks(post: WordPressPost): WordPressPost {
+  const normalized = post.content.rendered.replace(
+    /(href\s*=\s*["'])https:\/\/code-and-tech\.vercel\.app\/([a-z0-9-]+)(["'])/gi,
+    (original, prefix: string, slug: string, quote: string) =>
+      archiveSlugs.has(slug) ? prefix + '/blog/' + slug + quote : original,
+  );
+  return normalized === post.content.rendered
+    ? post
+    : { ...post, content: { ...post.content, rendered: normalized } };
+}
+
+
 
 export interface WordPressPost {
   id: number;
@@ -121,7 +140,7 @@ export interface WordPressTag {
  */
 export async function getPosts(page: number = 1, perPage: number = 10): Promise<WordPressPost[]> {
   const offset = Math.max(0, page - 1) * perPage;
-  return archivedPosts.slice(offset, offset + perPage);
+  return archivedPosts.slice(offset, offset + perPage).map(withCanonicalArticleLinks);
 }
 
 /**
@@ -129,7 +148,8 @@ export async function getPosts(page: number = 1, perPage: number = 10): Promise<
  * Falls back to sample data if WordPress is not configured
  */
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
-  return archivedPosts.find(post => post.slug === slug) ?? null;
+  const post = archivedPosts.find(post => post.slug === slug);
+  return post ? withCanonicalArticleLinks(post) : null;
 }
 
 /**
@@ -377,7 +397,7 @@ export async function searchPosts(query: string, page: number = 1, perPage: numb
   const term = query.trim().toLowerCase();
   const results = archivedPosts.filter(post => !term || [post.title.rendered, post.excerpt.rendered, post.content.rendered].some(value => value.toLowerCase().includes(term)));
   const offset = Math.max(0, page - 1) * perPage;
-  return results.slice(offset, offset + perPage);
+  return results.slice(offset, offset + perPage).map(withCanonicalArticleLinks);
 }
 
 /**
