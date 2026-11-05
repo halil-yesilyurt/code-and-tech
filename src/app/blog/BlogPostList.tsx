@@ -40,7 +40,7 @@ export default function BlogPostList({ posts }: { posts: Post[] }) {
               {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
             <h3 className='text-xl font-bold text-gray-900 dark:text-white mb-3'>
-              <Link href={`/${post.slug}`} className='hover:text-primary transition-colors'>
+              <Link href={`/blog/${post.slug}`} className='hover:text-primary transition-colors'>
                 {decodeHtmlEntities(post.title.rendered)}
               </Link>
             </h3>
