@@ -62,14 +62,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
 
-  // Default fallback
-  return {
-    metadataBase: new URL(baseUrl),
-    title: 'Page Not Found | Code & Tech',
-    alternates: {
-      canonical: `${baseUrl}/${slug}`,
-    },
-  };
+  // An unknown route should not advertise itself as an indexable page.
+  notFound();
 }
 
 export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -82,6 +76,10 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
   }
   if (await getPostBySlug(requestedSlug)) {
     permanentRedirect(`/blog/${requestedSlug}`);
+  }
+  // Resolve missing slugs before streamed rendering starts, preserving HTTP 404.
+  if (!(await getPageBySlug(requestedSlug))) {
+    notFound();
   }
   try {
     const { slug } = await params;
