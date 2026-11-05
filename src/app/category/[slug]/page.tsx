@@ -53,7 +53,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
             <div className='space-y-8'>
               {postsInCategory.map((post) => {
                 const p = post as { id: number };
-                return <ArticleCard key={p.id} post={post} linkBase='/' />;
+                return <ArticleCard key={p.id} post={post} linkBase='/blog/' />;
               })}
             </div>
           ) : (
