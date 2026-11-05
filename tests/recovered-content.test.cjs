@@ -60,3 +60,9 @@ assert(!sitemapRoute.includes("'search'"), 'Sitemap must preserve the internal-s
 assert(!sitemapRoute.includes('/projects#'), 'Sitemap must preserve removal of fragment-only project entries');
 assert(!sitemapRoute.includes('getCategories'), 'Sitemap must not re-add noindexed category detail entries');
 console.log('Main-branch sitemap and primary-heading integration contract passed');
+
+const aliasSource = fs.readFileSync(path.join(__dirname, '../src/app/[slug]/page.tsx'), 'utf8');
+assert(aliasSource.includes('permanentRedirect('), 'Legacy aliases should redirect');
+assert(aliasSource.includes('/blog/'), 'Article aliases should target canonical blog paths');
+assert(aliasSource.includes('/category/'), 'Category aliases should target canonical category paths');
+assert(aliasSource.indexOf('permanentRedirect(') < aliasSource.indexOf('  try {'), 'Redirects must propagate before catch');
