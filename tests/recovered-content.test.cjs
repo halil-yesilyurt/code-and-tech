@@ -50,3 +50,13 @@ assert(wordpressSource.includes('.map(withCanonicalArticleLinks)'),
 assert(posts.some(post => post.content.rendered.includes('https://code-and-tech.vercel.app/')),
   'The original source archive must remain preserved without in-place rewrites');
 console.log('Legacy link normalization contract passed, original backup preserved');
+
+const blogArchive = fs.readFileSync(path.join(__dirname, '../src/app/blog/page.tsx'), 'utf8');
+assert.match(blogArchive, /<h1\b[^>]*>Latest Articles<\/h1>/, 'Blog archive must have an H1');
+assert.equal((blogArchive.match(/<h1\b/g) || []).length, 1, 'Blog archive should have one H1');
+const sitemapRoute = fs.readFileSync(path.join(__dirname, '../src/app/sitemap.xml/route.ts'), 'utf8');
+assert(!sitemapRoute.includes("'admin/views'"), 'Sitemap must preserve the admin removal from PR #40');
+assert(!sitemapRoute.includes("'search'"), 'Sitemap must preserve the internal-search removal from PR #40');
+assert(!sitemapRoute.includes('/projects#'), 'Sitemap must preserve removal of fragment-only project entries');
+assert(!sitemapRoute.includes('getCategories'), 'Sitemap must not re-add noindexed category detail entries');
+console.log('Main-branch sitemap and primary-heading integration contract passed');
