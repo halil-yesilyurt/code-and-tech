@@ -37,3 +37,16 @@ for (const file of sourceFiles) {
 const missingMedia = posts.filter(post => !post._embedded?.['wp:featuredmedia']?.length);
 assert.equal(missingMedia.length, 45, 'Archive has no restored featured-media assets; do not claim image coverage');
 console.log('Canonical internal-link contract passed; all 45 featured images remain unverified');
+
+const wordpressSource = fs.readFileSync(path.join(__dirname, '../src/lib/wordpress.ts'), 'utf8');
+assert(wordpressSource.includes('function withCanonicalArticleLinks(post: WordPressPost)'),
+  'Old same-site archive links must be normalized at render time');
+assert(wordpressSource.includes('archiveSlugs.has(slug)'),
+  'Only known recovered article slugs may be rewritten');
+assert(wordpressSource.includes("prefix + '/blog/' + slug + quote"),
+  'Recovered links must point to the canonical blog route');
+assert(wordpressSource.includes('.map(withCanonicalArticleLinks)'),
+  'Archive listing and search must apply render-time link normalization');
+assert(posts.some(post => post.content.rendered.includes('https://code-and-tech.vercel.app/')),
+  'The original source archive must remain preserved without in-place rewrites');
+console.log('Legacy link normalization contract passed, original backup preserved');
