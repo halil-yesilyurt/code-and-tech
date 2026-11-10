@@ -422,3 +422,46 @@
 @media (prefers-reduced-motion: reduce) {
   .ct-p3-projects .ct-p3-project-grid > :is(a,div) { animation: none; transition: none; }
 }
+
+/* Legal pages retain their exact policy wording; only typographic styling changes. */
+.ct-p3-legal main { max-width: 800px; padding-block: clamp(65px, 7vw, 105px); padding-inline: 0; }
+.ct-p3-legal main h1 {
+  margin: 0 0 35px;
+  font-size: clamp(2.7rem, 5vw, 4.7rem);
+  line-height: 1.08;
+  font-weight: 660;
+  letter-spacing: -.07em;
+  color: var(--ct-foreground);
+}
+.ct-p3-legal main h2 {
+  margin: 43px 0 14px;
+  color: var(--ct-foreground);
+  font-weight: 640;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  letter-spacing: -.035em;
+}
+.ct-p3-legal main p { margin: 0 0 20px; color: var(--ct-muted); font-size: 1.02rem; line-height: 1.84; }
+.ct-p3-legal main a { color: var(--ct-accent-hover) !important; text-decoration: underline; text-underline-offset: 4px; }
+
+.ct-p3-not-found { padding-block: clamp(90px, 12vw, 150px) clamp(105px, 14vw, 180px); max-width: 760px; }
+.ct-p3-not-found h1 {
+  margin: 19px 0 24px;
+  font-weight: 665;
+  letter-spacing: -.07em;
+  line-height: 1.07;
+  font-size: clamp(3rem, 7.5vw, 6.1rem);
+}
+.ct-p3-not-found > p:not(.ct-editorial-eyebrow) { color: var(--ct-muted); font-size: 1.05rem; line-height: 1.7; }
+.ct-p3-not-found > a {
+  display: inline-flex;
+  gap: 17px;
+  align-items: center;
+  margin-top: 33px;
+  padding: 11px 17px;
+  border-radius: 6px;
+  color: var(--ct-background) !important;
+  font-size: .87rem;
+  font-weight: 650;
+  background: var(--ct-accent);
+}
+.ct-p3-not-found > a:hover { background: var(--ct-accent-hover); }
