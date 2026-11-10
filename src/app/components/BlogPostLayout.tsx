@@ -6,6 +6,7 @@ import Breadcrumbs from './Breadcrumbs';
 import Sidebar from './Sidebar';
 import SocialShareButtons from './SocialShareButtons';
 import ArticleTableOfContents from './ArticleTableOfContents';
+import ArticleReadingProgress from './ArticleReadingProgress';
 import {
   getFeaturedImageUrl,
   decodeHtmlEntities,
@@ -58,6 +59,7 @@ export default function BlogPostLayout({
 
   return (
     <div className="ct-editorial-page ct-article-view">
+      <ArticleReadingProgress articleSlug={post.slug} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
