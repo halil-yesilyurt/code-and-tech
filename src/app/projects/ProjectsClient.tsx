@@ -30,6 +30,7 @@ interface ProjectsClientProps {
 
 export default function ProjectsClient({ projects, categories, tags, popularPosts }: ProjectsClientProps) {
   const [visibleCount, setVisibleCount] = useState(4);
+  const [filtersKey, setFiltersKey] = useState(0);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>(projects);
 
   useEffect(() => { setFilteredProjects(projects); }, [projects]);
@@ -69,7 +70,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
         <section className="ct-p3-section" aria-label="Browse projects">
           {projects.length ? (
             <>
-              <div className="ct-p3-filter-panel"><ProjectFilters projects={projects} onFilterChange={handleFilterChange} /></div>
+              <div className="ct-p3-filter-panel"><ProjectFilters key={filtersKey} projects={projects} onFilterChange={handleFilterChange} /></div>
               <div className="ct-p3-section-line">
                 <h2>Project archive<span className="ct-sage-period">.</span></h2>
                 <span>{filteredProjects.length} projects</span>
@@ -91,7 +92,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
                 <div className="ct-p3-empty">
                   <h3>No projects match your filters</h3>
                   <p>Adjust the search or technology to explore other projects.</p>
-                  <button type="button" onClick={() => { setFilteredProjects(projects); setVisibleCount(4); }}>
+                  <button type="button" onClick={() => { setFiltersKey((key) => key + 1); setFilteredProjects(projects); setVisibleCount(4); }}>
                     Show all projects
                   </button>
                 </div>
