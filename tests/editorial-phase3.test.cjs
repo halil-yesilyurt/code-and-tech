@@ -35,7 +35,8 @@ assert(category.includes('post.categories?.includes(category.id)'), 'Category pa
 assert(search.includes('searchPosts(query, 1, 100)'), 'Search must fetch matches before paginating');
 assert(search.includes('filtered.slice((currentPage - 1) * perPage'), 'Search pagination must operate after filters');
 assert(search.includes('SearchBarWithAutocomplete') && search.includes('SearchFilters') && search.includes('SearchPagination'), 'Search controls are preserved');
-assert(contact.includes('mailto:hi@halilyesilyurt.com') && contact.includes('SocialMediaLinks'), 'Keep real contact destinations');
+assert(contact.includes('https://www.linkedin.com/in/halilyesilyurt/') && contact.includes('SocialMediaLinks'), 'Keep a functional contact channel without exposing a mailbox');
+assert(!contact.includes('hi@halilyesilyurt.com'), 'Do not publish the personal mailbox');
 assert(shell.includes('ct-editorial-page ct-phase3'), 'All remaining pages must opt into shared styling');
 assert(shell.includes("import '../blog/editorial.css'"), 'Reuse existing editorial design tokens');
 assert(theme.includes('.ct-phase3') && !theme.includes('body {'), 'No unintended global style reset');
@@ -45,7 +46,7 @@ assert(dynamic.includes('ct-p3-dynamic'), 'Legacy WordPress pages receive the ne
 for (const legalPage of ['privacy-policy', 'cookie-policy', 'terms']) {
   const source = read(`src/app/${legalPage}/page.tsx`);
   assert(source.includes('ct-editorial-page ct-phase3 ct-p3-legal'), legalPage + ': page must match the shared palette');
-  assert(source.includes('mailto:hi@halilyesilyurt.com'), legalPage + ': contact path must remain available');
+  assert(source.includes('href="/contact"'), legalPage + ': contact path must remain available');
   assert(source.includes('export const metadata'), legalPage + ': preserve canonical metadata');
 }
 const notFound = read('src/app/not-found.tsx');
