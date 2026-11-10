@@ -28,7 +28,7 @@ assert(post.includes('SocialShareButtons'), 'Sharing must still work');
 assert(post.includes('ArticleTableOfContents'), 'Article headings must populate a TOC');
 assert(post.includes('ArticleReadingProgress'), 'Long-form reading progress must remain available');
 assert(post.includes('Sidebar popularPosts={popularPosts} tags={sidebarTags} categories={sidebarCategories}'), 'Keep existing Mailchimp + discovery sidebar');
-assert(post.includes('featuredImageUrl &&'), 'Do not invent images for recovered articles');
+assert(post.includes('featuredImageUrl ? (') && post.includes('ArticleCover'), 'Use authentic media when present and clearly original artwork otherwise');
 assert(post.includes('/blog/${item.slug}') && post.includes('/category/${category.slug}'), 'Related and taxonomy links must stay canonical');
 assert(toc.includes("querySelectorAll<HTMLHeadingElement>('h2, h3')"), 'TOC must derive from actual content');
 assert(toc.includes("while (seen.has(id))"), 'TOC anchors must not conflict');
