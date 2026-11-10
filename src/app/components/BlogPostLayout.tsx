@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import SocialShareButtons from './SocialShareButtons';
 import ArticleTableOfContents from './ArticleTableOfContents';
 import ArticleReadingProgress from './ArticleReadingProgress';
+import ArticleCover from './ArticleCover';
 import {
   getFeaturedImageUrl,
   decodeHtmlEntities,
@@ -100,8 +101,8 @@ export default function BlogPostLayout({
         </div>
       </header>
 
-      {featuredImageUrl && (
-        <div className="ct-post-cover">
+      <div className="ct-post-cover">
+        {featuredImageUrl ? (
           <Image
             src={featuredImageUrl}
             alt={decodedTitle}
@@ -110,8 +111,10 @@ export default function BlogPostLayout({
             priority
             className="object-cover"
           />
-        </div>
-      )}
+        ) : (
+          <ArticleCover slug={post.slug} title={decodedTitle} category={mainCategory ? decodeHtmlEntities(mainCategory.name) : "The Journal"} variant="wide"/>
+        )}
+      </div>
 
       <div className="ct-article-columns">
         <article className="ct-article-content">
