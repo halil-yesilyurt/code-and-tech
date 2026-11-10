@@ -500,3 +500,15 @@
 @media(prefers-reduced-motion: reduce) {
   .ct-project-select-popover,.ct-project-select-trigger svg { transition: none; }
 }
+
+
+/* Override obsolete utility-era filter rules from the original project form. */
+.ct-p3-projects .ct-p3-filter-panel .ct-project-filters {
+  padding: 0 !important; margin: 0 !important; background: transparent !important;
+  border: 0 !important; box-shadow: none !important;
+}
+.ct-p3-projects .ct-p3-filter-panel .ct-project-select-trigger { color: #f3f6fb !important; }
+.ct-p3-projects .ct-p3-filter-panel .ct-project-option { color: #e6eef5 !important; }
+.ct-p3-projects .ct-p3-filter-panel .ct-project-option:hover,
+.ct-p3-projects .ct-p3-filter-panel .ct-project-option:focus-visible,
+.ct-p3-projects .ct-p3-filter-panel .ct-project-option[aria-selected="true"] { color: #b7e4c7 !important; }
