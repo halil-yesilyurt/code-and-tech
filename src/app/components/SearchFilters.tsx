@@ -132,11 +132,11 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
         <div className="ct-filter-drawer-inner space-y-4">
           {/* Category Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="ct-filter-category" className="block text-sm font-medium text-slate-700 mb-2">
               Category
             </label>
             <select
-              value={currentFilters.category || ''}
+              id="ct-filter-category" value={currentFilters.category || ''}
               onChange={(e) => updateFilters({ category: e.target.value || undefined })}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-300 text-sm"
             >
@@ -151,11 +151,11 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
 
           {/* Tag Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="ct-filter-tag" className="block text-sm font-medium text-slate-700 mb-2">
               Tag
             </label>
             <select
-              value={currentFilters.tag || ''}
+              id="ct-filter-tag" value={currentFilters.tag || ''}
               onChange={(e) => updateFilters({ tag: e.target.value || undefined })}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-300 text-sm"
             >
@@ -170,11 +170,11 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
 
           {/* Date Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="ct-filter-date" className="block text-sm font-medium text-slate-700 mb-2">
               Date Range
             </label>
             <select
-              value={currentFilters.date || ''}
+              id="ct-filter-date" value={currentFilters.date || ''}
               onChange={(e) => updateFilters({ date: e.target.value || undefined })}
               className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-300 text-sm"
             >
