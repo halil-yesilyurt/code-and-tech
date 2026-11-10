@@ -1,45 +1,135 @@
-import { getPosts, getTags, getCategories, getPopularPosts, getTotalPublishedPostsCount, decodeHtmlEntities, stripHtml, getFeaturedImageUrl } from '@/lib/wordpress';
-import Sidebar from '@/app/components/Sidebar';
+import Link from 'next/link';
 import HomePostList from '@/app/components/HomePostList';
-import HeroSlider from '@/app/components/HeroSlider';
+import {
+  getPosts,
+  getCategories,
+  decodeHtmlEntities,
+  stripHtml,
+  type WordPressPost,
+  type WordPressCategory,
+} from '@/lib/wordpress';
+import './home.css';
+
+function postCategory(post: WordPressPost, categories: WordPressCategory[]): string {
+  const category = categories.find((item) => post.categories?.includes(item.id) && item.slug !== 'uncategorized');
+  return category ? decodeHtmlEntities(category.name) : 'Article';
+}
+
+function postDate(date: string): string {
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(date));
+}
+
+function excerpt(post: WordPressPost, length: number): string {
+  const text = stripHtml(post.excerpt?.rendered || post.content?.rendered || '').trim();
+  return text.length > length ? `${text.slice(0, length).trimEnd()}…` : text;
+}
 
 export default async function Home() {
-  // Fetch posts using WordPress API (falls back to sample data if not configured)
-  const posts = await getPosts(1, 20);
-  const tags = await getTags();
-  const categories = await getCategories();
-  const popularPosts = await getPopularPosts(3);
-  const recommendedTags = tags.slice(0, 6);
-
-  // Fetch the exact number of published articles
-  const totalArticles = await getTotalPublishedPostsCount();
-
-  // Get random posts for hero slider (shuffle and take first 5)
-  const shuffledPosts = [...posts].sort(() => Math.random() - 0.5);
-  const heroPosts = shuffledPosts.slice(0, Math.min(5, posts.length));
-
-  // Get remaining posts for the grid (all posts, hero will show random ones)
-  const remainingPosts = posts; // Show all posts in the grid
+  // Content stays on the existing archive-backed interface. Do not assume
+  // featured images exist: the recovered posts currently have no media.
+  const [posts, categories] = await Promise.all([getPosts(1, 20), getCategories()]);
+  const lead = posts[0];
+  const supporting = posts.slice(1, 3);
+  const latest = posts.slice(3);
+  const topics = categories
+    .filter((category) => category.count > 0 && category.slug !== 'uncategorized')
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5);
 
   return (
-    <div className='my-8'>
-      {/* Hero Slider Section */}
-      {heroPosts.length > 0 && (
-        <HeroSlider posts={heroPosts} />
+    <div className="ct-home">
+      <section className="ct-intro" aria-labelledby="ct-page-title">
+        <div className="ct-intro-copy">
+          <p className="ct-eyebrow"><span className="ct-status-dot" /> THE CODE & TECH JOURNAL</p>
+          <h1 id="ct-page-title">A closer look at <span>the modern web.</span></h1>
+          <p className="ct-intro-description">
+            Thoughtful articles on software development, WordPress, and the tools and ideas shaping how we build.
+          </p>
+          <div className="ct-intro-actions">
+            <Link href="/blog" className="ct-button ct-button-primary">
+              Explore articles <span aria-hidden="true">↗</span>
+            </Link>
+            <Link href="/projects" className="ct-text-link">View projects <span aria-hidden="true">↗</span></Link>
+          </div>
+        </div>
+        <div className="ct-intro-index" aria-label="Editorial focus">
+          <p className="ct-index-label">WHAT WE WRITE ABOUT</p>
+          <div><span>01 /</span> Engineering</div>
+          <div><span>02 /</span> WordPress</div>
+          <div><span>03 /</span> The wider web</div>
+          <p className="ct-index-caption">Practical thinking. Clear explanations. No noise.</p>
+        </div>
+      </section>
+
+      {topics.length > 0 && (
+        <nav className="ct-topic-nav" aria-label="Explore by topic">
+          <span className="ct-topic-label">Explore topics</span>
+          <div className="ct-topic-links">
+            {topics.map((category) => (
+              <Link key={category.id} href={`/category/${category.slug}`}>
+                {decodeHtmlEntities(category.name)} <span aria-hidden="true">↗</span>
+              </Link>
+            ))}
+          </div>
+          <Link href="/categories" className="ct-topic-all">All topics <span aria-hidden="true">→</span></Link>
+        </nav>
       )}
 
-      {/* Main Content Grid */}
-      <main className='grid grid-cols-1 lg:grid-cols-3 gap-12 my-10'>
-        <div className='lg:col-span-2'>
-          <h2 className='text-2xl font-bold mb-6 text-gray-900 dark:text-white'>Latest Articles</h2>
-          <HomePostList posts={remainingPosts} />
-        </div>
-        <aside>
-          <div className='sticky top-8'>
-            <Sidebar popularPosts={popularPosts} tags={recommendedTags} categories={categories} />
+      {lead && (
+        <section className="ct-featured-section" aria-labelledby="ct-featured-title">
+          <div className="ct-section-heading">
+            <div>
+              <p className="ct-section-kicker">THE EDITOR'S DESK</p>
+              <h2 id="ct-featured-title">Featured reading<span className="ct-heading-period">.</span></h2>
+            </div>
+            <Link href="/blog" className="ct-section-link">All articles <span aria-hidden="true">↗</span></Link>
           </div>
-        </aside>
-      </main>
+          <div className="ct-featured-grid">
+            <article className="ct-feature-lead">
+              <div className="ct-feature-topline"><span className="ct-feature-label">FEATURE / 01</span><span>{postCategory(lead, categories)}</span></div>
+              <div className="ct-feature-body">
+                <h3><Link href={`/blog/${lead.slug}`}>{decodeHtmlEntities(lead.title.rendered)}</Link></h3>
+                <p>{excerpt(lead, 185)}</p>
+              </div>
+              <div className="ct-feature-footer"><time dateTime={lead.date}>{postDate(lead.date)}</time><Link href={`/blog/${lead.slug}`}>Read story <span aria-hidden="true">↗</span></Link></div>
+            </article>
+            <div className="ct-supporting-grid">
+              {supporting.map((post, index) => (
+                <article className="ct-supporting-article" key={post.id}>
+                  <div className="ct-feature-topline"><span>{`0${index + 2} / ${postCategory(post, categories)}`}</span><span aria-hidden="true">↗</span></div>
+                  <h3><Link href={`/blog/${post.slug}`}>{decodeHtmlEntities(post.title.rendered)}</Link></h3>
+                  <div className="ct-supporting-meta"><time dateTime={post.date}>{postDate(post.date)}</time><span>Article</span></div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="ct-latest-section" aria-labelledby="ct-latest-title">
+        <div className="ct-section-heading">
+          <div>
+            <p className="ct-section-kicker">FROM THE ARCHIVE</p>
+            <h2 id="ct-latest-title">Latest articles<span className="ct-heading-period">.</span></h2>
+          </div>
+          <Link href="/blog" className="ct-section-link">Browse the archive <span aria-hidden="true">↗</span></Link>
+        </div>
+        {latest.length > 0 ? (
+          <HomePostList posts={latest} categories={categories} />
+        ) : (
+          <p className="ct-empty-state">New articles are on the way.</p>
+        )}
+      </section>
+
+      <section className="ct-continue-section" aria-label="Explore more">
+        <div><span className="ct-section-kicker">KEEP EXPLORING</span><h2>Curiosity is a good place to start.</h2></div>
+        <Link href="/blog" className="ct-button ct-button-outline">Visit the archive <span aria-hidden="true">↗</span></Link>
+      </section>
     </div>
   );
 }
