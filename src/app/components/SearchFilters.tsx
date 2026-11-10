@@ -59,9 +59,9 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
   const hasActiveFilters = currentFilters.category || currentFilters.tag || currentFilters.date;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-slate-900">Filters</h3>
+    <div className="ct-filters-panel">
+      <div className="ct-filters-heading">
+        <h3 className="ct-filters-title">Filters</h3>
         <div className="flex items-center gap-2">
           {hasActiveFilters && (
             <button
@@ -73,7 +73,10 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
           )}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
+            className="ct-filters-toggle"
+            type="button"
+            aria-expanded={isExpanded}
+            aria-controls="ct-filter-drawer"
           >
             {isExpanded ? 'Hide' : 'Show'} filters
             <svg 
@@ -127,18 +130,18 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
         </div>
       )}
 
-      {/* Expandable Filters */}
-      {isExpanded && (
-        <div className="space-y-4 pt-4 border-t border-slate-200">
+      {/* Always mounted to support a smooth, accessible drawer transition. */}
+      <div id="ct-filter-drawer" className={`ct-filter-drawer ${isExpanded ? 'is-open' : ''}`} aria-hidden={!isExpanded} inert={!isExpanded}>
+        <div className="ct-filter-drawer-inner space-y-4">
           {/* Category Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="ct-filter-category" className="block text-sm font-medium text-slate-700 mb-2">
               Category
             </label>
             <select
-              value={currentFilters.category || ''}
+              id="ct-filter-category" value={currentFilters.category || ''}
               onChange={(e) => updateFilters({ category: e.target.value || undefined })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-300 text-sm"
             >
               <option value="">All Categories</option>
               {categories.map((category) => (
@@ -151,13 +154,13 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
 
           {/* Tag Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="ct-filter-tag" className="block text-sm font-medium text-slate-700 mb-2">
               Tag
             </label>
             <select
-              value={currentFilters.tag || ''}
+              id="ct-filter-tag" value={currentFilters.tag || ''}
               onChange={(e) => updateFilters({ tag: e.target.value || undefined })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-300 text-sm"
             >
               <option value="">All Tags</option>
               {tags.slice(0, 20).map((tag) => (
@@ -170,13 +173,13 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
 
           {/* Date Filter */}
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="ct-filter-date" className="block text-sm font-medium text-slate-700 mb-2">
               Date Range
             </label>
             <select
-              value={currentFilters.date || ''}
+              id="ct-filter-date" value={currentFilters.date || ''}
               onChange={(e) => updateFilters({ date: e.target.value || undefined })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-300 text-sm"
             >
               <option value="">All Time</option>
               <option value="today">Today</option>
@@ -186,7 +189,7 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
             </select>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 } 

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import ArticleCover from './ArticleCover';
 import {
   decodeHtmlEntities,
   stripHtml,
@@ -39,6 +40,7 @@ export default function HomePostList({ posts, categories }: HomePostListProps) {
           const shortSummary = summary.length > 135 ? `${summary.slice(0, 135).trimEnd()}…` : summary;
           return (
             <article className="ct-article-card" key={post.id}>
+              <Link className="ct-card-art-link" href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden="true"><ArticleCover slug={post.slug} title={decodeHtmlEntities(post.title.rendered)} category={category ? decodeHtmlEntities(category.name) : "The Journal"} variant="compact" /></Link>
               <div className="ct-card-topline">
                 <span>{category ? decodeHtmlEntities(category.name) : 'Article'}</span>
                 <span className="ct-card-number">{String(index + 1).padStart(2, '0')}</span>

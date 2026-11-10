@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import ArticleCover from '../components/ArticleCover';
 import {
   decodeHtmlEntities,
   stripHtml,
@@ -30,6 +31,7 @@ export default function EditorialPostGrid({ posts, categories }: EditorialPostGr
         const abstract = summary.length > 156 ? `${summary.slice(0, 156).trimEnd()}…` : summary;
         return (
           <article key={post.id} className="ct-blog-card">
+            <Link className="ct-card-art-link" href={`/blog/${post.slug}`} tabIndex={-1} aria-hidden="true"><ArticleCover slug={post.slug} title={decodeHtmlEntities(post.title.rendered)} category={category ? decodeHtmlEntities(category.name) : "The Journal"} /></Link>
             <div className="ct-blog-card-meta">
               {category ? (
                 <Link href={`/category/${category.slug}`} className="ct-blog-card-category">

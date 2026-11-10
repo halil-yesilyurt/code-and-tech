@@ -1,22 +1,34 @@
 "use client";
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [portalReady, setPortalReady] = useState(false);
+  useEffect(() => setPortalReady(true), []);
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setMobileMenuOpen(false); };
+    document.addEventListener('keydown', onEscape);
+    return () => document.removeEventListener('keydown', onEscape);
+  }, [mobileMenuOpen]);
 
   // Portal for mobile menu
-  const mobileMenuPortal = typeof window !== 'undefined' && mobileMenuOpen
+  const mobileMenuPortal = portalReady
     ? ReactDOM.createPortal(
         <>
           <div
-            className="fixed inset-0 bg-black/40 z-[100] transition-opacity duration-300"
+            className={`ct-mobile-backdrop fixed inset-0 bg-black/55 z-[100] ${mobileMenuOpen ? "is-open" : ""}`}
+            aria-hidden="true"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <nav className="ct-mobile-menu fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white dark:bg-gray-800 shadow-2xl z-[110] flex flex-col animate-fade-slide-in transform transition-transform duration-300">
+          <nav className={`ct-mobile-menu fixed top-0 right-0 h-full w-4/5 max-w-xs shadow-2xl z-[110] flex flex-col ${mobileMenuOpen ? "is-open" : ""}`}
+            aria-label="Mobile navigation"
+            aria-hidden={!mobileMenuOpen}
+            inert={!mobileMenuOpen}>
             <button
               className="self-end m-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
               aria-label="Close menu"
@@ -68,13 +80,13 @@ export default function Header() {
     : null;
 
   return (
-    <header className="ct-site-header sticky top-0 z-50 bg-[#F3F4F6] dark:bg-[#0A202C] transition-all duration-300">
+    <header className="ct-site-header sticky top-0 z-50 bg-[#0B1220] transition-all duration-300">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between py-6">
           {/* Logo */}
           <Link href="/" className="ct-site-brand flex items-center space-x-3 group min-w-0">
-            <span className="material-icons text-primary text-4xl" aria-hidden="true">code</span>
-            <span className="text-2xl font-bold text-gray-900 dark:text-white font-montserrat">Code & Tech<span className="ct-brand-suffix"> Blog</span></span>
+            <span className="ct-brand-mark" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m12 8-8 8 8 8m8-16 8 8-8 8" stroke="currentColor" strokeWidth="3" strokeLinecap="square" strokeLinejoin="round"/></svg></span>
+            <span className="ct-brand-title">Code & Tech</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -112,7 +124,8 @@ export default function Header() {
           {/* Mobile Hamburger */}
           <button
             className="ct-menu-toggle md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer z-[120]"
-            aria-label="Open menu"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen((v) => !v)}
             type="button"
           >

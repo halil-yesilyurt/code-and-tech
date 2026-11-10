@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import ArticleCover from './ArticleCover';
 import { decodeHtmlEntities, stripHtml, type WordPressPost } from '@/lib/wordpress';
 
 type Props = { posts: WordPressPost[] };
@@ -53,6 +54,7 @@ export default function FeaturedStoriesSlider({ posts }: Props) {
         <h3><Link href={`/blog/${activePost.slug}`}>{decodeHtmlEntities(activePost.title.rendered)}</Link></h3>
         {summary && <p>{summary}</p>}
       </div>
+      <div className="ct-slider-art"><ArticleCover slug={activePost.slug} title={decodeHtmlEntities(activePost.title.rendered)} variant="compact" /></div>
       <div className="ct-slider-bottom">
         <Link href={`/blog/${activePost.slug}`} className="ct-slider-read">Read article <span aria-hidden="true">↗</span></Link>
         {posts.length > 1 && <div className="ct-slider-controls" aria-label="Slide controls">
