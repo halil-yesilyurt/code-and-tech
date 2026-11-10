@@ -16,7 +16,7 @@ assert(page.includes('getCategories()'), 'Homepage topics must use actual catego
 assert(!page.includes('Math.random()') && page.includes('FeaturedStoriesSlider'), 'Featured stories must use the predictable real-post carousel');
 const slider = read('src/app/components/FeaturedStoriesSlider.tsx');
 assert(slider.includes('prefers-reduced-motion') && slider.includes('setInterval') && slider.includes('paused'), 'Slider must honor reduced motion and pause interactions');
-assert(page.includes('posts.slice(3)'), 'Latest articles should not repeat the three featured stories');
+assert(page.includes('posts.slice(6)'), 'Latest articles must not repeat slider or supporting stories');
 assert(slider.includes('/blog/${activePost.slug}') && page.includes('/blog/${post.slug}'), 'Carousel and supporting links need canonical blog routes');
 assert(cards.includes('/blog/${post.slug}'), 'Latest cards need canonical blog routes');
 assert(cards.includes('setVisible'), 'Show more should remain interactive');
