@@ -536,3 +536,30 @@ body:has(.ct-editorial-page) .ct-site-footer a:hover { color: var(--ct-accent-ho
   .ct-art-cover { transition: border-color .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); }
   .ct-card-art-link:hover .ct-art-cover { transform: translateY(-2px); }
 }
+
+
+/* Desktop TOC remains the existing sticky, vertical chapter list. */
+.ct-toc-mobile-toggle { display: none; }
+.ct-toc-drawer { min-width: 0; }
+.ct-toc-drawer-inner { min-width: 0; }
+@media (max-width: 760px) {
+  .ct-article-columns { min-width: 0; max-width: 100%; }
+  .ct-article-rail { min-width: 0; max-width: 100%; }
+  .ct-toc { min-width: 0; max-width: 100%; border: 0; padding: 0; }
+  .ct-toc .ct-rail-kicker { margin-bottom: 12px; }
+  .ct-toc-mobile-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; background: #1a2438; color: #f3f6fb; border: 1px solid #344459; border-radius: 7px; padding: 10px 14px; font-size: .83rem; font-weight: 600; text-align: left; cursor: pointer; }
+  .ct-toc-mobile-toggle span { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .ct-toc-mobile-toggle svg { flex-shrink: 0; color: #8fcfae; transition: transform .3s ease; }
+  .ct-toc-mobile-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .ct-toc-drawer { display: grid; grid-template-rows: 0fr; opacity: 0; visibility: hidden; transition: grid-template-rows .36s cubic-bezier(.2,.8,.2,1), opacity .26s ease, visibility .36s; }
+  .ct-toc-drawer.is-open { grid-template-rows: 1fr; opacity: 1; visibility: visible; }
+  .ct-toc-drawer-inner { overflow: hidden; min-height: 0; }
+  .ct-toc .ct-toc-drawer ol { display: block; padding: 5px; margin: 8px 0 0; max-height: min(320px, 42dvh); overflow-x: hidden; overflow-y: auto; border: 1px solid #344459; border-radius: 7px; background: #121a2b; scrollbar-width: thin; }
+  .ct-toc .ct-toc-drawer li { margin: 0; padding: 0; max-width: 100%; }
+  .ct-toc .ct-toc-drawer li.ct-toc-subsection { padding-left: 12px; }
+  .ct-toc .ct-toc-drawer a { display: block; padding: 10px 12px; border: 0; border-radius: 5px; white-space: normal; word-break: normal; overflow-wrap: anywhere; line-height: 1.45; font-size: .8rem; }
+  .ct-toc .ct-toc-drawer a.ct-toc-active { background: #243a38; color: #b7e4c7; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ct-toc-mobile-toggle svg,.ct-toc-drawer { transition: none !important; }
+}
