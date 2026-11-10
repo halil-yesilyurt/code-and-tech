@@ -31,7 +31,11 @@ export default function EditorialPostGrid({ posts, categories }: EditorialPostGr
         return (
           <article key={post.id} className="ct-blog-card">
             <div className="ct-blog-card-meta">
-              <span>{category ? decodeHtmlEntities(category.name) : 'Article'}</span>
+              {category ? (
+                <Link href={`/category/${category.slug}`} className="ct-blog-card-category">
+                  {decodeHtmlEntities(category.name)}
+                </Link>
+              ) : <span>Article</span>}
               <span>{String(index + 1).padStart(2, '0')}</span>
             </div>
             <div className="ct-blog-card-content">
