@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `Category: ${name} | Code & Tech`,
     description: `Discover all posts filed under ${name} on Code & Tech.`,
+    alternates: { canonical: `https://code-and-tech.halilyesilyurt.com/category/${slug}` },
   };
 }
 
