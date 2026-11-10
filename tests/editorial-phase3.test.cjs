@@ -42,4 +42,15 @@ assert(theme.includes('.ct-phase3') && !theme.includes('body {'), 'No unintended
 assert(dynamic.includes('permanentRedirect(`/blog/${slug}`)'), 'Legacy root-slug post redirect remains intact');
 assert(dynamic.includes('sanitizeHtml(content.content.rendered)'), 'Legacy WordPress pages retain HTML sanitization');
 assert(dynamic.includes('ct-p3-dynamic'), 'Legacy WordPress pages receive the new scoped shell');
+for (const legalPage of ['privacy-policy', 'cookie-policy', 'terms']) {
+  const source = read(`src/app/${legalPage}/page.tsx`);
+  assert(source.includes('ct-editorial-page ct-phase3 ct-p3-legal'), legalPage + ': page must match the shared palette');
+  assert(source.includes('mailto:hi@halilyesilyurt.com'), legalPage + ': contact path must remain available');
+  assert(source.includes('export const metadata'), legalPage + ': preserve canonical metadata');
+}
+const notFound = read('src/app/not-found.tsx');
+assert(notFound.includes('ct-p3-not-found') && notFound.includes('href="/"'), '404 must be branded and link back to home');
+assert(!notFound.includes('from-blue-600 to-purple-600'), 'Old mismatched gradient must not return');
+assert(theme.includes('.ct-p3-legal main') && theme.includes('.ct-p3-not-found'), 'Auxiliary pages need scoped styles');
+
 console.log('Phase 3 contract passed: existing content, filters, routes, and scoped design preserved');
