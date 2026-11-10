@@ -1,17 +1,21 @@
 import { NextResponse } from 'next/server';
-import { getPosts } from '@/lib/wordpress';
+import { getPosts, getCategories } from '@/lib/wordpress';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://code-and-tech.halilyesilyurt.com";
 
 export async function GET() {
   try {
     // Fetch latest 100 blog posts (adjust per needs)
-    const posts = await getPosts(1, 100).catch(() => []);
+    const [posts, categories] = await Promise.all([
+      getPosts(1, 100).catch(() => []),
+      getCategories().catch(() => []),
+    ]);
 
     // Build sitemap entries
     const staticPages = [
       '',
       'blog',
+      'interviews',
       'projects',
       'categories',
       'contact',
@@ -22,6 +26,8 @@ export async function GET() {
 
     const urls = [
       ...staticPages.map((page) => `${BASE_URL}/${page}`),
+      // Category pages follow the actual taxonomy (not stale root aliases).
+      ...categories.filter((category) => category.count > 0).map((category) => `${BASE_URL}/category/${encodeURIComponent(category.slug)}`),
       // Blog posts with lastmod - use /blog/ prefix
       ...posts.map((post: any) => ({ loc: `${BASE_URL}/blog/${post.slug}`, lastmod: post.modified || post.date })),
     ];

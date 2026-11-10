@@ -1,41 +1,31 @@
 import Link from 'next/link';
 import HomePostList from '@/app/components/HomePostList';
+import FeaturedStoriesSlider from '@/app/components/FeaturedStoriesSlider';
 import {
   getPosts,
   getCategories,
   decodeHtmlEntities,
-  stripHtml,
   type WordPressPost,
   type WordPressCategory,
 } from '@/lib/wordpress';
 import './home.css';
 
-function postCategory(post: WordPressPost, categories: WordPressCategory[]): string {
+function postCategory(post: WordPressPost, categories: WordPressCategory[]) {
   const category = categories.find((item) => post.categories?.includes(item.id) && item.slug !== 'uncategorized');
   return category ? decodeHtmlEntities(category.name) : 'Article';
 }
-
-function postDate(date: string): string {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-    timeZone: 'UTC',
-  }).format(new Date(date));
+function postDate(value: string) {
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(value));
 }
 
-function excerpt(post: WordPressPost, length: number): string {
-  const text = stripHtml(post.excerpt?.rendered || post.content?.rendered || '').trim();
-  return text.length > length ? `${text.slice(0, length).trimEnd()}…` : text;
-}
 
 export default async function Home() {
   // Content stays on the existing archive-backed interface. Do not assume
   // featured images exist: the recovered posts currently have no media.
   const [posts, categories] = await Promise.all([getPosts(1, 20), getCategories()]);
   const lead = posts[0];
-  const supporting = posts.slice(1, 3);
-  const latest = posts.slice(3);
+  const supporting = posts.slice(4, 6);
+  const latest = posts.slice(6);
   const topics = categories
     .filter((category) => category.count > 0 && category.slug !== 'uncategorized')
     .sort((a, b) => b.count - a.count)
@@ -90,14 +80,7 @@ export default async function Home() {
             <Link href="/blog" className="ct-section-link">All articles <span aria-hidden="true">↗</span></Link>
           </div>
           <div className="ct-featured-grid">
-            <article className="ct-feature-lead">
-              <div className="ct-feature-topline"><span className="ct-feature-label">FEATURE / 01</span><span>{postCategory(lead, categories)}</span></div>
-              <div className="ct-feature-body">
-                <h3><Link href={`/blog/${lead.slug}`}>{decodeHtmlEntities(lead.title.rendered)}</Link></h3>
-                <p>{excerpt(lead, 185)}</p>
-              </div>
-              <div className="ct-feature-footer"><time dateTime={lead.date}>{postDate(lead.date)}</time><Link href={`/blog/${lead.slug}`}>Read story <span aria-hidden="true">↗</span></Link></div>
-            </article>
+            <FeaturedStoriesSlider posts={posts.slice(0, 4)} />
             <div className="ct-supporting-grid">
               {supporting.map((post, index) => (
                 <article className="ct-supporting-article" key={post.id}>

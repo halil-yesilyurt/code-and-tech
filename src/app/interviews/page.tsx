@@ -12,6 +12,7 @@ import EditorialPageShell from '../components/EditorialPageShell';
 export const metadata = {
   title: 'Interviews | Code & Tech',
   description: 'Interview tips, experiences, guides and more at Code & Tech.',
+  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/interviews' },
 };
 
 export default async function InterviewsPage() {

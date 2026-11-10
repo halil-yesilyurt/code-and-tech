@@ -341,3 +341,49 @@ body:has(.ct-home) .ct-site-footer a:hover {
 
 /* Keep the existing site brand on legacy pages while simplifying the home mark. */
 body:has(.ct-home) .ct-brand-suffix { display: none; }
+
+
+/* A real-post slider with quiet depth rather than heavy WebGL. */
+.ct-feature-carousel { overflow: hidden; position: relative; isolation: isolate; }
+.ct-feature-carousel::after {
+  content: ''; position: absolute; width: 210px; height: 210px; right: -110px; top: 29%;
+  border: 1px solid rgba(143,207,174,.18); border-radius: 50%;
+  box-shadow: 0 0 0 38px rgba(143,207,174,.022), 0 0 0 82px rgba(143,207,174,.012);
+  pointer-events: none; z-index: -1;
+}
+.ct-slider-content { max-width: 660px; margin-block: auto; animation: ct-slide-arrive .45s cubic-bezier(.2,.7,.2,1) both; }
+.ct-slider-content h3 { font-size: clamp(1.85rem,3vw,3.05rem); font-weight: 660; line-height: 1.16; letter-spacing: -.052em; text-wrap: balance; overflow-wrap: anywhere; }
+.ct-slider-content h3 a { color: var(--ct-foreground); }
+.ct-slider-content h3 a:hover { color: var(--ct-accent-hover); }
+.ct-slider-content p { color: var(--ct-muted); line-height: 1.68; margin-top: 19px; font-size: .88rem; }
+.ct-slider-date { color: var(--ct-muted); margin-bottom: 13px; font-size: .76rem; }
+.ct-slider-count { color: var(--ct-muted); font-variant-numeric: tabular-nums; font-size: .72rem; }
+.ct-slider-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 19px; border-top: 1px solid var(--ct-border); }
+.ct-slider-read { color: var(--ct-accent) !important; font-size: .83rem; font-weight: 650; }
+.ct-slider-read:hover { color: var(--ct-accent-hover) !important; }
+.ct-slider-read span { margin-left: 7px; }
+.ct-slider-controls { display: flex; align-items: center; gap: 7px; }
+.ct-slider-controls button {
+  width: 35px; height: 35px; display: grid; place-items: center; cursor: pointer;
+  border: 1px solid var(--ct-border); border-radius: 5px; color: var(--ct-foreground); background: var(--ct-elevated);
+}
+.ct-slider-controls button:hover { border-color: var(--ct-accent); color: var(--ct-accent-hover); }
+.ct-slider-dots { position: absolute; display: flex; align-items: center; gap: 6px; top: 22px; left: 50%; transform: translateX(-50%); }
+.ct-slider-dots button { width: 13px; height: 4px; border-radius: 2px; background: #496073; cursor: pointer; transition: width .24s ease, background-color .24s ease; }
+.ct-slider-dots button[aria-current="true"] { width: 24px; background: var(--ct-accent); }
+
+@keyframes ct-slide-arrive { from { opacity: .1; transform: translate3d(0,10px,0); } to { opacity: 1; transform: translate3d(0,0,0); } }
+@media (max-width: 600px) {
+  .ct-slider-dots { top: 50px; left: auto; right: 24px; transform: none; }
+  .ct-feature-carousel { min-height: 365px; }
+}
+/* Retain motion only for interactions that benefit from it. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .ct-article-card, .ct-supporting-article, .ct-feature-lead { transition: border-color .3s ease, transform .3s cubic-bezier(.2,.75,.2,1); }
+  .ct-article-card:hover, .ct-supporting-article:hover { transform: perspective(900px) translate3d(0,-3px,8px); border-color: #507369; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ct-slider-content { animation: none; }
+  .ct-slider-dots button { transition: none; }
+  .ct-home :is(.ct-article-card,.ct-supporting-article):hover { transform: none; }
+}

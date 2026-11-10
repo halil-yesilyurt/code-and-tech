@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
       <h2 className="text-xl font-semibold mt-8 mb-2">Cookies</h2>
       <p className="mb-4">We may use cookies and similar tracking technologies to track activity on our website and store certain information.</p>
       <h2 className="text-xl font-semibold mt-8 mb-2">Contact Us</h2>
-      <p>If you have questions or comments about this Privacy Policy, please contact us at <a href="mailto:hi@halilyesilyurt.com" className="text-blue-600 underline">hi@halilyesilyurt.com</a>.</p>
+      <p>If you have questions or comments about this Privacy Policy, please contact us at <a href="/contact" className="text-blue-600 underline">our contact page</a>.</p>
       </main>
     </div>
   );

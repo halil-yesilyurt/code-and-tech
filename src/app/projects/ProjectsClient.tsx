@@ -58,7 +58,7 @@ export default function ProjectsClient({ projects, categories, tags, popularPost
             keywords: project.techStack?.join(', '),
             url: project.demo || undefined,
             codeRepository: project.github || undefined,
-          }))),
+          }))).replace(/</g, '\\u003c'),
         }}
       />
       <EditorialPageShell

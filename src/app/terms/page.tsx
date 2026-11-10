@@ -19,7 +19,7 @@ export default function TermsOfService() {
       <h2 className="text-xl font-semibold mt-8 mb-2">Limitation of Liability</h2>
       <p className="mb-4">We are not liable for any damages arising from your use of the site.</p>
       <h2 className="text-xl font-semibold mt-8 mb-2">Contact Us</h2>
-      <p>If you have any questions about these Terms, please contact us at <a href="mailto:hi@halilyesilyurt.com" className="text-blue-600 underline">hi@halilyesilyurt.com</a>.</p>
+      <p>If you have any questions about these Terms, please contact us at <a href="/contact" className="text-blue-600 underline">our contact page</a>.</p>
       </main>
     </div>
   );
