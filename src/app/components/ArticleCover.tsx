@@ -1,22 +1,25 @@
-import type { CSSProperties } from 'react';
+import { useId, type CSSProperties } from 'react';
 
 type ArticleCoverProps = { slug: string; title: string; category?: string; variant?: 'card' | 'wide' | 'compact' };
 
 export default function ArticleCover({ slug, title, category = 'The Journal', variant = 'card' }: ArticleCoverProps) {
+  const instanceId = useId().replace(/:/g, '');
   const hash = [...slug].reduce((v, letter) => ((v * 33) ^ letter.charCodeAt(0)) >>> 0, 5381);
   const scheme = hash % 4;
   const serial = String(hash % 100).padStart(2, '0');
   const accent = ['#8fcfae', '#a6b7e2', '#d2b993', '#84b9b7'][scheme];
   const style = { '--ct-cover-accent': accent } as CSSProperties;
+  const patternId = `dots-${serial}-${scheme}-${instanceId}`;
+  const fadeId = `fade-${serial}-${scheme}-${instanceId}`;
   return (
     <div className={`ct-art-cover ct-art-cover-${variant} ct-art-cover-${scheme}`} style={style} role="img" aria-label={`Editorial illustration for ${title}`}>
       <div className="ct-art-cover-top"><span>CODE & TECH</span><span>JOURNAL / {serial}</span></div>
       <svg className="ct-art-cover-svg" viewBox="0 0 640 320" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
         <defs>
-          <pattern id={`dots-${serial}-${scheme}`} width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.15" fill={accent} opacity=".17"/></pattern>
-          <linearGradient id={`fade-${serial}-${scheme}`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={accent} stopOpacity=".17"/><stop offset="1" stopColor={accent} stopOpacity="0"/></linearGradient>
+          <pattern id={patternId} width="25" height="25" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.15" fill={accent} opacity=".17"/></pattern>
+          <linearGradient id={fadeId} x1="0" y1="0" x2="1" y2="1"><stop stopColor={accent} stopOpacity=".17"/><stop offset="1" stopColor={accent} stopOpacity="0"/></linearGradient>
         </defs>
-        <rect width="640" height="320" fill={`url(#dots-${serial}-${scheme})`}/>
+        <rect width="640" height="320" fill={`url(#${patternId})`}/>
         {scheme === 0 && <>
           <circle cx="420" cy="160" r="142" stroke={accent} strokeOpacity=".16" strokeWidth="1"/>
           <circle cx="420" cy="160" r="106" stroke={accent} strokeOpacity=".26"/>
@@ -24,7 +27,7 @@ export default function ArticleCover({ slug, title, category = 'The Journal', va
           <path d="m373 105-54 55 54 55m94-110 54 55-54 55m-28-130-38 150" stroke={accent} strokeWidth="8" strokeLinecap="square" strokeLinejoin="round"/>
         </>}
         {scheme === 1 && <>
-          <path d="M145 265 400 20l175 175-155 150z" fill={`url(#fade-${serial}-${scheme})`} />
+          <path d="M145 265 400 20l175 175-155 150z" fill={`url(#${fadeId})`} />
           {Array.from({length: 8}, (_, i) => <path key={i} d={`M${185+i*29} 310 ${465+i*29} 30`} stroke={accent} strokeOpacity={.15+i*.06}/>)}
           <rect x="334" y="68" width="225" height="152" rx="9" transform="rotate(12 334 68)" stroke={accent} strokeWidth="2"/>
           <path d="m402 124 39 21-31 31m88-34-28 49" stroke={accent} strokeWidth="6" strokeLinecap="round"/>
