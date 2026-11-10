@@ -19,7 +19,7 @@ export default function CookiePolicy() {
       <h2 className="text-xl font-semibold mt-8 mb-2">Managing Cookies</h2>
       <p className="mb-4">You can control and delete cookies through your browser settings. However, disabling cookies may affect your experience on our site.</p>
       <h2 className="text-xl font-semibold mt-8 mb-2">Contact Us</h2>
-      <p>If you have questions about our Cookie Policy, please contact us at <a href="mailto:hi@halilyesilyurt.com" className="text-blue-600 underline">hi@halilyesilyurt.com</a>.</p>
+      <p>If you have questions about our Cookie Policy, please contact us at <a href="/contact" className="text-blue-600 underline">our contact page</a>.</p>
       </main>
     </div>
   );
