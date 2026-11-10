@@ -1,0 +1,31 @@
+name: Refresh security lockfile (temporary)
+on:
+  push:
+    branches:
+      - fix/ui-motion-seo-security-audit
+    paths:
+      - package.json
+      - .github/workflows/refresh-security-lock.yml
+permissions:
+  contents: write
+jobs:
+  update-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: true
+      - name: Configure Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Resolve lockfile from npm registry
+        run: npm install --package-lock-only --ignore-scripts --no-fund
+      - name: Commit updated lockfile
+        run: |
+          git add package-lock.json
+          if ! git diff --cached --quiet; then
+            git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'chore(deps): synchronize verified npm lockfile'
+            git push origin HEAD:fix/ui-motion-seo-security-audit
+          fi
