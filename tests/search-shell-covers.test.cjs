@@ -1,0 +1,35 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const read = (name) => fs.readFileSync(path.join(__dirname, '..', name), 'utf8');
+const header = read('src/app/components/Header.tsx');
+const layout = read('src/app/layout.tsx');
+const shell = read('src/app/components/Layout.tsx');
+const loader = read('src/app/loading.tsx');
+const spinner = read('src/app/components/Spinner.tsx');
+const search = read('src/app/components/SearchBarWithAutocomplete.tsx');
+const filters = read('src/app/components/SearchFilters.tsx');
+const styles = read('src/app/globals.css');
+const cover = read('src/app/components/ArticleCover.tsx');
+const posts = JSON.parse(read('src/content/recovered-posts.json'));
+const socials = read('src/app/components/SocialMediaLinks.tsx');
+assert(header.includes('ct-brand-title') && !header.includes('material-icons'), 'Legacy logo font must be removed from the header');
+assert(!header.includes('ct-brand-suffix'), 'Legacy Blog suffix must be removed');
+assert(!layout.includes('fonts.googleapis.com/icon'), 'Material Icons network stylesheet must not flash');
+assert(shell.includes('bg-[#0B1220]') && layout.includes('bg-[#0B1220]'), 'Root shell must be dark before route styles load');
+assert(loader.includes('ct-route-loading') && spinner.includes('ct-loading-indicator'), 'Route transition must share the new branded loading state');
+assert(search.includes('ct-search-field-icon') && search.includes('ct-search-form'), 'Search icon must be inside the field');
+assert(search.includes('controller.abort()') && search.includes('maxLength={100}'), 'Suggest queries must be cancellable and bounded');
+assert(search.includes('role="listbox"'), 'Suggestions must expose semantic navigation');
+assert(filters.includes('ct-filter-drawer') && filters.includes('aria-expanded={isExpanded}') && filters.includes('inert={!isExpanded}'), 'Drawer must animate accessibly and stay mounted');
+assert(styles.includes('.ct-search-field-icon') && styles.includes('.ct-search-suggestions.is-open'), 'Responsive search and suggestion transitions must be styled');
+assert(styles.includes('.ct-filter-drawer.is-open'), 'Smooth filter drawer must have an expanded style');
+assert(styles.includes('.ct-app-shell') && styles.includes('.ct-site-brand'), 'Route-independent baseline must not flash the retired theme');
+assert(posts.length === 45 && posts.every((post) => !post._embedded?.['wp:featuredmedia']?.length), 'Archived original media is missing; fallback is explicit');
+assert(cover.includes('role="img"') && cover.includes('ct-art-cover'), 'Fallback covers must be real vector artwork');
+for(const component of ['src/app/blog/EditorialPostGrid.tsx','src/app/components/HomePostList.tsx','src/app/components/BlogPostLayout.tsx','src/app/components/FeaturedStoriesSlider.tsx']){
+  assert(read(component).includes('ArticleCover'), 'Missing illustrated article covers in ' + component);
+}
+assert(!socials.includes("name: 'Twitter'") && !socials.includes('mailto:'), 'Footer must not include Twitter or personal email');
+for(const name of ['LinkedIn','GitHub','Portfolio']) assert(socials.includes("name: '" + name + "'"), name + ' icon missing');
+console.log('Search/layout/loading/cover/social regressions passed');
