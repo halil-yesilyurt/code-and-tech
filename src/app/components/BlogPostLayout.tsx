@@ -73,7 +73,7 @@ export default function BlogPostLayout({
             description: post.excerpt?.rendered
               ? stripHtml(post.excerpt.rendered)
               : stripHtml(post.content.rendered).substring(0, 160),
-          }).replace(/</g, '\\\\u003c'),
+          }).replace(/</g, '\\u003c'),
         }}
       />
 
