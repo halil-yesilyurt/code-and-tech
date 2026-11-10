@@ -24,7 +24,7 @@ assert(taxonomy.categories.some((item) => item.name.toLowerCase().includes('inte
 assert(projectsPage.includes("getProjects()") && projectsPage.includes("getCategories()"), 'Project data adapter must remain unchanged');
 assert(projects.includes('ProjectFilters') && projects.includes('ProjectImage'), 'Keep project filters and live cards');
 assert(projects.includes('setFiltersKey') && projects.includes('key={filtersKey}'), 'Reset filters must clear the actual control state');
-assert(filters.includes('onFilterChange(filteredProjects)'), 'Technology and text filter behavior remains intact');
+assert(filters.includes('onFilterChange(filtered)'), 'Technology and text filter behavior remains intact');
 assert(interviews.includes("decodeHtmlEntities(category.name).toLowerCase().includes('interview')"), 'Preserve interview category membership');
 assert(interviewGrid.includes('setVisible') && interviewGrid.includes('EditorialPostGrid'), 'Interview load more must work');
 assert(interviewsAlias.includes("from '../interviews/page'"), 'The old /interview route must stay accessible');
