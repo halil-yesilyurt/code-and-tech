@@ -505,3 +505,34 @@ body:has(.ct-editorial-page) .ct-site-footer a:hover { color: var(--ct-accent-ho
 
 .ct-blog-card-meta a.ct-blog-card-category { color: var(--ct-accent); }
 .ct-blog-card-meta a.ct-blog-card-category:hover { color: var(--ct-accent-hover); text-decoration: underline; text-underline-offset: 3px; }
+
+
+/* Original editorial cover illustrations: deterministic artwork, not fabricated WordPress media. */
+.ct-art-cover { --ct-cover-accent: #8fcfae; display: flex; flex-direction: column; isolation: isolate; position: relative; overflow: hidden; width: 100%; min-height: 155px; aspect-ratio: 1.9 / 1; border-radius: 7px; color: var(--ct-cover-accent); background: radial-gradient(circle at 75% 48%, rgba(60,89,112,.19), transparent 45%), #101d30; border: 1px solid rgba(143,207,174,.13); }
+.ct-art-cover-top,.ct-art-cover-bottom { z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; position: relative; padding: 15px 19px; font-size: 9px; letter-spacing: .14em; font-weight: 700; text-transform: uppercase; }
+.ct-art-cover-top { color: #d3deeb; }
+.ct-art-cover-bottom { margin-top: auto; color: var(--ct-cover-accent); }
+.ct-art-cover-bottom span:last-child { font-size: 15px; font-weight: 400; }
+.ct-art-cover-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ct-art-cover-wide { min-height: 290px; aspect-ratio: 16 / 7; border-radius: 9px; }
+.ct-art-cover-wide .ct-art-cover-top,.ct-art-cover-wide .ct-art-cover-bottom { padding: 22px 30px; font-size: 11px; }
+.ct-art-cover-compact { min-height: 115px; aspect-ratio: 2.35 / 1; }
+.ct-card-art-link { display: block; margin-bottom: 19px; width: 100%; }
+.ct-card-art-link:hover .ct-art-cover { border-color: var(--ct-cover-accent); }
+.ct-card-art-link:focus-visible { outline: 2px solid #b7e4c7; outline-offset: 4px; }
+.ct-blog-card,.ct-article-card { min-height: 0; }
+.ct-blog-card h2 { margin-top: 4px; }
+.ct-article-card h3 { margin-top: 12px; }
+.ct-feature-carousel .ct-slider-art { position: absolute; width: min(38%, 250px); right: 35px; top: 96px; opacity: .32; transform: rotate(-5deg) translate3d(5px,0,0); pointer-events: none; }
+.ct-feature-carousel .ct-slider-art .ct-art-cover { min-height: 160px; aspect-ratio: 1.5 / 1; box-shadow: 0 17px 45px rgba(0,0,0,.25); }
+.ct-feature-carousel .ct-slider-content { position: relative; z-index: 2; max-width: min(72%, 580px); }
+.ct-post-cover > .ct-art-cover { width: 100%; height: 100%; min-height: 0; }
+@media (max-width: 680px) {
+  .ct-feature-carousel .ct-slider-art { display: none; }
+  .ct-feature-carousel .ct-slider-content { max-width: 100%; }
+  .ct-art-cover-wide { aspect-ratio: 1.8/1; min-height: 190px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ct-art-cover { transition: border-color .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); }
+  .ct-card-art-link:hover .ct-art-cover { transform: translateY(-2px); }
+}
