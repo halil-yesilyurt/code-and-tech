@@ -536,3 +536,13 @@ html, body, .ct-app-shell { background: #0b1220; color: #f3f6fb; }
 @media (prefers-reduced-motion: reduce) {
   .ct-search-suggestions, .ct-filter-drawer, .ct-filters-toggle svg, .ct-search-submit { transition: none; }
 }
+
+
+/* Mobile navigation drawer is kept mounted: animate both opening and closing. */
+.ct-mobile-backdrop { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .32s ease, visibility .32s; }
+.ct-mobile-backdrop.is-open { opacity: 1; visibility: visible; pointer-events: auto; }
+.ct-mobile-menu { transform: translate3d(105%,0,0); visibility: hidden; pointer-events: none; background: #121a2b; border-left: 1px solid #25324a; transition: transform .36s cubic-bezier(.2,.8,.2,1), visibility .36s; }
+.ct-mobile-menu.is-open { transform: translate3d(0,0,0); visibility: visible; pointer-events: auto; }
+.ct-mobile-menu a,.ct-mobile-menu button { color: #f3f6fb !important; }
+.ct-mobile-menu a:hover,.ct-mobile-menu button:hover { background: #1a2438; color: #b7e4c7 !important; }
+@media (prefers-reduced-motion: reduce) { .ct-mobile-backdrop, .ct-mobile-menu { transition: none !important; } }
