@@ -465,3 +465,38 @@
   background: var(--ct-accent);
 }
 .ct-p3-not-found > a:hover { background: var(--ct-accent-hover); }
+
+
+/* Projects: constrained custom technology menu; never use viewport-sized native options. */
+.ct-p3-projects .ct-p3-filter-panel { position: relative; z-index: 5; }
+.ct-p3-projects .ct-p3-filter-panel .ct-project-filters { padding: 0; margin: 0; background: transparent; border: 0; box-shadow: none; }
+.ct-project-filter-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(210px, 270px); gap: 18px; align-items: end; }
+.ct-project-filter-fields > div { min-width: 0; }
+.ct-project-filter-fields label { display: block; margin-bottom: 9px; color: #d5e0eb !important; font-size: .82rem; font-weight: 650; }
+.ct-project-search-field { position: relative; }
+.ct-project-search-field svg { position: absolute; top: 50%; left: 14px; transform: translateY(-50%); color: #91a7bd; pointer-events: none; }
+.ct-p3-projects .ct-project-search-field input { width: 100%; min-height: 48px; padding: 11px 15px 11px 44px; background: #1a2438 !important; color: #f3f6fb !important; border: 1px solid #344459 !important; border-radius: 7px; outline: none; }
+.ct-project-filter-tech { position: relative; }
+.ct-p3-projects .ct-project-select-trigger { width: 100%; min-width: 0; min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 13px; background: #1a2438; border: 1px solid #344459; border-radius: 7px; padding: 10px 13px; color: #f3f6fb !important; text-align: left; font-size: .86rem; cursor: pointer; }
+.ct-project-select-trigger > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ct-project-select-trigger svg { flex-shrink: 0; color: #8fcfae; transition: transform .3s ease; }
+.ct-project-select-trigger[aria-expanded="true"] { border-color: #8fcfae; }
+.ct-project-select-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+.ct-project-select-popover { position: absolute; top: calc(100% + 7px); left: 0; right: 0; z-index: 30; opacity: 0; visibility: hidden; transform: translateY(-8px) scale(.985); transform-origin: top center; pointer-events: none; border: 1px solid #344459; border-radius: 8px; background: #172236; box-shadow: 0 16px 40px rgba(0,0,0,.32); transition: opacity .25s ease, transform .3s cubic-bezier(.2,.8,.2,1), visibility .3s; overflow: hidden; }
+.ct-project-select-popover.is-open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1); }
+.ct-project-select-options { display: grid; max-height: min(288px, 45dvh); overflow-y: auto; overscroll-behavior: contain; scrollbar-color: #50667a transparent; scrollbar-width: thin; padding: 5px; }
+.ct-project-option { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 40px; border: 0; border-radius: 5px; background: transparent; padding: 9px 11px; color: #e6eef5; text-align: left; cursor: pointer; font-size: .82rem; }
+.ct-project-option:hover,.ct-project-option:focus-visible,.ct-project-option[aria-selected="true"] { background: #263b45; color: #b7e4c7; }
+.ct-project-option > span:last-child:not(:first-child) { color: #8fcfae; }
+.ct-project-active-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; padding-top: 15px; border-top: 1px solid #344459; color: #a7b3c9; font-size: .77rem; }
+.ct-project-active-filters button { display: inline-flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 5px; background: #243347; border: 1px solid #344459; color: #f3f6fb !important; font-size: .76rem; cursor: pointer; max-width: 100%; overflow-wrap: anywhere; }
+.ct-project-active-filters button.ct-project-clear { color: #8fcfae !important; background: none; border-color: transparent; }
+.ct-project-active-filters button:hover { border-color: #8fcfae; }
+@media(max-width: 760px) {
+  .ct-project-filter-fields { grid-template-columns: minmax(0, 1fr); gap: 15px; }
+  .ct-project-filter-tech { width: 100%; }
+  .ct-project-select-options { max-height: min(240px, 38dvh); }
+}
+@media(prefers-reduced-motion: reduce) {
+  .ct-project-select-popover,.ct-project-select-trigger svg { transition: none; }
+}
