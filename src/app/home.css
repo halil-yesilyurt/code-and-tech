@@ -339,3 +339,6 @@ body:has(.ct-home) .ct-site-footer a:hover {
   .ct-home .ct-article-card { transition: none; }
   .ct-home .ct-article-card:hover { transform: none; }
 }
+
+/* Keep the existing site brand on legacy pages while simplifying the home mark. */
+body:has(.ct-home) .ct-brand-suffix { display: none; }
