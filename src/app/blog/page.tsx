@@ -1,71 +1,109 @@
-import React from 'react';
+import Link from 'next/link';
+import {
+  getPosts,
+  getCategories,
+  getTags,
+  getPopularPosts,
+  decodeHtmlEntities,
+} from '@/lib/wordpress';
+import Sidebar from '../components/Sidebar';
+import EditorialPostGrid from './EditorialPostGrid';
+import BlogPagination from '../components/BlogPagination';
+import './editorial.css';
+
 export const metadata = {
   title: 'Blog | Code & Tech',
   description: 'Latest articles, insights and tutorials on software development, AI, cloud and more at Code & Tech.',
-  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/blog' }
+  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/blog' },
 };
-import { getPosts, getCategories, getTags, getPopularPosts, decodeHtmlEntities } from '@/lib/wordpress';
-import Sidebar from '../components/Sidebar';
-import BlogPostList from './BlogPostList';
-// FeaturedPosts removed
-import BlogPagination from '../components/BlogPagination';
 
-export default async function PostsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] }> }) {
+export default async function PostsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] }>;
+}) {
   const params = await searchParams;
-  const currentPage = parseInt(Array.isArray(params?.page) ? params.page[0] : (params?.page ?? '1'), 10) || 1;
+  const pageParam = Array.isArray(params?.page) ? params.page[0] : params?.page;
+  const requestedPage = Number.parseInt(pageParam ?? '1', 10) || 1;
   const perPage = 6;
 
-  const allPosts = await getPosts(1, 100);
-  const categories = await getCategories();
+  const [allPosts, categories, tags, popularPosts] = await Promise.all([
+    getPosts(1, 100),
+    getCategories(),
+    getTags(),
+    getPopularPosts(3),
+  ]);
 
-  // Identify category IDs whose name contains "interview"
-  const interviewCategoryIds = categories
-    .filter((cat) => decodeHtmlEntities(cat.name).toLowerCase().includes('interview'))
-    .map((cat) => cat.id);
-
-  // Filter out posts that belong to any interview category
+  // Preserve the interview category exclusion from the previous blog listing.
+  const interviewCategoryIds = new Set(
+    categories
+      .filter((cat) => decodeHtmlEntities(cat.name).toLowerCase().includes('interview'))
+      .map((cat) => cat.id)
+  );
   const filteredPosts = allPosts.filter(
-    (post) => !post.categories?.some((cid) => interviewCategoryIds.includes(cid))
+    (post) => !post.categories?.some((id) => interviewCategoryIds.has(id))
   );
 
   const totalPages = Math.ceil(filteredPosts.length / perPage);
-
+  const currentPage = Math.max(1, Math.min(requestedPage, Math.max(1, totalPages)));
   const start = (currentPage - 1) * perPage;
   const pagePosts = filteredPosts.slice(start, start + perPage);
 
-  const tags = await getTags();
-  const popularPosts = await getPopularPosts(3);
-
-  if (!filteredPosts.length) {
-    return (
-      <div className="text-center py-12 bg-white rounded-lg shadow-md">
-        <div className="text-gray-400 mb-4">
-          <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">No posts available</h3>
-        <p className="text-gray-600">Check back soon for the latest tech articles and tutorials.</p>
-      </div>
-    );
-  }
-
-  // Featured only on first page, already defined above
+  const topicLinks = categories
+    .filter((cat) => cat.count > 0 && !interviewCategoryIds.has(cat.id) && cat.slug !== 'uncategorized')
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 7);
 
   return (
-    <main className="grid grid-cols-1 lg:grid-cols-3 gap-12 my-10">
-      <div className="lg:col-span-2">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Latest Articles</h2>
-        <BlogPostList posts={pagePosts} />
-        <div className="mt-10">
-          <BlogPagination currentPage={currentPage} totalPages={totalPages} />
+    <div className="ct-editorial-page ct-blog-index">
+      <div className="ct-blog-intro">
+        <div>
+          <p className="ct-editorial-eyebrow">THE CODE & TECH JOURNAL / ARTICLES</p>
+          <h1>Ideas for people <em>who build.</em></h1>
+          <p className="ct-blog-lead">Development notes, practical guides, and clear perspectives on the tools behind modern software.</p>
+        </div>
+        <div className="ct-blog-tally" aria-label="Article count">
+          <strong>{filteredPosts.length}</strong>
+          <span>Published articles</span>
         </div>
       </div>
-      <aside>
-        <div className="sticky top-8">
-          <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
+
+      <nav className="ct-blog-topics" aria-label="Browse topics">
+        <span className="ct-blog-topics-title">Browse by topic</span>
+        <Link href="/blog" className="ct-topic-current" aria-current="page">All articles</Link>
+        {topicLinks.map((cat) => (
+          <Link key={cat.id} href={`/category/${cat.slug}`}>{decodeHtmlEntities(cat.name)}</Link>
+        ))}
+        <Link className="ct-all-topics" href="/categories">All topics ↗</Link>
+      </nav>
+
+      <section className="ct-blog-results" aria-labelledby="ct-blog-results-title">
+        <div className="ct-blog-results-heading">
+          <div>
+            <span className="ct-editorial-eyebrow">THE ARCHIVE</span>
+            <h2 id="ct-blog-results-title">Latest writing<span className="ct-sage-period">.</span></h2>
+          </div>
+          <span className="ct-blog-page-count">{filteredPosts.length ? `Page ${currentPage} of ${totalPages}` : 'No articles'}</span>
         </div>
-      </aside>
-    </main>
+        {filteredPosts.length ? (
+          <>
+            <EditorialPostGrid posts={pagePosts} categories={categories} />
+            <div className="ct-blog-pagination">
+              <BlogPagination currentPage={currentPage} totalPages={totalPages} />
+            </div>
+          </>
+        ) : (
+          <p className="ct-blog-empty">No posts available. Check back soon for new articles.</p>
+        )}
+      </section>
+
+      <section className="ct-blog-discovery" aria-labelledby="ct-discovery-title">
+        <div className="ct-blog-discovery-heading">
+          <span className="ct-editorial-eyebrow">FURTHER READING</span>
+          <h2 id="ct-discovery-title">Explore more<span className="ct-sage-period">.</span></h2>
+        </div>
+        <Sidebar popularPosts={popularPosts} tags={tags} categories={categories} />
+      </section>
+    </div>
   );
-} 
+}

@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run test:recovery && npm run test:home && node build.js",
+    "build": "npm run test:recovery && npm run test:home && npm run test:editorial && node build.js",
     "start": "next start",
     "lint": "next lint",
     "test:recovery": "node tests/recovered-content.test.cjs",
-    "test:home": "node tests/home-redesign.test.cjs"
+    "test:home": "node tests/home-redesign.test.cjs",
+    "test:editorial": "node tests/editorial-phase2.test.cjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

@@ -1,3 +1,4 @@
+import '../editorial.css';
 import { notFound } from 'next/navigation';
 import { 
   getPostBySlug, 

@@ -1,0 +1,38 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+
+const read = (file) => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
+const list = read('src/app/blog/page.tsx');
+const cards = read('src/app/blog/EditorialPostGrid.tsx');
+const post = read('src/app/components/BlogPostLayout.tsx');
+const postRoute = read('src/app/blog/[slug]/page.tsx');
+const toc = read('src/app/components/ArticleTableOfContents.tsx');
+const progress = read('src/app/components/ArticleReadingProgress.tsx');
+const theme = read('src/app/blog/editorial.css');
+const archive = JSON.parse(read('src/content/recovered-posts.json'));
+
+assert.equal(archive.length, 45, 'Recovered article data must remain intact');
+assert(list.includes('getPosts(1, 100)'), 'Listing must use the existing archive interface');
+assert(list.includes('interviewCategoryIds.has(id)'), 'Interview category exclusion is still required');
+assert(list.includes('BlogPagination currentPage={currentPage} totalPages={totalPages}'), 'Do not remove pagination');
+assert(list.includes('Sidebar popularPosts={popularPosts} tags={tags} categories={categories}'), 'Keep browsing and newsletter features');
+assert(list.includes('getCategories()'), 'Topic navigation must be real, not hard-coded');
+assert(list.includes("import './editorial.css'"), 'Blog index must load route-scoped styles');
+assert(postRoute.includes("import '../editorial.css'"), 'Article route must load route-scoped styles');
+assert(cards.includes('/blog/${post.slug}'), 'Card links must be canonical');
+assert(cards.includes('/category/'), 'Card listing must support category-based navigation');
+assert(!cards.includes('Math.random'), 'Cards must have a stable order');
+assert(post.includes('sanitizeHtml(decodeHtmlEntities(post.content.rendered))'), 'Sanitized article rendering must be preserved');
+assert(post.includes('SocialShareButtons'), 'Sharing must still work');
+assert(post.includes('ArticleTableOfContents'), 'Article headings must populate a TOC');
+assert(post.includes('ArticleReadingProgress'), 'Long-form reading progress must remain available');
+assert(post.includes('Sidebar popularPosts={popularPosts} tags={sidebarTags} categories={sidebarCategories}'), 'Keep existing Mailchimp + discovery sidebar');
+assert(post.includes('featuredImageUrl &&'), 'Do not invent images for recovered articles');
+assert(post.includes('/blog/${item.slug}') && post.includes('/category/${category.slug}'), 'Related and taxonomy links must stay canonical');
+assert(toc.includes("querySelectorAll<HTMLHeadingElement>('h2, h3')"), 'TOC must derive from actual content');
+assert(toc.includes("while (seen.has(id))"), 'TOC anchors must not conflict');
+assert(progress.includes("requestAnimationFrame"), 'Scroll listener should be throttled');
+assert(theme.includes('body:has(.ct-editorial-page)'), 'Shell styles must not bleed to unmodified routes');
+assert(theme.includes('--ct-accent: #8fcfae'), 'Midnight/Sage colors should be consistent with Phase 1');
+console.log('Phase 2 editorial contract passed: archive, canonical links, sharing, TOC and scoped styles');
