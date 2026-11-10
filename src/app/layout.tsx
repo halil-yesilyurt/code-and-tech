@@ -22,10 +22,10 @@ export function generateMetadata() {
   const url = process.env.NEXT_PUBLIC_SITE_URL || "https://code-and-tech.halilyesilyurt.com";
 
   return {
-  title: 'Code & Tech | Modern Tech Blog',
-  description: 'Code & Tech is your go-to source for the latest technology news, in-depth tutorials, software development guides, and expert insights on innovation, coding, and digital trends. Stay ahead in the tech world with our comprehensive resources and practical tips.',
+  title: 'Code & Tech | Engineering, WordPress & the Modern Web',
+  description: 'Code & Tech publishes practical guides and thoughtful articles about software engineering, WordPress, and building for the modern web.',
     metadataBase: new URL(url),
-  keywords: ['technology', 'programming', 'software development', 'AI', 'machine learning', 'web development', 'coding tutorials', 'tech news'],
+  keywords: ['software engineering', 'WordPress', 'web development', 'programming', 'coding tutorials'],
   authors: [{ name: 'Halil Yesilyurt' }],
   creator: 'Halil Yesilyurt',
   publisher: 'Code & Tech',
@@ -41,8 +41,8 @@ export function generateMetadata() {
     },
   },
   openGraph: {
-    title: 'Code & Tech | Modern Tech Blog',
-    description: 'Discover expert tutorials, news, and resources on software development, AI, cloud, and emerging technologies.',
+    title: 'Code & Tech | Engineering, WordPress & the Modern Web',
+    description: 'Explore practical tutorials, software engineering notes, and WordPress guides from Code & Tech.',
     type: 'website',
       url: url,
     siteName: 'Code & Tech',
@@ -58,8 +58,8 @@ export function generateMetadata() {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Code & Tech | Modern Tech Blog',
-    description: 'Discover expert tutorials, news, and resources on software development, AI, cloud, and emerging technologies.',
+    title: 'Code & Tech | Engineering, WordPress & the Modern Web',
+    description: 'Explore practical tutorials, software engineering notes, and WordPress guides from Code & Tech.',
     creator: '@haliilyesilyurt',
     site: '@haliilyesilyurt',
     images: ['/screenshot-1.png'],
@@ -81,8 +81,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'WebPage',
-              name: 'Code & Tech | Modern Tech Blog',
-              description: 'Code & Tech is your go-to source for the latest technology news, in-depth tutorials, software development guides, and expert insights on innovation, coding, and digital trends. Stay ahead in the tech world with our comprehensive resources and practical tips.',
+              name: 'Code & Tech | Engineering, WordPress & the Modern Web',
+              description: 'Code & Tech publishes practical guides and thoughtful articles about software engineering, WordPress, and building for the modern web.',
               publisher: {
                 '@type': 'Organization',
                 name: 'Code and Tech Blog',
@@ -96,15 +96,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
           />
         )}
-        <link rel="icon" href="/favicon-code.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicon-code.svg" />
+        <link rel="icon" href="/favicon-code.svg?v=2" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/ct-logo.svg?v=2" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </head>
       <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
         {/* Skip to main content link for accessibility */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only absolute top-2 left-2 z-50 bg-blue-600 text-white px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="sr-only focus:not-sr-only absolute top-2 left-2 z-50 bg-[#8fcfae] text-[#0b1220] px-4 py-2 rounded"
         >
           Skip to main content
         </a>
