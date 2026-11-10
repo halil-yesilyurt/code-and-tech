@@ -41,4 +41,12 @@ for (const name of ['next', 'react', 'react-dom', 'dompurify']) {
 }
 assert(dependencies.dependencies.next === '16.4.6', 'Next.js must use current security-patched release');
 assert(!fs.existsSync(path.join(__dirname, '../.github/workflows/refresh-security-lock.yml')), 'One-shot workflow must be cleaned up');
+assert(!dependencies.dependencies.resend && !lock.packages['node_modules/resend'], 'Unused Resend stack must be removed');
+assert(!lock.packages['node_modules/deepmerge'], 'Vulnerable legacy email dependency must be absent');
+assert(lock.packages['node_modules/ws']?.version === '8.22.2', 'ws must contain patched security fixes');
+assert(lock.packages['node_modules/source-map-js']?.version === '1.2.2', 'source-map-js must contain patched security fixes');
+const articleLayout = read('src/app/components/BlogPostLayout.tsx');
+const projectLayout = read('src/app/projects/ProjectsClient.tsx');
+assert(articleLayout.includes("replace(/</g, '\\\\u003c')") && projectLayout.includes("replace(/</g, '\\\\u003c')"), 'Escape untrusted JSON-LD before inlining it into script tags');
+
 console.log('UI / SEO / security audit contracts passed');
