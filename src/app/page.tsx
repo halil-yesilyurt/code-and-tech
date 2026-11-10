@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import HomePostList from '@/app/components/HomePostList';
+import FeaturedStoriesSlider from '@/app/components/FeaturedStoriesSlider';
 import {
   getPosts,
   getCategories,
@@ -90,14 +91,7 @@ export default async function Home() {
             <Link href="/blog" className="ct-section-link">All articles <span aria-hidden="true">↗</span></Link>
           </div>
           <div className="ct-featured-grid">
-            <article className="ct-feature-lead">
-              <div className="ct-feature-topline"><span className="ct-feature-label">FEATURE / 01</span><span>{postCategory(lead, categories)}</span></div>
-              <div className="ct-feature-body">
-                <h3><Link href={`/blog/${lead.slug}`}>{decodeHtmlEntities(lead.title.rendered)}</Link></h3>
-                <p>{excerpt(lead, 185)}</p>
-              </div>
-              <div className="ct-feature-footer"><time dateTime={lead.date}>{postDate(lead.date)}</time><Link href={`/blog/${lead.slug}`}>Read story <span aria-hidden="true">↗</span></Link></div>
-            </article>
+            <FeaturedStoriesSlider posts={posts.slice(0, 4)} />
             <div className="ct-supporting-grid">
               {supporting.map((post, index) => (
                 <article className="ct-supporting-article" key={post.id}>
