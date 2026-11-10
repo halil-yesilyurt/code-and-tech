@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run test:recovery && npm run test:home && npm run test:editorial && npm run test:site && npm run test:audit && npm run test:polish && node build.js",
+    "build": "npm run test:recovery && npm run test:home && npm run test:editorial && npm run test:site && npm run test:audit && npm run test:polish && npm run test:responsive && node build.js",
     "start": "next start",
     "lint": "eslint .",
     "test:recovery": "node tests/recovered-content.test.cjs",
@@ -12,7 +12,8 @@
     "test:editorial": "node tests/editorial-phase2.test.cjs",
     "test:site": "node tests/editorial-phase3.test.cjs",
     "test:audit": "node tests/ui-security-audit.test.cjs",
-    "test:polish": "node tests/search-shell-covers.test.cjs"
+    "test:polish": "node tests/search-shell-covers.test.cjs",
+    "test:responsive": "node tests/project-toc-polish.test.cjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
