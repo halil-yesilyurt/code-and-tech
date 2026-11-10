@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect, useRef, useId } from 'react';
 
 interface Project {
+  id: number | string;
   title: string;
   description: string;
   techStack?: string[];
