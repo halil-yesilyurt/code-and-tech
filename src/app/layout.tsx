@@ -98,9 +98,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
         <link rel="icon" href="/favicon-code.svg?v=2" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/ct-logo.svg?v=2" />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       </head>
-      <body className="font-inter bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen antialiased">
+      <body className="font-inter bg-[#0B1220] text-[#F3F6FB] min-h-screen antialiased">
         {/* Skip to main content link for accessibility */}
         <a
           href="#main-content"
