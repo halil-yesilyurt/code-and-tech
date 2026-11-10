@@ -18,7 +18,7 @@ jobs:
       - name: Refresh lockfile and fix compatible vulnerabilities
         run: |
           npm install --package-lock-only --ignore-scripts --no-fund
-          npm audit fix --package-lock-only --ignore-scripts --no-fund
+          npm audit fix --package-lock-only --ignore-scripts --no-fund || true # CI independently enforces production high-severity gate
       - name: Commit updated lockfile
         run: |
           git add package-lock.json
