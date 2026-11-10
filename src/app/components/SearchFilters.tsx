@@ -73,7 +73,10 @@ export default function SearchFilters({ query, categories, tags, currentFilters 
           )}
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="ct-filters-toggle"\n            type="button"\n            aria-expanded={isExpanded}\n            aria-controls="ct-filter-drawer"
+            className="ct-filters-toggle"
+            type="button"
+            aria-expanded={isExpanded}
+            aria-controls="ct-filter-drawer"
           >
             {isExpanded ? 'Hide' : 'Show'} filters
             <svg 
