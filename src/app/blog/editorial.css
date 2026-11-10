@@ -496,3 +496,7 @@ body:has(.ct-editorial-page) .ct-site-footer a:hover { color: var(--ct-accent-ho
   .ct-blog-card:hover { transform: none; }
   .ct-editorial-page { scroll-behavior: auto; }
 }
+
+/* Fixed, route-specific reading indicator; never blocks navigation clicks. */
+.ct-reading-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 120; height: 3px; pointer-events: none; }
+.ct-reading-progress span { display: block; width: 100%; height: 100%; transform-origin: left center; background: var(--ct-accent); }
