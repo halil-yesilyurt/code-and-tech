@@ -1,20 +1,12 @@
 "use client";
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ReactDOM from 'react-dom';
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10);
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Portal for mobile menu
   const mobileMenuPortal = typeof window !== 'undefined' && mobileMenuOpen
@@ -54,11 +46,12 @@ export default function Header() {
               
               {/* Search Button in Mobile Menu for small screens */}
               <button
+                type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   setSearchOpen(true);
                 }}
-                className="min-[400px]:hidden block px-4 py-3 rounded-lg text-lg font-semibold text-gray-700 dark:text-gray-300 hover:text-primary transition-all duration-200 focus-ring cursor-pointer text-left"
+                className="block px-4 py-3 rounded-lg text-lg font-semibold text-gray-700 dark:text-gray-300 hover:text-primary transition-all duration-200 focus-ring cursor-pointer text-left"
                 >
                   <div className="flex items-center">
                     <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,7 +96,7 @@ export default function Header() {
           </nav>
 
           {/* Search Icon - Hidden on very small screens, shown in hamburger menu */}
-          <div className="hidden min-[400px]:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="ct-search-trigger text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors"
