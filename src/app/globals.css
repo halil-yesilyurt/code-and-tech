@@ -449,3 +449,90 @@ input::selection {
   html { scroll-behavior: auto; }
   .ct-motion-pending { opacity: 1; transform: none; transition: none; }
 }
+
+
+/* Persistent editorial shell: never flash legacy light colors while routes stream. */
+html, body, .ct-app-shell { background: #0b1220; color: #f3f6fb; }
+.ct-site-header { background: #0b1220; color: #f3f6fb; border-bottom: 1px solid #25324a; }
+.ct-site-footer { background: #0b1220; color: #a7b3c9; border-top-color: #25324a; }
+.ct-site-brand { color: #f3f6fb; gap: 11px; }
+.ct-site-brand .ct-brand-mark { display: inline-flex; color: #8fcfae; flex-shrink: 0; }
+.ct-site-brand .ct-brand-title { color: #f3f6fb; font-weight: 700; letter-spacing: -.055em; font-size: 1.25rem; white-space: nowrap; }
+.ct-site-header .ct-site-nav { color: #a7b3c9; }
+.ct-site-header .ct-search-trigger { color: #a7b3c9; }
+.ct-site-header .ct-menu-toggle svg { color: #a7b3c9; }
+.ct-site-header .ct-mobile-menu { background: #121a2b; color: #f3f6fb; }
+.ct-route-loading { background: #0b1220; min-height: min(55vh, 480px); color: #8fcfae; }
+.ct-loading-indicator { display: inline-flex; color: #8fcfae; align-items: center; justify-content: center; }
+.ct-loading-indicator svg { overflow: visible; }
+.ct-loading-track { opacity: .25; }
+@media (prefers-reduced-motion: no-preference) {
+  .ct-loading-indicator svg { animation: ct-spinner-turn 1.35s cubic-bezier(.55,.12,.45,.88) infinite; }
+  .ct-loading-active { animation: ct-spinner-pulse 1.4s ease-in-out infinite alternate; }
+}
+@keyframes ct-spinner-turn { to { transform: rotate(360deg); } }
+@keyframes ct-spinner-pulse { from { opacity: .55; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ct-loading-indicator svg, .ct-loading-active { animation: none !important; } }
+
+/* Search's mobile field and icon share a positioning context. */
+.ct-search-widget { position: relative; width: 100%; max-width: 800px; margin-inline: auto; z-index: 2; }
+.ct-search-form { display: flex; gap: 10px; align-items: stretch; }
+.ct-search-field { position: relative; min-width: 0; flex: 1; }
+.ct-search-field input {
+  display: block; width: 100%; min-width: 0; min-height: 50px;
+  border-radius: 7px; border: 1px solid #25324a; padding: 12px 48px 12px 48px;
+  color: #f3f6fb; background: #121a2b; outline: none;
+  font-size: 15px; line-height: 1.45; transition: border-color .2s ease, box-shadow .2s ease;
+}
+.ct-search-field input:focus-visible { border-color: #8fcfae; box-shadow: 0 0 0 3px rgba(143,207,174,.12); outline: none; }
+.ct-search-field input::placeholder { color: #8493ad; }
+.ct-search-field-icon { position: absolute; top: 50%; left: 17px; transform: translateY(-50%); color: #8fcfae; pointer-events: none; z-index: 1; }
+.ct-search-field-loading { position: absolute; top: 50%; right: 16px; transform: translateY(-50%); pointer-events: none; display: flex; }
+.ct-search-submit {
+  cursor: pointer; display: inline-flex; justify-content: center; align-items: center; gap: 20px;
+  border: none; border-radius: 7px; background: #8fcfae; color: #0b1220; font-size: 14px;
+  font-weight: 680; min-height: 50px; min-width: 125px; padding: 12px 19px;
+  transition: background-color .2s ease, transform .2s ease;
+}
+.ct-search-submit:hover { background: #b7e4c7; }
+.ct-search-suggestions {
+  position: absolute; top: calc(100% + 9px); left: 0; right: 0;
+  display: grid; grid-template-rows: 0fr;
+  opacity: 0; transform: translateY(-7px); pointer-events: none;
+  background: #121a2b; border: 1px solid transparent; border-radius: 9px;
+  box-shadow: 0 20px 45px rgba(2,7,18,.4);
+  transition: grid-template-rows .28s cubic-bezier(.2,.8,.2,1), opacity .22s ease, transform .28s ease, border-color .2s ease;
+  overflow: hidden;
+}
+.ct-search-suggestions.is-open { grid-template-rows: 1fr; opacity: 1; transform: translateY(0); pointer-events: auto; border-color: #25324a; }
+.ct-search-suggestions-inner { min-height: 0; overflow-y: auto; max-height: 365px; }
+.ct-search-suggestion {
+  display: flex; width: 100%; align-items: flex-start; text-align: left; gap: 14px; padding: 13px 17px;
+  border-bottom: 1px solid #25324a; cursor: pointer; color: #f3f6fb; background: transparent;
+  transition: background-color .2s;
+}
+.ct-search-suggestion:last-child { border-bottom: none; }
+.ct-search-suggestion:hover, .ct-search-suggestion[aria-selected="true"] { background: #1a2438; }
+.ct-search-suggestion-type { color: #8fcfae; text-transform: uppercase; font-size: 10px; font-weight: 700; letter-spacing: .08em; min-width: 58px; padding-top: 4px; }
+.ct-search-suggestion-content { flex: 1; min-width: 0; display: grid; gap: 5px; }
+.ct-search-suggestion-content strong { font-size: 13px; line-height: 1.4; }
+.ct-search-suggestion-content > span { color: #a7b3c9; font-size: 12px; line-height: 1.5; }
+.ct-search-suggestion-wait { padding: 18px; color: #a7b3c9; font-size: 13px; }
+.ct-filters-panel { border: 1px solid #25324a; border-radius: 9px; padding: 19px 21px; background: #121a2b; }
+.ct-filters-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; }
+.ct-filters-title { font-size: 15px; font-weight: 680; color: #f3f6fb; }
+.ct-filters-toggle { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: #8fcfae; font-weight: 600; font-size: 13px; }
+.ct-filters-toggle svg { transition: transform .32s cubic-bezier(.2,.8,.2,1); }
+.ct-filters-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.ct-filter-drawer { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .36s cubic-bezier(.2,.8,.2,1), opacity .28s ease; }
+.ct-filter-drawer.is-open { grid-template-rows: 1fr; opacity: 1; }
+.ct-filter-drawer-inner { min-height: 0; overflow: hidden; }
+.ct-filter-drawer.is-open .ct-filter-drawer-inner { border-top: 1px solid #25324a; padding-top: 20px; margin-top: 20px; }
+@media (max-width: 640px) {
+  .ct-search-form { flex-direction: column; gap: 9px; }
+  .ct-search-submit { width: 100%; }
+  .ct-search-suggestions { top: 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ct-search-suggestions, .ct-filter-drawer, .ct-filters-toggle svg, .ct-search-submit { transition: none; }
+}
