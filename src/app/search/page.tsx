@@ -9,7 +9,9 @@ import EditorialPageShell from '../components/EditorialPageShell';
 
 export const metadata = {
   title: 'Search | Code & Tech',
-  description: 'Search articles, tutorials and projects on Code & Tech.',
+  description: 'Search articles and tutorials on Code & Tech.',
+  robots: { index: false, follow: true },
+  alternates: { canonical: 'https://code-and-tech.halilyesilyurt.com/search' },
 };
 
 type Params = { [key: string]: string | string[] | undefined };
