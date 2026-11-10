@@ -24,7 +24,7 @@ export default function Header() {
             className="fixed inset-0 bg-black/40 z-[100] transition-opacity duration-300"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <nav className="fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white dark:bg-gray-800 shadow-2xl z-[110] flex flex-col animate-fade-slide-in transform transition-transform duration-300">
+          <nav className="ct-mobile-menu fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white dark:bg-gray-800 shadow-2xl z-[110] flex flex-col animate-fade-slide-in transform transition-transform duration-300">
             <button
               className="self-end m-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
               aria-label="Close menu"
@@ -75,17 +75,17 @@ export default function Header() {
     : null;
 
   return (
-    <header className="sticky top-0 z-50 bg-[#F3F4F6] dark:bg-[#0A202C] transition-all duration-300">
+    <header className="ct-site-header sticky top-0 z-50 bg-[#F3F4F6] dark:bg-[#0A202C] transition-all duration-300">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between py-6">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group min-w-0">
+          <Link href="/" className="ct-site-brand flex items-center space-x-3 group min-w-0">
             <span className="material-icons text-primary text-4xl" aria-hidden="true">code</span>
-            <span className="text-2xl font-bold text-gray-900 dark:text-white font-montserrat">Code & Tech Blog</span>
+            <span className="text-2xl font-bold text-gray-900 dark:text-white font-montserrat">Code & Tech<span className="ct-brand-suffix"> Blog</span></span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8 text-gray-700 dark:text-gray-300">
+          <nav className="ct-site-nav hidden md:flex items-center space-x-8 text-gray-700 dark:text-gray-300">
             {[
               { href: '/blog', label: 'Blog' },
               { href: '/projects', label: 'Projects' },
@@ -106,7 +106,7 @@ export default function Header() {
           <div className="hidden min-[400px]:flex items-center space-x-4">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors"
+              className="ct-search-trigger text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors"
               aria-label="Search"
               title="Search"
             >
@@ -118,7 +118,7 @@ export default function Header() {
 
           {/* Mobile Hamburger */}
           <button
-            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer z-[120]"
+            className="ct-menu-toggle md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer z-[120]"
             aria-label="Open menu"
             onClick={() => setMobileMenuOpen((v) => !v)}
             type="button"
@@ -135,7 +135,7 @@ export default function Header() {
 
         {/* Search Input */}
         {searchOpen && (
-          <div className="absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-lg z-50">
+          <div className="ct-search-panel absolute top-full left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-lg z-50">
             <div className="container mx-auto px-4 md:px-8 py-4">
               <form 
                 onSubmit={(e) => {
