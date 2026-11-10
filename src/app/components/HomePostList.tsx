@@ -1,47 +1,64 @@
 'use client';
-import { useState } from 'react';
-import BlogPostList from '../blog/BlogPostList';
 
-type Post = {
-  id: number;
-  title: { rendered: string };
-  date: string;
-  slug: string;
-  excerpt?: { rendered: string };
-  content?: { rendered: string };
-  _embedded?: {
-    'wp:featuredmedia'?: { source_url: string }[];
-    'wp:term'?: { id: number; slug: string; name: string }[][];
-  };
-};
+import { useState } from 'react';
+import Link from 'next/link';
+import {
+  decodeHtmlEntities,
+  stripHtml,
+  type WordPressCategory,
+  type WordPressPost,
+} from '@/lib/wordpress';
 
 interface HomePostListProps {
-  posts: Post[];
+  posts: WordPressPost[];
+  categories: WordPressCategory[];
 }
 
-export default function HomePostList({ posts }: HomePostListProps) {
-  const INITIAL = 6;
-  const LOAD_MORE = 6;
+const INITIAL = 6;
+const LOAD_MORE = 6;
+
+function postDate(date: string): string {
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(date));
+}
+
+export default function HomePostList({ posts, categories }: HomePostListProps) {
   const [visible, setVisible] = useState(INITIAL);
-  
-  const handleShowMore = () => {
-    setVisible((v) => Math.min(v + LOAD_MORE, posts.length));
-  };
-  
-  const visiblePosts: Post[] = posts.slice(0, visible);
-  const hasMore = visible < posts.length;
+  const visiblePosts = posts.slice(0, visible);
 
   return (
     <>
-      <BlogPostList posts={visiblePosts} />
-      {hasMore && (
-        <div className='text-center mt-10'>
-          <button
-            onClick={handleShowMore}
-            className='bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-6 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors inline-block'
-            type='button'
-          >
-            Show More
+      <div className="ct-article-grid">
+        {visiblePosts.map((post, index) => {
+          const category = categories.find((item) => post.categories?.includes(item.id) && item.slug !== 'uncategorized');
+          const summary = stripHtml(post.excerpt?.rendered || post.content?.rendered || '').trim();
+          const shortSummary = summary.length > 135 ? `${summary.slice(0, 135).trimEnd()}…` : summary;
+          return (
+            <article className="ct-article-card" key={post.id}>
+              <div className="ct-card-topline">
+                <span>{category ? decodeHtmlEntities(category.name) : 'Article'}</span>
+                <span className="ct-card-number">{String(index + 1).padStart(2, '0')}</span>
+              </div>
+              <h3><Link href={`/blog/${post.slug}`}>{decodeHtmlEntities(post.title.rendered)}</Link></h3>
+              {shortSummary && <p>{shortSummary}</p>}
+              <div className="ct-card-footer">
+                <time dateTime={post.date}>{postDate(post.date)}</time>
+                <Link href={`/blog/${post.slug}`} aria-label={`Read ${decodeHtmlEntities(post.title.rendered)}`}>
+                  <span aria-hidden="true">↗</span>
+                </Link>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      {visible < posts.length && (
+        <div className="ct-load-more">
+          <button type="button" onClick={() => setVisible((count) => Math.min(count + LOAD_MORE, posts.length))}>
+            Show more articles <span aria-hidden="true">↓</span>
           </button>
         </div>
       )}
