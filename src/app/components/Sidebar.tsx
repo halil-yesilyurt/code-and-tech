@@ -55,61 +55,26 @@ function renderCategoriesTree(tree: Category[]): React.ReactNode {
   );
 }
 
-// Newsletter Form Component
+// Submits directly to Mailchimp, which can show its real confirmation page.
+// A no-cors fetch returns an opaque response and cannot confirm a subscription.
 function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<null | "success" | "error" | "loading">(null);
-  const [message, setMessage] = useState("");
-  // Mailchimp endpoint and params
-  const MC_URL = "https://gmail.us15.list-manage.com/subscribe/post?u=986c78fd0ebe5113cedbde9ed&id=f69d8b3a8e&f_id=00a69de1f0";
-  
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus("loading");
-    setMessage("");
-    // Mailchimp expects form-encoded data
-    const formData = new URLSearchParams();
-    formData.append("EMAIL", email);
-    try {
-      await fetch(MC_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: formData.toString(),
-        mode: "no-cors", // Mailchimp does not return CORS headers
-      });
-      setStatus("success");
-      setMessage("Thank you for subscribing!");
-      setEmail("");
-    } catch {
-      setStatus("error");
-      setMessage("There was an error. Please try again later.");
-    }
-  };
-  
+  const action = 'https://gmail.us15.list-manage.com/subscribe/post?u=986c78fd0ebe5113cedbde9ed&id=f69d8b3a8e&f_id=00a69de1f0';
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+    <form action={action} method="POST" target="_blank" className="flex flex-col gap-2">
+      <label htmlFor="newsletter-email" className="sr-only">Email address for newsletter subscription</label>
       <input
+        id="newsletter-email"
         type="email"
         name="EMAIL"
         required
+        maxLength={254}
         placeholder="Your email address"
         className="rounded-md px-3 py-2 text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary placeholder:text-gray-400"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-        disabled={status === "loading" || status === "success"}
       />
-      <button
-        type="submit"
-        className="w-full bg-primary text-gray-900 font-semibold py-2 px-4 rounded-md hover:opacity-90 transition-opacity"
-        disabled={status === "loading" || status === "success"}
-      >
-        {status === "loading" ? "Subscribing..." : status === "success" ? "Subscribed" : "Subscribe"}
+      <button type="submit" className="w-full bg-primary text-gray-900 font-semibold py-2 px-4 rounded-md hover:opacity-90 transition-opacity">
+        Subscribe ↗
       </button>
-      {message && (
-        <div className={`text-sm mt-2 ${status === "success" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{message}</div>
-      )}
+      <p className="text-xs text-gray-500 dark:text-gray-400">Opens Mailchimp to confirm your subscription.</p>
     </form>
   );
 }
