@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 
 interface Section {
   id: string;
@@ -61,12 +61,12 @@ export default function ArticleTableOfContents({ articleSlug }: { articleSlug: s
   if (!sections.length) return null;
   const activeLabel = sections.find((section) => section.id === active)?.label || sections[0].label;
 
-  const navigate = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const navigate = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     event.preventDefault();
     setActive(id);
     setMobileOpen(false);
     history.replaceState(null, '', `#${encodeURIComponent(id)}`);
-    document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    document.getElementById(id)?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   };
 
   return (
