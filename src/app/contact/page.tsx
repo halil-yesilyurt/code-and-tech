@@ -12,10 +12,10 @@ export default function ContactPage() {
       <section className="ct-p3-contact-grid" aria-label="Ways to get in touch">
         <div className="ct-p3-contact-primary">
           <p className="ct-editorial-eyebrow">DIRECT CONTACT / 01</p>
-          <h2>Send an email.</h2>
-          <p>For questions, editorial feedback and collaboration enquiries, email is the easiest place to start.</p>
-          <a className="ct-p3-email-link" href="mailto:hi@halilyesilyurt.com">
-            hi@halilyesilyurt.com <span aria-hidden="true">↗</span>
+          <h2>Let's collaborate.</h2>
+          <p>For questions, editorial feedback and collaboration enquiries, connect through the public professional channels below.</p>
+          <a className="ct-p3-email-link" href="https://www.linkedin.com/in/halilyesilyurt/" target="_blank" rel="noopener noreferrer">
+            Start on LinkedIn <span aria-hidden="true">↗</span>
           </a>
         </div>
         <div className="ct-p3-contact-secondary">
