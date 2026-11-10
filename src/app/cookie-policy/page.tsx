@@ -1,3 +1,5 @@
+import '../blog/editorial.css';
+import '../phase3.css';
 export const metadata = {
   title: 'Cookie Policy | Code & Tech',
   description: 'Understand how Code & Tech uses cookies and how you can manage them.',
@@ -6,7 +8,8 @@ export const metadata = {
 
 export default function CookiePolicy() {
   return (
-    <main className="max-w-2xl mx-auto py-16 px-4">
+    <div className="ct-editorial-page ct-phase3 ct-p3-legal">
+      <main className="max-w-2xl mx-auto py-16 px-4">
       <h1 className="text-3xl font-bold mb-6">Cookie Policy</h1>
       <p className="mb-4">This Cookie Policy explains how we use cookies and similar technologies on our website.</p>
       <h2 className="text-xl font-semibold mt-8 mb-2">What Are Cookies?</h2>
@@ -17,6 +20,7 @@ export default function CookiePolicy() {
       <p className="mb-4">You can control and delete cookies through your browser settings. However, disabling cookies may affect your experience on our site.</p>
       <h2 className="text-xl font-semibold mt-8 mb-2">Contact Us</h2>
       <p>If you have questions about our Cookie Policy, please contact us at <a href="mailto:hi@halilyesilyurt.com" className="text-blue-600 underline">hi@halilyesilyurt.com</a>.</p>
-    </main>
+      </main>
+    </div>
   );
 } 

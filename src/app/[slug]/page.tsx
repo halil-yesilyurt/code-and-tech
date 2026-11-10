@@ -1,3 +1,5 @@
+import '../blog/editorial.css';
+import '../phase3.css';
 import { getPostBySlug, getPageBySlug, getCategories, getPosts, getTags, getAuthorInfo, decodeHtmlEntities, stripHtml, getFeaturedImageUrl } from '@/lib/wordpress';
 import { notFound, permanentRedirect } from 'next/navigation';
 import ArticleCard from '../components/ArticleCard';
@@ -97,7 +99,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
       const popularPosts = allPosts.slice(0, 3);
       
       return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 my-10">
+        <div className="ct-editorial-page ct-phase3 ct-p3-dynamic grid grid-cols-1 lg:grid-cols-3 gap-12 my-10">
           <main className="lg:col-span-2">
             <div className="bg-white dark:bg-gray-800/50 rounded-lg shadow-sm p-6 md:p-8">
               {/* Breadcrumbs */}
@@ -181,7 +183,7 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
     const tags = await getTags();
     const popularPosts = allPosts.slice(0, 3);
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 my-10">
+      <div className="ct-editorial-page ct-phase3 ct-p3-dynamic grid grid-cols-1 lg:grid-cols-3 gap-12 my-10">
         <main className="lg:col-span-2">
           <div className="bg-white dark:bg-gray-800/50 rounded-lg shadow-sm p-6 md:p-8 lg:p-12">
             {/* Breadcrumbs */}
