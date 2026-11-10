@@ -68,13 +68,13 @@ export default function Header() {
     : null;
 
   return (
-    <header className="ct-site-header sticky top-0 z-50 bg-[#F3F4F6] dark:bg-[#0A202C] transition-all duration-300">
+    <header className="ct-site-header sticky top-0 z-50 bg-[#0B1220] transition-all duration-300">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between py-6">
           {/* Logo */}
           <Link href="/" className="ct-site-brand flex items-center space-x-3 group min-w-0">
-            <span className="material-icons text-primary text-4xl" aria-hidden="true">code</span>
-            <span className="text-2xl font-bold text-gray-900 dark:text-white font-montserrat">Code & Tech<span className="ct-brand-suffix"> Blog</span></span>
+            <span className="ct-brand-mark" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="m12 8-8 8 8 8m8-16 8 8-8 8" stroke="currentColor" strokeWidth="3" strokeLinecap="square" strokeLinejoin="round"/></svg></span>
+            <span className="ct-brand-title">Code & Tech</span>
           </Link>
 
           {/* Desktop Navigation */}
