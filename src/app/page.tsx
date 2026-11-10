@@ -5,8 +5,19 @@ import {
   getPosts,
   getCategories,
   decodeHtmlEntities,
+  type WordPressPost,
+  type WordPressCategory,
 } from '@/lib/wordpress';
 import './home.css';
+
+function postCategory(post: WordPressPost, categories: WordPressCategory[]) {
+  const category = categories.find((item) => post.categories?.includes(item.id) && item.slug !== 'uncategorized');
+  return category ? decodeHtmlEntities(category.name) : 'Article';
+}
+function postDate(value: string) {
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(value));
+}
+
 
 export default async function Home() {
   // Content stays on the existing archive-backed interface. Do not assume
