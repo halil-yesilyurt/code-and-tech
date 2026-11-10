@@ -1,22 +1,34 @@
 "use client";
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [portalReady, setPortalReady] = useState(false);
+  useEffect(() => setPortalReady(true), []);
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onEscape = (event: KeyboardEvent) => { if (event.key === 'Escape') setMobileMenuOpen(false); };
+    document.addEventListener('keydown', onEscape);
+    return () => document.removeEventListener('keydown', onEscape);
+  }, [mobileMenuOpen]);
 
   // Portal for mobile menu
-  const mobileMenuPortal = typeof window !== 'undefined' && mobileMenuOpen
+  const mobileMenuPortal = portalReady
     ? ReactDOM.createPortal(
         <>
           <div
-            className="fixed inset-0 bg-black/40 z-[100] transition-opacity duration-300"
+            className={`ct-mobile-backdrop fixed inset-0 bg-black/55 z-[100] ${mobileMenuOpen ? "is-open" : ""}`}
+            aria-hidden="true"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <nav className="ct-mobile-menu fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white dark:bg-gray-800 shadow-2xl z-[110] flex flex-col animate-fade-slide-in transform transition-transform duration-300">
+          <nav className={`ct-mobile-menu fixed top-0 right-0 h-full w-4/5 max-w-xs shadow-2xl z-[110] flex flex-col ${mobileMenuOpen ? "is-open" : ""}`}
+            aria-label="Mobile navigation"
+            aria-hidden={!mobileMenuOpen}
+            inert={!mobileMenuOpen}>
             <button
               className="self-end m-4 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
               aria-label="Close menu"
@@ -112,7 +124,8 @@ export default function Header() {
           {/* Mobile Hamburger */}
           <button
             className="ct-menu-toggle md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer z-[120]"
-            aria-label="Open menu"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen((v) => !v)}
             type="button"
           >
