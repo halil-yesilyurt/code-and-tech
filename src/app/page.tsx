@@ -38,6 +38,7 @@ export default async function Home() {
   const latest = posts.slice(3);
   const topics = categories
     .filter((category) => category.count > 0 && category.slug !== 'uncategorized')
+    .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 
   return (
